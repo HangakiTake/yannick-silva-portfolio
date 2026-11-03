@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI opportunity scoping · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>AI opportunity scoping</h1>
+
+<p>Pebblecart is a made-up home-goods shop. This kit reads a messy list of how the shop works, scores each process for payoff against effort, and recommends what to build: a plain workflow, a function-calling agent, search over the shop's own documents, a classic model, or nothing. It then writes a short decision note with the cost, the risks and a phased plan.</p>
+<p>The top row is the support queue. The working prototype is that agent. It looks up an order, checks the refund policy, issues a refund only under the cap, and hands anything else to a person. The same tool schema is used from Python and from a small TypeScript client, against a fake shop API. Both run with no OpenAI key.</p>
+<h2>How it was tested</h2>
+<ul>
+<li><b>17 Python tests pass, 0 fail. 3 Node tests pass, 0 fail.</b> Run on 3 November 2026, Python 3.12.3 and Node 22. No API key.</li>
+<li><b>44 inventory rows:</b> 30 scored, 14 listed as exceptions, 0 dropped. 20 of the rows were typed messy on purpose (ranges, <code>~180/week</code>, <code>1,5 h</code>, <code>6k</code>, a pasted formula).</li>
+<li><b>77 of 77</b> hand-labelled times, volumes and error rates normalised correctly.</li>
+<li><b>Architecture agrees on 29 of 30</b> hand labels. The miss is the blog-tag row: a person would call it a classic model, the rubric says don't automate. It is explained, not relabelled.</li>
+<li><b>36 of 36</b> scripted support conversations called the right tool with valid arguments. <b>13 of 13</b> out-of-policy refunds were escalated and none were paid. <b>28 of 28</b> bad tool arguments were rejected. A direct refund of $120, skipping the planner, was also refused.</li>
+<li>The support queue's estimated OpenAI cost is <b>$12.75 a month</b>, from the token assumptions and the price list checked on 3 November 2026.</li>
+</ul>
+<div class="caveat"><p>Honest caveats:</p><ul>
+<li>Pebblecart is not a real company. The process list and the orders are synthetic.</li>
+<li>The 36 conversations were answered by the deterministic mock, not by a live model. That checks the tools, the argument validation and the refund gate. It does not show how a model handles a sentence that was not scripted. Live mode was not run.</li>
+<li>The 29-of-30 architecture score is against labels written from the rubric in this repo, not against a second person.</li>
+<li>The demo clock is frozen on 3 November 2026 so the sample orders stay inside the refund window.</li>
+</ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/ai-opportunity-scoping/out/decision.html">Sample decision note (HTML)</a></li>
+<li><a href="../demos/ai-opportunity-scoping/data/pebblecart_inventory.xlsx">Sample process inventory (.xlsx)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-opportunity-scoping/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-opportunity-scoping/docs/realism-review.md">Skeptical-buyer review and score sheet</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/tree/main/demos/ai-opportunity-scoping">Source code</a></li>
+<li><a href="../downloads/ai-opportunity-scoping.zip">Everything (.zip)</a></li>
+</ul>
+</body></html>
