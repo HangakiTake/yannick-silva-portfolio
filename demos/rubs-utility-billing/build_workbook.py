@@ -92,8 +92,9 @@ ENGINE_FIELDS = [
     "discount_bps",
     "sqft",
     "excluded",
-    "method",
-    "partial",
+        "method",
+        "rule_usable",
+        "partial",
     "vacant_eq",
     "occupant_days",
     "occupied_days",
@@ -225,7 +226,8 @@ def overlap_raw(start: str, end: str) -> str:
 def sumproduct_days(unit: str, start: str, end: str, with_counts: bool) -> str:
     raw = overlap_raw(start, end)
     weight = "OccCount" if with_counts else "(OccCount>0)"
-    return f"SUMPRODUCT((OccUnit={unit})*({weight})*(({raw}>0)*({raw})))"
+    # A blank move-in is date 0 in Calc, which would otherwise count as the whole period.
+    return f'SUMPRODUCT((OccUnit={unit})*(OccIn<>"")*({weight})*(({raw}>0)*({raw})))'
 
 
 def prior_end_formula(row: int) -> str:
@@ -278,7 +280,10 @@ def engine_formulas(row: int) -> dict[str, str]:
             f'{cell("period_end", row)}<{cell("period_start", row)}),"",'
             f'{cell("period_end", row)}-{cell("period_start", row)}+1)'
         ),
-        "amount_cents": f'IF({cell("bill_id", row)}="","",ROUND(INDEX(BillAmt,{bill_i})*100,0))',
+        "amount_cents": (
+            f'IF(OR({cell("bill_id", row)}="",NOT(ISNUMBER(INDEX(BillAmt,{bill_i})))),0,'
+            f"ROUND(INDEX(BillAmt,{bill_i})*100,0))"
+        ),
         "valid": f'IF({cell("bill_id", row)}="","",INDEX(BillValid,{bill_i}))',
         "unit_id": f'IF(INDEX(UnitID,{unit_i})="","",INDEX(UnitID,{unit_i}))',
         "unit_property": f'IF({cell("unit_id", row)}="","",INDEX(UnitProp,{unit_i}))',
@@ -298,6 +303,10 @@ def engine_formulas(row: int) -> dict[str, str]:
             f'IF({cell("bill_property", row)}="","",'
             f'IFERROR(INDEX(RuleMethod,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)),""))'
         ),
+        "rule_usable": (
+            f'IF({cell("bill_property", row)}="","",'
+            f'IFERROR(INDEX(RuleUsable,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)),-1))'
+        ),
         "partial": (
             f'IF({cell("method", row)}="","",'
             f'IFERROR(INDEX(RulePartial,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)),""))'
@@ -307,7 +316,7 @@ def engine_formulas(row: int) -> dict[str, str]:
             f'IFERROR(INDEX(RuleEquiv,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)),0))'
         ),
         "owner_bps": (
-            f'IF(OR({cell("method", row)}="",{cell("valid", row)}<>1),"",'
+            f'IF(OR({cell("rule_usable", row)}<>1,{cell("valid", row)}<>1),"",'
             f'ROUND(INDEX(RuleOwner,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0))*100,0))'
         ),
         "scope": (
@@ -321,19 +330,19 @@ def engine_formulas(row: int) -> dict[str, str]:
         ),
         "occupied_days": (
             f'IF(OR({cell("scope", row)}<>"Y",{cell("is_vacant", row)}="Y",'
-            f'{cell("period_start", row)}="",{cell("period_end", row)}=""),0,'
+            f'{cell("period_start", row)}="",{cell("period_end", row)}="",NOT(ISNUMBER({cell("period_days", row)}))),0,'
             f'MIN({cell("period_days", row)},'
             f'{sumproduct_days(cell("unit_id", row), cell("period_start", row), cell("period_end", row), False)}))'
         ),
         "tenant_weight": (
-            f'IF(OR({cell("scope", row)}<>"Y",{cell("valid", row)}<>1,{cell("excluded", row)}=1,{cell("method", row)}=""),0,'
+            f'IF(OR({cell("scope", row)}<>"Y",{cell("valid", row)}<>1,{cell("excluded", row)}=1,{cell("rule_usable", row)}<>1),0,'
             f'IF({cell("method", row)}="occupant_days",IF({cell("is_vacant", row)}="Y",0,{cell("occupant_days", row)}),'
             f'IF({cell("method", row)}="per_unit",{cell("occupied_days", row)},'
             f'IF({cell("method", row)}="square_footage",IF({cell("sqft", row)}<=0,0,{cell("sqft", row)}*{cell("occupied_days", row)}),0))))'
         ),
         "owner_weight": (
             f'IF(OR({cell("scope", row)}<>"Y",{cell("valid", row)}<>1,{cell("excluded", row)}=1,'
-            f'{cell("method", row)}="",{cell("partial", row)}<>"owner"),0,'
+            f'{cell("rule_usable", row)}<>1,{cell("partial", row)}<>"owner"),0,'
             f'IF({cell("method", row)}="occupant_days",{cell("vacant_eq", row)}*({cell("period_days", row)}-{cell("occupied_days", row)}),'
             f'IF({cell("method", row)}="per_unit",{cell("period_days", row)}-{cell("occupied_days", row)},'
             f'IF({cell("method", row)}="square_footage",IF({cell("sqft", row)}<=0,0,{cell("sqft", row)}*({cell("period_days", row)}-{cell("occupied_days", row)})),0))))'
@@ -346,11 +355,11 @@ def engine_formulas(row: int) -> dict[str, str]:
             f'${ec("owner_weight")}${ENG_START}:${ec("owner_weight")}${ENG_LAST}))'
         ),
         "pool_cents": (
-            f'IF(OR({cell("bill_id", row)}="",{cell("valid", row)}<>1,{cell("method", row)}=""),0,'
+            f'IF(OR({cell("bill_id", row)}="",{cell("valid", row)}<>1,{cell("rule_usable", row)}<>1),0,'
             f'{cell("amount_cents", row)}-QUOTIENT({cell("amount_cents", row)}*IF({cell("owner_bps", row)}="",0,{cell("owner_bps", row)})+5000,10000))'
         ),
         "owner_pct_cents": (
-            f'IF(OR(MOD(ROW()-{ENG_START},{MAX_UNITS})<>0,{cell("method", row)}="",{cell("valid", row)}<>1),0,'
+            f'IF(OR(MOD(ROW()-{ENG_START},{MAX_UNITS})<>0,{cell("rule_usable", row)}<>1,{cell("valid", row)}<>1),0,'
             f'QUOTIENT({cell("amount_cents", row)}*{cell("owner_bps", row)}+5000,10000))'
         ),
         "floor_t": (
@@ -390,8 +399,8 @@ def engine_formulas(row: int) -> dict[str, str]:
         "tenant_net": f'{cell("gross_t", row)}-{cell("discount_cents", row)}',
         "unallocated": (
             f'IF(MOD(ROW()-{ENG_START},{MAX_UNITS})<>0,0,'
-            f'IF(AND({cell("valid", row)}=1,{cell("method", row)}="",{cell("amount_cents", row)}>0),{cell("amount_cents", row)},'
-            f'IF(AND({cell("valid", row)}=1,{cell("pool_cents", row)}>0,{cell("total_weight", row)}=0),{cell("pool_cents", row)},0)))'
+            f'IF(AND({cell("valid", row)}=1,{cell("rule_usable", row)}=-1,{cell("amount_cents", row)}>0),{cell("amount_cents", row)},'
+            f'IF(AND({cell("valid", row)}=1,{cell("rule_usable", row)}=1,{cell("pool_cents", row)}>0,{cell("total_weight", row)}=0),{cell("pool_cents", row)},0)))'
         ),
     }
     if row == ENG_START:
@@ -474,6 +483,7 @@ def _names(wb: Workbook) -> None:
         "RulePartial": f"Rules!$E${DATA_START}:$E${RULE_LAST}",
         "RuleEquiv": f"Rules!$F${DATA_START}:$F${RULE_LAST}",
         "RuleKey": f"Rules!$H${DATA_START}:$H${RULE_LAST}",
+        "RuleUsable": f"Rules!$I${DATA_START}:$I${RULE_LAST}",
         "UtilityList": "Rules!$AA$5:$AA$20",
         "MethodList": "Rules!$AB$5:$AB$8",
         "YesNoList": "Rules!$AC$5:$AC$6",
@@ -496,7 +506,7 @@ def _readme(ws) -> None:
         "Weights. occupant_days uses occupants times inclusive days in the service period. per_unit uses occupied days, and if partial vacancy is owner the vacant days in that unit's month go to Owner. square_footage uses square feet times occupied days. A unit marked vacant contributes no tenant weight even if an occupancy row exists; that conflict is flagged. A utility named in Excluded utilities is left out of the denominator. Days are inclusive: 1 March through 31 March is 31 days, and a move-in on 16 March counts 16 days.",
         "Rounding. Largest remainder on integer cents. If two buckets have the same remainder, the lower key wins. The key is the unit id plus |O for the owner (vacancy) bucket or |T for the tenant bucket, so |O is ahead of |T when the unit id is the same. Percentages are entered as points: 15 means 15%, not 0.15. Sample bill amounts are stored as cents/100 so the demo file is exact; type a normal dollar amount over them for a new month.",
         "Capacity without editing formulas: 8 properties, 30 units, 60 occupancy rows, 32 bills, 48 rules. The readable Allocation list shows the first 400 in-scope lines. Reconciliation, Unit_Statements, and Property_Summary sum the full engine (32 bills x 30 units), so a line past the readable list is still in the totals. Overlapping occupancy rows are flagged. Until they are fixed, per-unit and square-footage day counts add the overlapping stints and cap them at the length of the period, which can overstate occupied days. Occupant-day weights add the overlapping people too.",
-        "Sample mess, on purpose: Harbor Court has 4 units, Maple Terrace 8, Cedar Station 12. HC-02 moves in on 16 March. HC-03 is vacant but has an occupancy row. HC-04 has a 10% discount and no gas. Harbor Court trash is 15% owner-paid, then split per occupied day with vacant days to Owner. Maple Terrace gas uses square footage. Cedar Station has common-area electric. HC water has a February bill that ends on 26 February, so 27-28 February are a gap. CS-E-CREDIT is a negative amount and is not allocated.",
+        "Sample mess, on purpose: Harbor Court has 4 units, Maple Terrace 8, Cedar Station 12. HC-02 moves in on 16 March. HC-03 is vacant but has an occupancy row. HC-04 has a 10% discount and no gas. Harbor Court trash is 15% owner-paid, then split per occupied day with vacant days to Owner. Maple Terrace gas uses square footage. Cedar Station has an extra electric bill, split by occupant-days. HC water has a February bill that ends on 26 February, so 27-28 February are a gap. CS-E-CREDIT is a negative amount and is not allocated.",
         "What was checked: rubs.py is an independent cent-level implementation. pytest covers reconciliation to the cent, partial months, vacancies, exclusions, discounts, owner percent, largest remainder, and the seeded exceptions. A second test opens this file in LibreOffice, recalculates the formulas, and compares every in-scope line to rubs.py. Manual_Check is a separate formula block; its difference cell should be $0.00. Changing an occupant count or an owner percent changes the results without a formula edit.",
         "What was not checked: Excel 365, Excel for Mac, or Excel Online specifically (recalculation was LibreOffice). No legal review. No tenant portal, late fees, taxes, payment application, meter reads, common-area subtraction before the ratio, mid-period rate changes, or billing periods that are not one contiguous date range. Overlapping occupancy is detected, not silently repaired. Credits are not allocated; a negative amount is stopped and listed. This file does not submit bills to residents.",
     ]
@@ -619,7 +629,7 @@ def _bills(ws, data) -> None:
         ws.cell(
             row,
             8,
-            f'=IF(AND(A{row}<>"",D{row}<>"",D{row}>=0,E{row}<>"",F{row}<>"",F{row}>=E{row},F{row}-E{row}+1<=366),1,0)',
+            f'=IF(AND(A{row}<>"",ISNUMBER(D{row}),D{row}>=0,ISNUMBER(E{row}),ISNUMBER(F{row}),F{row}>=E{row},F{row}-E{row}+1<=366),1,0)',
         )
         ws.cell(row, 9, f"={prior_end_formula(row)}")
         ws.cell(
@@ -656,6 +666,7 @@ def _rules(ws, data) -> None:
         "Vacant equivalent",
         "Notes",
         "Rule key (calculated)",
+        "Usable (calculated)",
     ]
     write_headers(ws, headers, calculated_from=8)
     for index, rule in enumerate(data.rules):
@@ -670,9 +681,17 @@ def _rules(ws, data) -> None:
             ws.cell(row, 7, rule.notes)
     for row in range(DATA_START, RULE_LAST + 1):
         ws.cell(row, 8, f'=IF(A{row}="","",A{row}&"|"&B{row})')
-    paint_inputs(ws, first_calc_col=8, last_col=8, capacity=MAX_RULES, formats={4: '0.00"%"'})
-    widths(ws, [16, 14, 20, 26, 18, 20, 78, 22])
-    ws.auto_filter.ref = f"A{HEADER_ROW}:H{RULE_LAST}"
+        ws.cell(
+            row,
+            9,
+            (
+                f'=IF(A{row}="","",IF(AND(OR(C{row}="occupant_days",C{row}="per_unit",C{row}="square_footage"),'
+                f'OR(E{row}="absorb",E{row}="owner"),ISNUMBER(D{row}),D{row}>=0,D{row}<=100,ISNUMBER(F{row}),F{row}>=0),1,0))'
+            ),
+        )
+    paint_inputs(ws, first_calc_col=8, last_col=9, capacity=MAX_RULES, formats={4: '0.00"%"'})
+    widths(ws, [16, 14, 20, 26, 18, 20, 78, 22, 22])
+    ws.auto_filter.ref = f"A{HEADER_ROW}:I{RULE_LAST}"
     lists = {
         "AA": ["water", "sewer", "trash", "gas", "electric", "other"],
         "AB": ["occupant_days", "per_unit", "square_footage"],
@@ -687,9 +706,9 @@ def _rules(ws, data) -> None:
         for index, value in enumerate(values):
             ws[f"{column}{5 + index}"] = value
             ws[f"{column}{5 + index}"].fill = FILL_GOLD
-    ws["AA11"] = "Add a utility name in the yellow cells below if you bill something else."
-    ws["AA11"].font = FONT_SMALL
-    for row in range(12, 21):
+    ws["AA22"] = "Add a utility name in a blank yellow cell above if you bill something else. Do not type the instruction into the list."
+    ws["AA22"].font = FONT_SMALL
+    for row in range(11, 21):
         ws.cell(row, 27).fill = FILL_GOLD
     methods = list_validation("=MethodList", "Use occupant_days, per_unit, or square_footage.")
     partials = list_validation("=PartialList", "Use absorb or owner.")
@@ -933,12 +952,16 @@ def _reconciliation(ws) -> None:
             9,
             f'=IF(A{row}="","",(SUMIF(Eng_bill_id,A{row},Eng_owner_pct_cents)+SUMIF(Eng_bill_id,A{row},Eng_gross_o)+SUMIF(Eng_bill_id,A{row},Eng_discount_cents)+SUMIF(Eng_bill_id,A{row},Eng_unallocated))/100)',
         )
-        ws.cell(row, 10, f'=IF(OR(A{row}="",INDEX(BillValid,{index + 1})<>1),"",F{row}-H{row}-I{row})')
+        bad_rule = (
+            f'AND(COUNTIF(RuleKey,B{row}&"|"&C{row})>0,'
+            f'IFERROR(INDEX(RuleUsable,MATCH(B{row}&"|"&C{row},RuleKey,0)),0)<>1)'
+        )
+        ws.cell(row, 10, f'=IF(OR(A{row}="",INDEX(BillValid,{index + 1})<>1,{bad_rule}),"",F{row}-H{row}-I{row})')
         ws.cell(
             row,
             7,
             (
-                f'=IF(A{row}="","",IF(INDEX(BillValid,{index + 1})<>1,"Excluded",'
+                f'=IF(A{row}="","",IF(OR(INDEX(BillValid,{index + 1})<>1,{bad_rule}),"Excluded",'
                 f'IF(ABS(J{row})>0.001,"Break",'
                 f'IF(SUMPRODUCT((Exceptions!$F${EX_DETAIL_START}:$F${ex_last}=A{row})*(Exceptions!$G${EX_DETAIL_START}:$G${ex_last}<>""))>0,'
                 f'"Tied with exceptions","Tied"))))'
@@ -984,7 +1007,7 @@ def _manual(ws) -> None:
         (8, "Days in period", '=IF(OR(D6="",D7=""),"",D7-D6+1)'),
         (9, "Bill amount", f'=IFERROR(INDEX(BillAmt,MATCH($B$4,BillID,0)),"")'),
         (10, "Valid bill", f'=IFERROR(INDEX(BillValid,MATCH($B$4,BillID,0)),0)'),
-        (11, "Method", '=IF(D4="","",IFERROR(INDEX(RuleMethod,MATCH(D4&"|"&D5,RuleKey,0)),""))'),
+        (11, "Method", '=IF(D4="","",IFERROR(IF(INDEX(RuleUsable,MATCH(D4&"|"&D5,RuleKey,0))<>1,"",INDEX(RuleMethod,MATCH(D4&"|"&D5,RuleKey,0))),""))'),
         (12, "Owner-paid %", '=IF(D11="","",IFERROR(INDEX(RuleOwner,MATCH(D4&"|"&D5,RuleKey,0)),""))'),
         (13, "Owner-paid cents off the top", '=IF(OR(D10<>1,D11=""),0,QUOTIENT(ROUND(D9*100,0)*ROUND(D12*100,0)+5000,10000))'),
         (14, "Pool (cents)", '=IF(OR(D10<>1,D11=""),0,ROUND(D9*100,0)-D13)'),
@@ -1190,7 +1213,7 @@ def _write_bill_checks(ws, row: int) -> int:
         # and a blank prior-end date would turn the whole message into #VALUE!.
         message = (
             f'IF(Bills!A{source}="","",'
-            f'IF(NOT(ISNUMBER(Bills!D{source})),"Blank bill amount. ",IF(Bills!D{source}<0,"Negative bill amount on "&Bills!A{source}&"; this row was not allocated. ",""))'
+            f'IF(NOT(ISNUMBER(Bills!D{source})),IF(Bills!D{source}="","Blank bill amount. ","Bill amount is not a number and was not allocated. "),IF(Bills!D{source}<0,"Negative bill amount on "&Bills!A{source}&"; this row was not allocated. ",""))'
             f'&IF(OR(Bills!E{source}="",Bills!F{source}=""),"Invalid service period. ",IF(Bills!F{source}<Bills!E{source},"Invalid service period. ",IF(Bills!F{source}-Bills!E{source}+1>366,"Service period longer than 366 days. ","")))'
             f'&IF(COUNTIF(BillID,Bills!A{source})>1,"Duplicate bill id. ","")'
             f'&IF(Bills!H{source}<>1,"",IF(COUNTIF(RuleKey,Bills!B{source}&"|"&Bills!C{source})=0,"No allocation rule for this property and utility. The bill was charged to Owner. ",""))'
@@ -1245,7 +1268,7 @@ def _write_occupancy_checks(ws, row: int) -> int:
         source = DATA_START + index
         message = (
             f'IF(Occupancy!A{source}="","",'
-            f'IF(Occupancy!D{source}="","Move-in date is blank. ","")'
+            f'IF(Occupancy!D{source}="","Move-in date is blank. This stay contributes no days until a date is entered. ","")'
             f'&IF(Occupancy!C{source}<0,"Occupant count is negative. ","")'
             f'&IF(AND(Occupancy!E{source}<>"",Occupancy!D{source}<>"",Occupancy!E{source}<Occupancy!D{source}),"Move-out is before move-in. ","")'
             f'&IF(AND(Occupancy!D{source}<>"",Occupancy!H{source}>1),"Overlapping occupancy on "&Occupancy!B{source}&". Per-unit and square-footage day counts can be overstated until the dates are corrected. ","")'
@@ -1274,6 +1297,7 @@ def _write_rule_checks(ws, row: int) -> int:
             f'IF(OR(Rules!D{source}<0,Rules!D{source}>100),"Owner-paid percent must be between 0 and 100 (enter 15 for 15%). ","")'
             f'&IF(AND(Rules!C{source}<>"occupant_days",Rules!C{source}<>"per_unit",Rules!C{source}<>"square_footage"),"Unknown allocation method. ","")'
             f'&IF(AND(Rules!E{source}<>"absorb",Rules!E{source}<>"owner"),"Partial vacancy must be absorb or owner. ","")'
+            f'&IF(AND(ISNUMBER(Rules!F{source}),Rules!F{source}<0),"Vacant equivalent cannot be negative. ","")'
             f'&IF(AND(Rules!A{source}<>"",COUNTIF(RuleKey,Rules!H{source})>1),"Duplicate rule for this property and utility. ",""))'
         )
         _detail_row(

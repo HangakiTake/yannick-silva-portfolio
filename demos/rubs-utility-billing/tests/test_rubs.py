@@ -476,6 +476,35 @@ def test_a_bill_does_not_leak_onto_another_propertys_units():
                 assert units[line.unit_id] == bill.property_id
 
 
+def test_blank_move_in_contributes_no_days_and_is_flagged():
+    data = _dataset(
+        [_unit("HC-01")],
+        [_occ("a", "HC-01", 2, None)],
+        bills=[_bill(amount=_d("30.00"))],
+    )
+    bill = allocate_dataset(data).bills[0]
+    assert bill.lines[0].occupant_days == 0
+    assert bill.tenant_cents == 0
+    assert bill.owner_cents == 3000
+    assert any(item.code == "bad_occupancy" for item in collect_exceptions(data))
+
+
+def test_unusable_rule_is_not_allocated():
+    units = [_unit("HC-01"), _unit("HC-02")]
+    occs = [_occ("a", "HC-01", 1, date(2026, 3, 1)), _occ("b", "HC-02", 1, date(2026, 3, 1))]
+    too_high = _dataset(units, occs, rules=[_rule(owner_paid_points=_d("150"))])
+    bill = allocate_dataset(too_high).bills[0]
+    assert bill.included is False
+    assert bill.tenant_cents == 0
+    assert bill.owner_cents == 0
+    assert any(item.code == "bad_owner_pct" for item in collect_exceptions(too_high))
+
+    negative_equivalent = _dataset(units, occs, rules=[_rule(vacant_equivalent=-1)])
+    skipped = allocate_dataset(negative_equivalent).bills[0]
+    assert skipped.included is False
+    assert any(item.code == "bad_vacant_equivalent" for item in collect_exceptions(negative_equivalent))
+
+
 def test_duplicate_rule_is_flagged_and_the_first_rule_allocates():
     units = [_unit("HC-01")]
     occs = [_occ("a", "HC-01", 1, date(2026, 3, 1))]

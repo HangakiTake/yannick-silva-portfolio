@@ -588,6 +588,15 @@ def collect_exceptions(data: Dataset) -> tuple[ExceptionItem, ...]:
                     utility=rule.utility,
                 )
             )
+        if rule.vacant_equivalent < 0:
+            issues.append(
+                ExceptionItem(
+                    "bad_vacant_equivalent",
+                    f"Vacant equivalent for {rule.property_id} {rule.utility} cannot be negative. The bill was not allocated.",
+                    rule.property_id,
+                    utility=rule.utility,
+                )
+            )
 
     valid = [bill for bill in data.bills if _structurally_valid(bill)]
     for bill in valid:
@@ -729,7 +738,7 @@ def demo_dataset() -> Dataset:
         Bill("CS-S-2026-03", "CS", "sewer", Decimal("1108.64"), *march),
         Bill("CS-T-2026-03", "CS", "trash", Decimal("540.00"), *march),
         Bill("CS-G-2026-03", "CS", "gas", Decimal("1673.55"), *march, "CS-12 is excluded."),
-        Bill("CS-E-2026-03", "CS", "electric", Decimal("736.90"), *march, "Common-area electric billed as an other utility."),
+        Bill("CS-E-2026-03", "CS", "electric", Decimal("736.90"), *march, "Extra utility, split by occupant-days. Not a common-area deduction."),
         Bill("CS-E-CREDIT", "CS", "electric", Decimal("-40.00"), *march, "Seeded error: negative amount. Not allocated."),
     ]
     def rule(prop: str, utility: str, method: str = "occupant_days", owner: str = "0", partial: str = "absorb", equiv: int = 0, notes: str = "") -> Rule:

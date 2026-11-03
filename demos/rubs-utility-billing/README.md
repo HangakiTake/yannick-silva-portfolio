@@ -39,7 +39,7 @@ Harbor Court has 4 units, Maple Terrace 8, Cedar Station 12.
 - HC-04 has a 10% discount and is excluded from gas.
 - Harbor Court trash is 15% owner-paid, then split per occupied day, with vacant days to Owner.
 - Maple Terrace gas uses square footage. MT-02 has a move-out on 12 March and a move-in on 20 March.
-- Cedar Station includes common-area electric.
+- Cedar Station has an extra electric bill, split by occupant-days. It is not a common-area deduction.
 - Harbor Court water has a February bill that ends on 26 February, so 27–28 February show up as a gap.
 - `CS-E-CREDIT` is a negative amount and is not allocated.
 

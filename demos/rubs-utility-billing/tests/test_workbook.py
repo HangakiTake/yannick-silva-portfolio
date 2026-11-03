@@ -301,6 +301,53 @@ def test_overlapping_occupancy_is_flagged_in_the_workbook(tmp_path, lo):
         document.close(False)
 
 
+def test_blank_move_in_bad_owner_percent_and_text_amount_are_not_billed(tmp_path, lo):
+    path = tmp_path / "messy.xlsx"
+    build(path)
+    book = load_workbook(path)
+    occupancy = book["Occupancy"]
+    for row in range(DATA_START, DATA_START + 60):
+        if occupancy.cell(row, 1).value == "HC-02-RES":
+            occupancy.cell(row, 4).value = None
+            break
+    rules = book["Rules"]
+    for row in range(DATA_START, DATA_START + 48):
+        if rules.cell(row, 1).value == "HC" and rules.cell(row, 2).value == "trash":
+            rules.cell(row, 4).value = 150
+            break
+    bills = book["Bills"]
+    for row in range(DATA_START, DATA_START + 32):
+        if bills.cell(row, 1).value == "MT-W-2026-03":
+            bills.cell(row, 4).value = "abc"
+            break
+    book.save(path)
+    document = lo.open(path)
+    try:
+        rows = _engine_rows(document)
+        hc02 = [row for row in rows if row["scope"] == "Y" and row["bill_id"] == "HC-W-2026-03" and row["unit_id"] == "HC-02"]
+        assert hc02 and _cents(hc02[0]["occupant_days"]) == 0
+        assert _cents(hc02[0]["tenant_net"]) == 0
+        recon = document.Sheets.getByName("Reconciliation").getCellRangeByName(f"A{DATA_START}:J{BILL_LAST}").getDataArray()
+        by_bill = {row[0]: row for row in recon if row[0]}
+        assert by_bill["HC-W-2026-03"][6] == "Tied with exceptions"
+        assert abs(float(by_bill["HC-W-2026-03"][9])) < 0.001
+        assert by_bill["HC-T-2026-03"][6] == "Excluded"
+        assert float(by_bill["HC-T-2026-03"][7]) == 0
+        assert by_bill["MT-W-2026-03"][6] == "Excluded"
+        messages = " ".join(
+            str(row[0])
+            for row in document.Sheets.getByName("Exceptions").getCellRangeByName("G40:G209").getDataArray()
+            if row[0]
+        )
+        assert "contributes no days" in messages
+        assert "not a number" in messages
+        assert "between 0 and 100" in messages
+        water = [row for row in rows if row["bill_id"] == "MT-W-2026-03" and row["scope"] == "Y"]
+        assert water and all(_cents(row["tenant_net"]) == 0 for row in water)
+    finally:
+        document.close(False)
+
+
 def test_checked_in_workbook_matches_the_builder(tmp_path):
     fresh = tmp_path / "fresh.xlsx"
     build(fresh)
