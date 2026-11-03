@@ -1,0 +1,65 @@
+Notes from a normal week. I'm Mara, a solo bookkeeper. This person is fictional.
+
+Every morning I go through the new inquiry emails and draft replies, which takes 25-30 min, and I never send those replies until I've read them.
+
+Then I copy the new leads into the Google Sheet every morning, about 10 min.
+
+Every morning I also code the reciepts from photos, roughly 15 minuts.
+
+I type the Square daily sales into the sheet from the POS email, ~10 min.
+
+I check the Xero bank feed exceptions every morning, about 10 min, and I have to look at each one.
+
+I answer the "did you get my statement" emails every weekday. That takes about 8 min.
+
+Fridays I chase unpaid invoices for about 45 minutes.
+
+I update the mileage log every Friday, 10 min, and I back up the client folder to Drive once a week, 5 minutes.
+
+Once a week I reconcile the bank CSV against the sheet, usually 40 min.
+
+Once a week I refresh the cashflow sheet, 20 min.
+
+Once a week I match the Square payouts to the sales, about 25 min.
+
+Once a week I chase clients for missing receipts, 25 min.
+
+Once a week I follow up proposals that went quiet, 15 min.
+
+I draft appointment reminders once a week, 15 min, but I don't send them until I approve each one.
+
+A couple of times a week I decide who I should call and put those client calls on the calendar, around 15 min.
+
+I move WhatsApp appointment requests onto the calendar a couple of times a week, about 10 min.
+
+Vendor bills get entered from the email into Xero a couple of times a week, 15 min.
+
+A few times a week I transcribe voicemails into the task list, 10 min.
+
+Once a week I write the wording on the invoice descriptions, 20 min.
+
+Every weekday I log my hours on the time sheet, 5 min.
+
+Every weekday I rename the PDFs and file them into the client folders, about 12 min.
+
+Once a month I write the monthly client report, about 90 min.
+
+I prepare the sales tax figures once a month, an hour, and I sign off on the filing myself.
+
+I set up recurring invoice templates once a month, 20 min.
+
+I look for duplicate client records once a month, about 20 min.
+
+I review uncleared cheques once a month, 30 min.
+
+When my rates change I update the pricing sheet, once a month, 15 min.
+
+A couple of times a month I onboard a new client with the checklist email, about 40 min.
+
+Once a year I pull the 1099 list, and that takes about 2 hours. I do it by hand on purpose.
+
+Payroll is a mess, not sure how often or how long.
+
+And sometimes the portal thing.
+
+My client Priya Raman (priya.raman@northwind-cafe.example, (503) 555-0148) at 1842 SE Division Street, Portland, OR 97202 owes $1,250.00. One-off fact, not a weekly task.

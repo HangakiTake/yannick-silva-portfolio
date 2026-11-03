@@ -1,0 +1,327 @@
+[
+  {
+    "id": "name-1",
+    "kind": "name",
+    "text": "Mara Ellison"
+  },
+  {
+    "id": "name-2",
+    "kind": "name",
+    "text": "Priya Raman"
+  },
+  {
+    "id": "name-3",
+    "kind": "name",
+    "text": "Owen Blake"
+  },
+  {
+    "id": "name-4",
+    "kind": "name",
+    "text": "Elena Voss"
+  },
+  {
+    "id": "name-5",
+    "kind": "name",
+    "text": "Mr. Hugo Trent"
+  },
+  {
+    "id": "name-6",
+    "kind": "name",
+    "text": "Dr. Lena Cho"
+  },
+  {
+    "id": "name-7",
+    "kind": "name",
+    "text": "Ms. Carla Diaz"
+  },
+  {
+    "id": "name-8",
+    "kind": "name",
+    "text": "Noah Patel"
+  },
+  {
+    "id": "name-9",
+    "kind": "name",
+    "text": "Amina Yusuf"
+  },
+  {
+    "id": "name-10",
+    "kind": "name",
+    "text": "Chris Nguyen"
+  },
+  {
+    "id": "name-11",
+    "kind": "name",
+    "text": "Sofia Berg"
+  },
+  {
+    "id": "name-12",
+    "kind": "name",
+    "text": "Mrs. Helen Crowe"
+  },
+  {
+    "id": "name-13",
+    "kind": "name",
+    "text": "Jonah Adler"
+  },
+  {
+    "id": "name-14",
+    "kind": "name",
+    "text": "Mei Lin"
+  },
+  {
+    "id": "name-15",
+    "kind": "name",
+    "text": "Prof. Adam Shah"
+  },
+  {
+    "id": "name-16",
+    "kind": "name",
+    "text": "Dear Lucia"
+  },
+  {
+    "id": "email-17",
+    "kind": "email",
+    "text": "mara.ellison@example.com"
+  },
+  {
+    "id": "email-18",
+    "kind": "email",
+    "text": "priya.raman@northwind-cafe.example"
+  },
+  {
+    "id": "email-19",
+    "kind": "email",
+    "text": "owen.blake@example.org"
+  },
+  {
+    "id": "email-20",
+    "kind": "email",
+    "text": "billing@harbor-yoga.example"
+  },
+  {
+    "id": "email-21",
+    "kind": "email",
+    "text": "elena.voss+tax@example.com"
+  },
+  {
+    "id": "email-22",
+    "kind": "email",
+    "text": "hugo.trent@example.co.uk"
+  },
+  {
+    "id": "email-23",
+    "kind": "email",
+    "text": "lena.cho@example.net"
+  },
+  {
+    "id": "email-24",
+    "kind": "email",
+    "text": "carla.diaz@example.com"
+  },
+  {
+    "id": "email-25",
+    "kind": "email",
+    "text": "noah.patel@example.com"
+  },
+  {
+    "id": "email-26",
+    "kind": "email",
+    "text": "amina.yusuf@example.com"
+  },
+  {
+    "id": "email-27",
+    "kind": "email",
+    "text": "chris.nguyen@example.com"
+  },
+  {
+    "id": "email-28",
+    "kind": "email",
+    "text": "sofia.berg@example.com"
+  },
+  {
+    "id": "email-29",
+    "kind": "email",
+    "text": "helen.crowe@example.com"
+  },
+  {
+    "id": "email-30",
+    "kind": "email",
+    "text": "jonah.adler@example.com"
+  },
+  {
+    "id": "email-31",
+    "kind": "email",
+    "text": "mei.lin@example.com"
+  },
+  {
+    "id": "phone-32",
+    "kind": "phone",
+    "text": "(503) 555-0148"
+  },
+  {
+    "id": "phone-33",
+    "kind": "phone",
+    "text": "503-555-0199"
+  },
+  {
+    "id": "phone-34",
+    "kind": "phone",
+    "text": "503.555.0172"
+  },
+  {
+    "id": "phone-35",
+    "kind": "phone",
+    "text": "+1 503 555 0110"
+  },
+  {
+    "id": "phone-36",
+    "kind": "phone",
+    "text": "+1-415-555-0134"
+  },
+  {
+    "id": "phone-37",
+    "kind": "phone",
+    "text": "+44 20 7946 0958"
+  },
+  {
+    "id": "phone-38",
+    "kind": "phone",
+    "text": "020 7946 0123"
+  },
+  {
+    "id": "phone-39",
+    "kind": "phone",
+    "text": "415-555-0198"
+  },
+  {
+    "id": "phone-40",
+    "kind": "phone",
+    "text": "(415) 555-0100"
+  },
+  {
+    "id": "phone-41",
+    "kind": "phone",
+    "text": "+1 (617) 555-0188"
+  },
+  {
+    "id": "phone-42",
+    "kind": "phone",
+    "text": "617.555.0166"
+  },
+  {
+    "id": "phone-43",
+    "kind": "phone",
+    "text": "212-555-0142"
+  },
+  {
+    "id": "amount-44",
+    "kind": "amount",
+    "text": "$1,250.00"
+  },
+  {
+    "id": "amount-45",
+    "kind": "amount",
+    "text": "$50"
+  },
+  {
+    "id": "amount-46",
+    "kind": "amount",
+    "text": "\u00a31,200.50"
+  },
+  {
+    "id": "amount-47",
+    "kind": "amount",
+    "text": "\u20ac99.00"
+  },
+  {
+    "id": "amount-48",
+    "kind": "amount",
+    "text": "USD 400"
+  },
+  {
+    "id": "amount-49",
+    "kind": "amount",
+    "text": "$2,500"
+  },
+  {
+    "id": "amount-50",
+    "kind": "amount",
+    "text": "\u00a375"
+  },
+  {
+    "id": "amount-51",
+    "kind": "amount",
+    "text": "\u20ac1,499.95"
+  },
+  {
+    "id": "amount-52",
+    "kind": "amount",
+    "text": "$12"
+  },
+  {
+    "id": "amount-53",
+    "kind": "amount",
+    "text": "GBP 60"
+  },
+  {
+    "id": "address-54",
+    "kind": "address",
+    "text": "1842 SE Division Street, Portland, OR 97202"
+  },
+  {
+    "id": "address-55",
+    "kind": "address",
+    "text": "10 Baker Street, London"
+  },
+  {
+    "id": "address-56",
+    "kind": "address",
+    "text": "500 Market Avenue, Portland, OR 97201"
+  },
+  {
+    "id": "address-57",
+    "kind": "address",
+    "text": "88 Oak Lane"
+  },
+  {
+    "id": "address-58",
+    "kind": "address",
+    "text": "77 Pine Road, Seattle, WA 98101"
+  },
+  {
+    "id": "address-59",
+    "kind": "address",
+    "text": "12 King Boulevard"
+  },
+  {
+    "id": "address-60",
+    "kind": "address",
+    "text": "4 River Court, Bristol BS1 4ST"
+  },
+  {
+    "id": "address-61",
+    "kind": "address",
+    "text": "901 Willow Drive"
+  },
+  {
+    "id": "address-62",
+    "kind": "address",
+    "text": "33 Park Place"
+  },
+  {
+    "id": "address-63",
+    "kind": "address",
+    "text": "18 Station Road, Manchester M1 1AE"
+  },
+  {
+    "id": "amount-64",
+    "kind": "amount",
+    "text": "400 dollars"
+  },
+  {
+    "id": "amount-65",
+    "kind": "amount",
+    "text": "1,200 dollars"
+  }
+]

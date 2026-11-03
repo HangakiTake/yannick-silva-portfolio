@@ -1,0 +1,354 @@
+{
+  "name": "Inquiry draft reply (demo, fictional bookkeeper)",
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Run one email now",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        80
+      ],
+      "parameters": {},
+      "notes": "Start here while you are testing. Paste one email in the next node with the pin data, or use the Gmail trigger."
+    },
+    {
+      "id": "gmail-in",
+      "name": "New inquiry email",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        280
+      ],
+      "parameters": {
+        "event": "messageReceived",
+        "simple": false
+      },
+      "notes": "Fires when a new email arrives. The raw email is in this node's output. Turn off saving execution data if the inbox is sensitive.",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "id": "redact",
+      "name": "Redact personal data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        180
+      ],
+      "parameters": {
+        "jsCode": "function redact(text) {\n  const cfg = {\"stoplist\": [\"after\", \"approve\", \"april\", \"august\", \"avenue\", \"baker\", \"bank\", \"boulevard\", \"bristol\", \"claude\", \"client\", \"court\", \"csv\", \"daily\", \"dear\", \"december\", \"division\", \"draft\", \"drive\", \"every\", \"february\", \"friday\", \"from\", \"gmail\", \"google\", \"hello\", \"invoice\", \"january\", \"july\", \"june\", \"king\", \"lane\", \"london\", \"make\", \"manchester\", \"march\", \"market\", \"may\", \"monday\", \"monthly\", \"morning\", \"notes\", \"november\", \"oak\", \"october\", \"once\", \"oregon\", \"park\", \"pdf\", \"pine\", \"place\", \"please\", \"portland\", \"river\", \"road\", \"sales\", \"saturday\", \"seattle\", \"september\", \"sheet\", \"sheets\", \"square\", \"station\", \"street\", \"subject\", \"sunday\", \"tax\", \"thanks\", \"that\", \"then\", \"this\", \"thursday\", \"today\", \"tuesday\", \"way\", \"wednesday\", \"weekly\", \"whatsapp\", \"when\", \"willow\", \"xero\"], \"patterns\": {\"email\": [\"[A-Za-z0-9._%+\\\\-]+@[A-Za-z0-9.\\\\-]+\\\\.[A-Za-z]{2,}\"], \"phone\": [\"\\\\+\\\\d{1,3}(?:[\\\\s\\\\-.]?\\\\(?\\\\d{1,4}\\\\)?){2,5}\", \"(?:\\\\(\\\\d{3}\\\\)|\\\\b\\\\d{3})[\\\\s.\\\\-]\\\\d{3}[\\\\s.\\\\-]\\\\d{4}\\\\b\", \"\\\\b0\\\\d{2,4}(?:[\\\\s\\\\-]\\\\d{3,4}){2}\\\\b\"], \"amount\": [\"(?:USD|GBP|EUR|CAD)\\\\s+\\\\d{1,3}(?:,\\\\d{3})*(?:\\\\.\\\\d{2})?\", \"[$\\u00a3\\u20ac]\\\\s?\\\\d{1,3}(?:,\\\\d{3})*(?:\\\\.\\\\d{2})?\", \"\\\\b\\\\d{1,3}(?:,\\\\d{3})*(?:\\\\.\\\\d{2})?\\\\s+dollars\\\\b\"], \"address\": [\"\\\\b\\\\d{1,5}\\\\s+(?:[A-Z][A-Za-z]*\\\\.?\\\\s+){1,6}(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Way|Court|Ct|Place|Pl)\\\\b(?:,\\\\s*[A-Z][a-z]+(?:\\\\s+[A-Z][a-z]+)*)?(?:,\\\\s*[A-Z]{2})?(?:\\\\s+\\\\d{5}(?:-\\\\d{4})?)?(?:\\\\s+[A-Z]{1,2}\\\\d[A-Z\\\\d]?\\\\s*\\\\d[A-Z]{2})?\"], \"name_title\": [\"\\\\b(?:Mr|Mrs|Ms|Mx|Dr|Prof)\\\\.?\\\\s+[A-Z][a-z]+(?:\\\\s+[A-Z][a-z]+){0,2}\\\\b\"], \"name_greeting\": [\"\\\\b(?:Hi|Hello|Dear|Hey)\\\\s+[A-Z][a-z]{2,}\\\\b\"]}, \"namePair\": \"\\\\b[A-Z][a-z]{2,}(?:-[A-Z][a-z]+)?\\\\s+[A-Z][a-z]{2,}(?:-[A-Z][a-z]+)?\\\\b\", \"order\": [\"email\", \"phone\", \"amount\", \"address\", \"name_title\", \"name_greeting\", \"name_pair\"]};\n\n  const priority = {};\n  cfg.order.forEach((k, i) => { priority[k] = i; });\n  const stop = new Set(cfg.stoplist);\n  function collect(reSrc, kind, spans) {\n    const re = new RegExp(reSrc, 'g');\n    let m;\n    while ((m = re.exec(text)) !== null) {\n      if (m[0].length === 0) { re.lastIndex++; continue; }\n      spans.push({ start: m.index, end: m.index + m[0].length, kind });\n    }\n  }\n  const spans = [];\n  Object.keys(cfg.patterns).forEach(kind => {\n    cfg.patterns[kind].forEach(src => collect(src, kind, spans));\n  });\n  collect(cfg.namePair, 'name_pair', spans);\n  const kept = [];\n  spans.filter(s => {\n    if (s.kind !== 'name_pair') return true;\n    const words = (text.slice(s.start, s.end).match(/[A-Za-z][A-Za-z'\\-]*/g) || []);\n    return words.length >= 2 && words.every(w => !stop.has(w.toLowerCase()));\n  }).sort((a, b) => (priority[a.kind] - priority[b.kind]) || ((b.end - b.start) - (a.end - a.start)) || (a.start - b.start))\n    .forEach(span => {\n      if (kept.some(prev => !(span.end <= prev.start || span.start >= prev.end))) return;\n      kept.push(span);\n    });\n  kept.sort((a, b) => a.start - b.start);\n  let out = '';\n  let cursor = 0;\n  const mapping = {};\n  const counts = {};\n  kept.forEach(span => {\n    out += text.slice(cursor, span.start);\n    const kind = span.kind.startsWith('name') ? 'name' : span.kind;\n    counts[kind] = (counts[kind] || 0) + 1;\n    const token = '[' + kind.toUpperCase() + '_' + counts[kind] + ']';\n    mapping[token] = text.slice(span.start, span.end);\n    out += token;\n    cursor = span.end;\n  });\n  out += text.slice(cursor);\n  return { text: out, mapping, counts };\n}\n\nconst item = $input.first().json;\nconst raw = [item.subject, item.text, item.body, item.snippet].filter(Boolean).join('\\n');\nconst result = redact(raw);\nif (/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}/.test(result.text)) {\n  throw new Error('Redaction left an email address. Refusing to call Claude.');\n}\nreturn [{ json: { ...item, redacted_body: result.text, redaction_counts: result.counts } }];\n"
+      },
+      "notes": "Replaces names, emails, phones, amounts and street addresses with placeholders before Claude sees the text. Same rules as config/redaction.json."
+    },
+    {
+      "id": "claude",
+      "name": "Claude classify and draft",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        560,
+        180
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: \"claude-haiku-5-5\", max_tokens: 800, system: \"You classify one redacted email for a solo bookkeeper and draft a reply that a human must approve. Return JSON with keys category, urgency, service, draft_subject, draft_body. Categories: new_lead, invoice_status, document_request, scheduling, payment_notice, spam, other. Urgency is high or normal. Service is payroll, catch_up, bookkeeping, or general. The draft must say it has not been sent. Do not invent facts that are not in the email. Personal data has already been replaced with placeholders; keep the placeholders, do not guess the originals.\", messages: [{ role: 'user', content: $json.redacted_body }] }) }}"
+      },
+      "notes": "Calls Claude with the redacted email and the system prompt. The API key lives in the n8n credential named 'Anthropic API' (header x-api-key). It is not in this file. Edit the prompt in the JSON body, or rebuild this file after editing config/prompts.json.",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Anthropic API"
+        }
+      }
+    },
+    {
+      "id": "map",
+      "name": "Map fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        840,
+        180
+      ],
+      "parameters": {
+        "jsCode": "const raw = $json.body ?? $json.data ?? $json.content ?? $json;\nconst text = typeof raw === 'string' ? raw : JSON.stringify(raw);\nconst start = text.indexOf('{'); const end = text.lastIndexOf('}');\nif (start < 0) throw new Error('Claude did not return JSON. Check the HTTP node response path.');\nconst fields = JSON.parse(text.slice(start, end + 1));\nconst draft = String(fields.draft_body || '');\nif (!/not sent/i.test(draft)) throw new Error('Draft is missing the not-sent line.');\nreturn [{ json: { ...fields, sent: false, draft_status: 'draft_awaiting_approval' } }];"
+      },
+      "notes": "Reads the JSON fields Claude returned: category, urgency, service, draft subject and draft body. Stops if the draft does not say it has not been sent. Later nodes read these fields by name, so a sheet response cannot wipe them."
+    },
+    {
+      "id": "sheet",
+      "name": "Add lead row",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1120,
+        40
+      ],
+      "parameters": {
+        "operation": "append",
+        "documentId": "={{ $env.LEADS_SHEET_ID }}",
+        "sheetName": "Leads",
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "category": "={{ $('Map fields').item.json.category }}",
+            "urgency": "={{ $('Map fields').item.json.urgency }}",
+            "service": "={{ $('Map fields').item.json.service }}",
+            "draft_status": "={{ $('Map fields').item.json.draft_status }}",
+            "sent": "={{ $('Map fields').item.json.sent }}"
+          }
+        }
+      },
+      "notes": "Appends one row to the Leads tab: category, urgency, service, draft status, sent=false. Set LEADS_SHEET_ID in the n8n environment. Create those five column headers in row 1 before the first run.",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "id": "draft",
+      "name": "Save draft reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        280
+      ],
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "subject": "={{ $('Map fields').item.json.draft_subject }}",
+        "message": "={{ $('Map fields').item.json.draft_body }}"
+      },
+      "notes": "Saves a Gmail draft with the subject and body from Map fields. It does not send.",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "id": "approval",
+      "name": "Human approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        180
+      ],
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "GET",
+        "options": {}
+      },
+      "notes": "Pauses until a person opens the approval link. Leave this node in the path. That is the approval switch, on."
+    },
+    {
+      "id": "approved",
+      "name": "Approved?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        180
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "approved",
+              "leftValue": "={{ $json.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        }
+      },
+      "notes": "True only when the approval link was confirmed. The false branch stops at 'Leave as draft'."
+    },
+    {
+      "id": "hold",
+      "name": "Leave as draft",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        320
+      ],
+      "parameters": {},
+      "notes": "Approval was not given. The draft stays in Gmail. Nothing is sent."
+    },
+    {
+      "id": "send",
+      "name": "Send reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2240,
+        40
+      ],
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "={{ $('Map fields').item.json.draft_subject }}",
+        "message": "={{ $('Map fields').item.json.draft_body }}"
+      },
+      "notes": "Sends the reply. This node ships disabled. It is only reachable after Human approval and only on the true branch of Approved?. Enable it only after you have used the draft path for a while.",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Run one email now": {
+      "main": [
+        [
+          {
+            "node": "Redact personal data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New inquiry email": {
+      "main": [
+        [
+          {
+            "node": "Redact personal data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redact personal data": {
+      "main": [
+        [
+          {
+            "node": "Claude classify and draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude classify and draft": {
+      "main": [
+        [
+          {
+            "node": "Map fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map fields": {
+      "main": [
+        [
+          {
+            "node": "Add lead row",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save draft reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save draft reply": {
+      "main": [
+        [
+          {
+            "node": "Human approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Human approval": {
+      "main": [
+        [
+          {
+            "node": "Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved?": {
+      "main": [
+        [
+          {
+            "node": "Send reply",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Leave as draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "demo": "synthetic inbox, send node disabled"
+  }
+}

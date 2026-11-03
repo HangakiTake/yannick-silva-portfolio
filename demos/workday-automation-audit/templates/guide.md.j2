@@ -1,0 +1,47 @@
+# Run and change it yourself
+
+Fictional solo bookkeeper. This guide is for the top-ranked task: **{{ top.summary }}** ({{ top.id }}).
+
+The workflow file is `n8n/inquiry-draft-reply.workflow.json`. Import it with the n8n menu: Workflows, Import from file. It arrives **inactive**, and the send node arrives **disabled**. The Python runner (`python -m workday_audit inquiries`) does the same job with a fake mailbox and never sends.
+
+## What each node does
+
+{% for node in nodes %}
+### {{ loop.index }}. {{ node.name }}
+
+{{ node.notes }}
+
+Type: `{{ node.type }}`.
+{% endfor %}
+
+## Where to edit the prompt
+
+{{ prompt_help }}
+
+The prompt text in the workflow starts with: "{{ prompt_start }}"
+
+## Approval, on or off
+
+**On (how it ships).** `Save draft reply` connects to `Human approval`, which connects to `Approved?`. Only the true branch reaches `Send reply`, and that node is disabled. Leave it this way. A customer-facing reply waits until a person opens the approval link.
+
+**Off.** Do not do this until you have watched a week of drafts. To turn the gate off you would connect `Save draft reply` straight to `Send reply` and enable `Send reply`. The false branch `Leave as draft` would no longer be in the path. The Python runner still cannot send: it has no send method.
+
+## What it costs per month
+
+Figures dated **{{ cost.as_of }}**. Euros and dollars are shown separately. They are not added together.
+
+- n8n Cloud Starter, billed monthly: **€{{ cost.n8n_eur }}**. Billed annually it is listed at €{{ cost.n8n_eur_if_billed_annually }} a month. {{ cost.inquiries_per_month }} runs is inside the {{ cost.starter_executions }} execution allowance.
+- Claude {{ cost.model }}: **${{ '%.4f'|format(cost.claude_usd) }}**. That is {{ cost.inquiries_per_month }} inquiries × ({{ cost.input_tokens }} input tokens × ${{ cost.input_price }} + {{ cost.output_tokens }} output tokens × ${{ cost.output_price }}) / 1,000,000. The price is the short-prompt rate, for prompts under 100,000 tokens.
+- Gmail and Google Sheets: ${{ cost.gmail_usd }} and ${{ cost.sheets_usd }} on top of the Google account you already pay for.
+
+Assumption: {{ cost.assumptions.notes }}
+
+{% for source in cost.sources %}
+- {{ source.item }} ({{ source.as_of }}): {{ source.url }} — {{ source.note }}
+{% endfor %}
+
+Self-hosting n8n has no licence fee. You would pay for the machine instead of the €{{ cost.n8n_eur }}. A cloud n8n keeps execution data on n8n's side. The Gmail trigger has already received the raw email by then. If the inbox is sensitive, turn off saving execution data in n8n, or run n8n on your own machine. The placeholder map from the Python runner stays in the file you choose. Do not commit that file on a real job.
+
+## What this does not do
+
+It does not send the reply. It does not file the tax return. It does not decide which client to call. Those are on the shortlist as "don't automate", with the reason next to them.

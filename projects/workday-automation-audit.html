@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workday automation audit · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Workday automation audit</h1>
+
+<p>One fictional solo bookkeeper describes a normal week in plain text (typos, ranges, a voice-note style second week). The kit lists the recurring tasks, ranks them by hours saved against effort and risk, and picks n8n, Make, a Claude step, a spreadsheet, or "don't automate", with a reason. Personal details are stripped before any model would see the text. The top task, drafting replies to new inquiries, comes back as an n8n workflow plus a one-page guide. Drafts wait for a person. Nothing is sent.</p>
+<p>This is one person's week, and the point of it is to keep that week private. It is not a company-wide process inventory.</p>
+<h2>How it was tested</h2>
+<p><b>25 tests pass, 0 fail</b> (mock mode, no API key). Three invented week notes: 53 mentions, 23 of them messy, 30 distinct tasks.</p>
+<ul>
+<li><b>48/48</b> labelled tasks found, and <b>48/48</b> have a repeat rate and a duration inside the hand-labelled range. <b>5/5</b> unclear lines are on the questions list. None of the labelled lines were dropped.</li>
+<li><b>65/65</b> planted names, emails, phones, amounts, and addresses removed. The placeholder map puts the text back exactly. The mock model saw <b>0</b> email addresses and <b>0</b> phone numbers.</li>
+<li>Tool pick matched the hand labels on <b>30/30</b> tasks.</li>
+<li><b>32/32</b> fake inquiries saved as drafts waiting for approval, <b>0 sent</b>. Category, urgency, and service matched on 32/32. Eight extra paraphrases in the stress tests also matched.</li>
+<li>The n8n file parses: 11 nodes, every connection names a real node, credentials are names only, and the send node is disabled behind a human-approval step.</li>
+</ul>
+<div class="caveat"><p>Honest caveats:</p><ul>
+<li>The bookkeeper, the week notes, and the inbox are fictional. The answer key was written for those notes.</li>
+<li>The accuracy figures are from mock mode. Claude was not called. Live mode reports "not run" when no API key is set.</li>
+<li>The n8n workflow was checked structurally. It was not imported into a running n8n, and nothing was saved to a real Gmail or Google Sheet.</li>
+<li>Redaction is a set of rules. A bare first name with no greeting and no surname can remain. On n8n Cloud the Gmail trigger has already seen the raw email unless saved executions are turned off.</li>
+<li>Cost on the guide is a dated assumption (2026-11-03): €24 a month for n8n Cloud Starter billed monthly, and about $0.02 of Claude Haiku 5.5 for 80 short inquiries. Recheck both before buying. The two currencies are not added together.</li>
+</ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/workday-automation-audit/data/weeks/week_a.txt">Sample week notes</a></li>
+<li><a href="../demos/workday-automation-audit/out/shortlist.html">Ranked shortlist (HTML)</a></li>
+<li><a href="../demos/workday-automation-audit/out/guide.html">Run and change it yourself (HTML)</a></li>
+<li><a href="../demos/workday-automation-audit/n8n/inquiry-draft-reply.workflow.json">n8n workflow (JSON)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/workday-automation-audit/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/workday-automation-audit/docs/realism-review.md">Skeptical-buyer review and score sheet</a></li>
+<li><a href="../downloads/workday-automation-audit.zip">Everything (.zip)</a></li></ul>
+</body></html>
