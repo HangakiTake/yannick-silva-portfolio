@@ -1,0 +1,11 @@
+{
+  "id": "json-029",
+  "from_name": "Paul Adler",
+  "from_email": "paul.adler@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Booking",
+  "body_text": "",
+  "body_html": "<p>Please reserve a handyman on 3 August 2026.</p><p>Paul Adler</p><span style=\"display:none\">$4242</span>",
+  "attachments": []
+}

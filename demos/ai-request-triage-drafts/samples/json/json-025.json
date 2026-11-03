@@ -1,0 +1,11 @@
+{
+  "id": "json-025",
+  "from_name": "Victor Lang",
+  "from_email": "victor.lang@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Broken lamp",
+  "body_text": "Your team broke a lamp that cost $75. I am disappointed and I want someone to contact me.\n",
+  "body_html": "",
+  "attachments": []
+}
