@@ -1,0 +1,41 @@
+{
+  "__http": 200,
+  "body": {
+    "resultSetSize": "4",
+    "startPosition": "0",
+    "endPosition": "3",
+    "totalSetSize": "4",
+    "envelopes": [
+      {
+        "envelopeId": "0a1b2c3d-0000-4000-8000-000000000001",
+        "status": "completed",
+        "emailSubject": "Hire agreement - ZA01 BHK",
+        "sentDateTime": "2026-10-13T09:12:44.0000000Z",
+        "statusChangedDateTime": "2026-10-14T10:01:02.0000000Z",
+        "completedDateTime": "2026-10-14T10:01:02.0000000Z"
+      },
+      {
+        "envelopeId": "0a1b2c3d-0000-4000-8000-000000000002",
+        "status": "completed",
+        "emailSubject": "Hire agreement - ZA02 COK",
+        "sentDateTime": "2026-10-24T09:12:44.0000000Z",
+        "statusChangedDateTime": "2026-10-25T10:01:02.0000000Z",
+        "completedDateTime": "2026-10-25T10:01:02.0000000Z"
+      },
+      {
+        "envelopeId": "0a1b2c3d-0000-4000-8000-000000000006",
+        "status": "sent",
+        "emailSubject": "Hire agreement - ZA06 GQK",
+        "sentDateTime": "2026-10-28T09:12:44.0000000Z",
+        "statusChangedDateTime": "2026-10-28T10:01:02.0000000Z"
+      },
+      {
+        "envelopeId": "0a1b2c3d-0000-4000-8000-000000000013",
+        "status": "delivered",
+        "emailSubject": "Hire agreement - ZA13 NNK",
+        "sentDateTime": "2026-10-31T09:12:44.0000000Z",
+        "statusChangedDateTime": "2026-10-31T10:01:02.0000000Z"
+      }
+    ]
+  }
+}

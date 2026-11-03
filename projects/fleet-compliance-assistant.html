@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fleet compliance assistant · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Fleet compliance assistant</h1>
+
+<p>A daily check of a UK rental fleet: road tax and MOT from the official DVLA and DVSA APIs, insurance, servicing, missing documents and unsigned DocuSign hire agreements. It sends tiered reminders and urgent alerts by email and WhatsApp (via n8n), escalates anything nobody acknowledges, logs every check and message, and shows a one-page status dashboard.</p>
+<img src="../demos/fleet-compliance-assistant/docs/dashboard.png" alt="Dashboard">
+<h2>How it was tested</h2>
+<p>25 fictional vehicles, recorded API responses, 40 simulated daily runs. 12/12 unit tests and 11/11 messy-input stress cases pass.</p>
+<ul><li><b>10 of 13 requirements pass</b>, including 150/150 statuses correct, 25/25 reminders with 0 duplicates, escalation timing, 0 silent passes on failed API checks, every check and message logged (5,160 checks, 164 messages), and 0 secrets or personal data in messages.</li>
+<li><b>3 not run</b>: live email/WhatsApp delivery (no accounts), the non-technical reviewer test, and a fresh person following the setup guide.</li></ul>
+<p class="caveat">Honest caveats: DVLA, DVSA and DocuSign answers are recorded responses in each API&#39;s documented format, not live calls. Nothing is sent; messages go to an outbox file. Insurance is never auto-verified. Not ready for real client data until a live run, a retention policy and an access list are in place.</p>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/fleet-compliance-assistant/out/dashboard.html">Sample dashboard (HTML)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/fleet-compliance-assistant/tests/RESULTS.md">Test results</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/tree/main/demos/fleet-compliance-assistant">Source code</a></li>
+<li><a href="../downloads/fleet-compliance-assistant.zip">Everything (.zip)</a></li></ul>
+</body></html>

@@ -1,0 +1,2 @@
+deal_id,account_id,stage,amount,currency,expected_close,owner
+D-5000,ACC-1001,Proposal,12500.00,PLN,2026-11-30,A. Kowalska

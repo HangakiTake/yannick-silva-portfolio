@@ -1,0 +1,6 @@
+n8n 1.110.2 self-hosted on the build box, re-run 2026-10-28 14:41 Europe/Zurich after the final code-review fixes
+import:workflow n8n/fleet-compliance.workflow.json: OK (12 nodes)
+execute SEND_ENABLED=no : exit 0, 48 outbox lines, 48 DELIVERY_DRY_RUN audit rows (24 whatsapp, 24 email). Nothing sent.
+execute SEND_ENABLED=yes with NO credentials configured: exit 0, 48 DELIVERY_FAILED rows (24 whatsapp "Credential ... does not exist", 24 email "no delivery id returned"), 0 DELIVERY_SENT. Proves failures are logged, not reported as sent. Nothing sent (no credentials exist).
+Bug found and fixed on the way: the Email node put failed items on its success output, which was logged as 24 false SENT rows. SENT now requires a Twilio sid or SMTP messageId.
+PASS

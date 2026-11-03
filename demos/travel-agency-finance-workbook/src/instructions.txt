@@ -1,0 +1,26 @@
+# How to use this workbook (daily)
+Yellow cells are where you type. Grey cells are formulas: leave them alone, they fill in by themselves.
+Every sheet with data is an Excel Table. Type in the first empty row under a table and it grows; formulas, reports and the dashboard pick the new row up.
+## 1. New booking
+Bookings sheet: one row per booking. ID (e.g. B-1041), FIT or Group, customer ID, destination, salesperson, booking/start/end dates, pax, status, selling currency and total selling price.
+Cancelled bookings: set Status to Cancelled. They stay on file but drop out of revenue and profit.
+## 2. Supplier bill (hotel, transport, guide)
+Bills sheet: one row per supplier bill, linked to the booking ID, in the currency of the bill. Bills are the booking's direct cost, so profit per booking updates at once.
+## 3. Invoice to the agency
+Invoices sheet: one row per invoice, linked to the booking ID. Groups usually get a deposit and a balance invoice. The invoices of a booking should add up to its selling price (the Flag column warns if not).
+## 4. Payment received or paid (full or partial)
+Payments sheet: one row per bank movement. Direction In = from a customer (Ref = invoice ID), Out = to a supplier (Ref = bill ID).
+Pay in any currency: it is converted to the invoice/bill currency at that day's rate. Several partial payments are fine. A refund is a negative amount.
+## 5. Office costs
+Expenses sheet: rent, salaries, software, marketing etc., in the currency paid.
+## 6. Exchange rates
+Rates sheet: add a USD rate (USD per 1 EUR) at least weekly. BAM is fixed at 1.95583 per EUR (Settings). A transaction uses the latest rate on or before its date.
+## 7. Reading the numbers
+Settings: choose the reporting currency (EUR, BAM or USD) and the as-of date. Dashboard: monthly revenue, cost, gross profit, opex, net operating profit, receivables and payables.
+Reports: by month, destination, customer and salesperson, plus aging of open invoices and bills (0-30, 31-60, 61-90, 90+ days).
+Checks: must say ALL OK. If not, filter the Flag column on the sheet named there.
+## Protection
+Dashboard, Reports, Checks, Settings and this sheet are protected with no password (Review > Unprotect Sheet). Add your own password if you want.
+Data sheets are left unprotected on purpose, because Excel cannot grow a table on a protected sheet. Their formula columns are locked and grey; protect them too if staff only edit existing rows.
+## Going live
+Use the BLANK copy: same formulas and reports, no sample data. Type your customers, suppliers, salespeople and destinations first, then rates, then transactions.

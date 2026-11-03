@@ -1,0 +1,15 @@
+{
+  "name": "fleet-compliance-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demo: UK fleet compliance monitor (DVLA/DVSA/DocuSign) with reminders, escalation, audit log and dashboard. Synthetic data.",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "generate": "node scripts/generate_data.js",
+    "demo": "node src/run.js",
+    "unit": "node --test tests/unit.test.js",
+    "test": "node --test tests/unit.test.js && node tests/stress.js && node tests/evaluate.js",
+    "build:n8n": "node scripts/build_n8n.js"
+  }
+}
