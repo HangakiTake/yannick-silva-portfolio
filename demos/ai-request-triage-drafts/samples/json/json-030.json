@@ -1,0 +1,11 @@
+{
+  "id": "json-030",
+  "from_name": "Claire Dupont",
+  "from_email": "claire.dupont@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Re: facture",
+  "body_text": "Can you resend the invoice only? Nothing else has changed.\n\nClaire Dupont\nDirecteur\nCafé du Parc\n503-555-0194\n--\nThis message is confidential and is not a quote.\n\n> On 1 March 2026 Sam wrote:\n> The invoice for $300.00 is attached. Call (503) 555-0100.\n",
+  "body_html": "",
+  "attachments": []
+}

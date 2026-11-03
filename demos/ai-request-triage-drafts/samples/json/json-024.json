@@ -1,0 +1,13 @@
+{
+  "id": "json-024",
+  "from_name": "Hannah Lee",
+  "from_email": "hannah.lee@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Appointment",
+  "body_text": "I would like to schedule a standard home clean on 5 May 2026. Please call 503-555-0155.\n",
+  "body_html": "",
+  "attachments": [
+    "kitchen.jpg"
+  ]
+}

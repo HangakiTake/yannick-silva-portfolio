@@ -1,0 +1,11 @@
+{
+  "id": "json-023",
+  "from_name": "Prize Desk",
+  "from_email": "notify@winner-draw.example",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "You have been selected",
+  "body_text": "Lottery winnings of $50000 are waiting. Click here to claim. Crypto payout.\n",
+  "body_html": "",
+  "attachments": []
+}

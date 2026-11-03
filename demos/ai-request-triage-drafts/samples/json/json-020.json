@@ -1,0 +1,11 @@
+{
+  "id": "json-020",
+  "from_name": "Pedro Álvarez",
+  "from_email": "pedro.alvarez@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Presupuesto",
+  "body_text": "Hola, necesito un presupuesto para una limpieza profunda el 11 de agosto de 2026. Soy Pedro Álvarez.\n",
+  "body_html": "",
+  "attachments": []
+}

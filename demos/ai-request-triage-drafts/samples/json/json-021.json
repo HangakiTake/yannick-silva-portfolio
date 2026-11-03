@@ -1,0 +1,11 @@
+{
+  "id": "json-021",
+  "from_name": "Grace Kim",
+  "from_email": "grace.kim@example.com",
+  "reply_to_name": "",
+  "reply_to_email": "",
+  "subject": "Receipt",
+  "body_text": "Could you send a receipt for my visit? I do not need anything else.\n",
+  "body_html": "",
+  "attachments": []
+}
