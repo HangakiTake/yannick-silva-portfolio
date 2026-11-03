@@ -1,0 +1,286 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workday shortlist (fictional)</title>
+<style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.3rem .5rem;vertical-align:top} .caveat{background:#fff6e0;border-left:4px solid #e0a800;padding:.6rem 1rem}</style></head><body>
+<h1>Workday automation shortlist</h1>
+<p class="caveat">Fictional person: Mara Ellison, a solo bookkeeper. Invented week, invented inbox. Not a client. Personal details in the sample notes are replaced below. The placeholder map is not on this page.</p>
+<p>Formula: <code>score = w_hours * (frequency_per_month * minutes_per_run / 60 * capture[tool]) - w_effort * effort - w_risk * risk</code></p>
+<p>Weights used: hours 10, effort 1, risk 0.5.</p>
+<p>Redaction before any model call: 1 name, 1 email, 1 phone, 1 address, 1 amount.</p>
+<h2>Ranked tasks</h2>
+<table>
+<tr><th>#</th><th>Task</th><th>Tool</th><th>Hours saved / month</th><th>Score</th><th>Why</th></tr>
+
+<tr>
+<td>1</td>
+<td>Draft replies to new inquiry emails<br><small>21.67 / month × 27.5 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>6.951389</td>
+<td>65.01389</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Rename PDFs and file them in client folders<br><small>21.67 / month × 12.0 min. Effort 2, risk 0, capture 0.7.</small></td>
+<td>n8n</td>
+<td>3.033333</td>
+<td>28.33333</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent.</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Copy new leads into the sheet<br><small>21.67 / month × 10.0 min. Effort 1, risk 0, capture 0.75.</small></td>
+<td>make</td>
+<td>2.708333</td>
+<td>26.08333</td>
+<td>Two apps, no branch, and nothing is sent to a customer. Make is the smaller tool for that.</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Code receipts from photos<br><small>21.67 / month × 15.0 min. Effort 2, risk 0, capture 0.5.</small></td>
+<td>claude_step</td>
+<td>2.708334</td>
+<td>25.08334</td>
+<td>The hard part is reading messy text. A Claude step can propose a category or a transcript. You still post it.</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>Type Square daily sales into the sheet<br><small>21.67 / month × 10.0 min. Effort 2, risk 0, capture 0.75.</small></td>
+<td>make</td>
+<td>2.708333</td>
+<td>25.08333</td>
+<td>Two apps, no branch, and nothing is sent to a customer. Make is the smaller tool for that.</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>Chase unpaid invoices<br><small>4.33 / month × 45.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>2.275</td>
+<td>18.25</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>Reconcile the bank CSV against the sheet<br><small>4.33 / month × 40.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>1.733333</td>
+<td>16.33333</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>8</td>
+<td>Answer 'did you get my statement' emails<br><small>21.67 / month × 8.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>2.022222</td>
+<td>15.72222</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>9</td>
+<td>Enter vendor bills from email into Xero<br><small>8.67 / month × 15.0 min. Effort 3, risk 0, capture 0.7.</small></td>
+<td>n8n</td>
+<td>1.516667</td>
+<td>12.16667</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent.</td>
+</tr>
+
+<tr>
+<td>10</td>
+<td>Match Square payouts to sales<br><small>4.33 / month × 25.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>1.083334</td>
+<td>9.83334</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>11</td>
+<td>Log hours on the time sheet<br><small>21.67 / month × 5.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>1.083334</td>
+<td>9.83334</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>12</td>
+<td>Transcribe voicemails into the task list<br><small>13.00 / month × 10.0 min. Effort 2, risk 0, capture 0.5.</small></td>
+<td>claude_step</td>
+<td>1.083333</td>
+<td>8.83333</td>
+<td>The hard part is reading messy text. A Claude step can propose a category or a transcript. You still post it.</td>
+</tr>
+
+<tr>
+<td>13</td>
+<td>Move WhatsApp appointment requests onto the calendar<br><small>8.67 / month × 10.0 min. Effort 2, risk 0, capture 0.75.</small></td>
+<td>make</td>
+<td>1.083333</td>
+<td>8.83333</td>
+<td>Two apps, no branch, and nothing is sent to a customer. Make is the smaller tool for that.</td>
+</tr>
+
+<tr>
+<td>14</td>
+<td>Chase clients for missing receipts<br><small>4.33 / month × 25.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>1.263889</td>
+<td>8.13889</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>15</td>
+<td>Refresh the cashflow sheet<br><small>4.33 / month × 20.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>0.866666</td>
+<td>7.66666</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>16</td>
+<td>Write the monthly client report<br><small>1.00 / month × 90.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>1.05</td>
+<td>6.0</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>17</td>
+<td>Onboard a new client with the checklist email<br><small>2.00 / month × 40.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>0.933333</td>
+<td>4.83333</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>18</td>
+<td>Update the mileage log<br><small>4.33 / month × 10.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>0.433333</td>
+<td>3.33333</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>19</td>
+<td>Draft appointment reminders for approval<br><small>4.33 / month × 15.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>0.758333</td>
+<td>3.08333</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>20</td>
+<td>Follow up proposals that went quiet<br><small>4.33 / month × 15.0 min. Effort 3, risk 3, capture 0.7. Approval required.</small></td>
+<td>n8n</td>
+<td>0.758333</td>
+<td>3.08333</td>
+<td>Several steps, or a message a customer will see. n8n can redact, call Claude, write the sheet, and wait for approval before anything is sent. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>21</td>
+<td>Write the wording on invoice descriptions<br><small>4.33 / month × 20.0 min. Effort 3, risk 3, capture 0.5. Approval required.</small></td>
+<td>claude_step</td>
+<td>0.722222</td>
+<td>2.72222</td>
+<td>The hard part is the wording. Claude drafts it. You paste it onto the invoice after you read it. Anything the customer would see waits for approval. The runner never sends it.</td>
+</tr>
+
+<tr>
+<td>22</td>
+<td>Back up the client folder to Drive<br><small>4.33 / month × 5.0 min. Effort 1, risk 0, capture 0.75.</small></td>
+<td>make</td>
+<td>0.270833</td>
+<td>1.70833</td>
+<td>Two apps, no branch, and nothing is sent to a customer. Make is the smaller tool for that.</td>
+</tr>
+
+<tr>
+<td>23</td>
+<td>Look for duplicate client records<br><small>1.00 / month × 20.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>0.2</td>
+<td>1.0</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>24</td>
+<td>Set up recurring invoice templates<br><small>1.00 / month × 20.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>0.2</td>
+<td>1.0</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>25</td>
+<td>Update the pricing sheet when rates change<br><small>1.00 / month × 15.0 min. Effort 1, risk 0, capture 0.6.</small></td>
+<td>spreadsheet</td>
+<td>0.15</td>
+<td>0.5</td>
+<td>The work is matching or totalling inside a sheet. A formula or a template does it without another subscription.</td>
+</tr>
+
+<tr>
+<td>26</td>
+<td>Review uncleared cheques<br><small>1.00 / month × 30.0 min. Effort 2, risk 0, capture 0.0.</small></td>
+<td>dont_automate</td>
+<td>0.0</td>
+<td>-2.0</td>
+<td>Each item needs a human look. Automating the decision would hide exceptions.</td>
+</tr>
+
+<tr>
+<td>27</td>
+<td>Check bank-feed exceptions one by one<br><small>21.67 / month × 10.0 min. Effort 2, risk 0, capture 0.0.</small></td>
+<td>dont_automate</td>
+<td>0.0</td>
+<td>-2.0</td>
+<td>Each item needs a human look. Automating the decision would hide exceptions.</td>
+</tr>
+
+<tr>
+<td>28</td>
+<td>Decide which clients to call<br><small>8.67 / month × 15.0 min. Effort 2, risk 2, capture 0.0.</small></td>
+<td>dont_automate</td>
+<td>0.0</td>
+<td>-3.0</td>
+<td>Who to call, and how, depends on the relationship. A schedule bot would guess.</td>
+</tr>
+
+<tr>
+<td>29</td>
+<td>Prepare sales tax figures and sign the filing<br><small>1.00 / month × 60.0 min. Effort 2, risk 2, capture 0.0.</small></td>
+<td>dont_automate</td>
+<td>0.0</td>
+<td>-3.0</td>
+<td>Filing or sign-off stays with a person. A wrong return is your name on it.</td>
+</tr>
+
+<tr>
+<td>30</td>
+<td>Pull the annual 1099 list<br><small>0.08 / month × 120.0 min. Effort 2, risk 2, capture 0.0.</small></td>
+<td>dont_automate</td>
+<td>0.0</td>
+<td>-3.0</td>
+<td>Filing or sign-off stays with a person. A wrong return is your name on it.</td>
+</tr>
+
+</table>
+<h2>Questions to ask on the call</h2>
+<ul><li>Payroll is a mess, not sure how often or how long. — Frequency or duration is not stated, so it is not scored.</li><li>And sometimes the portal thing. — Frequency or duration is not stated, so it is not scored.</li><li>something with the payroll, i forget how long. — Frequency or duration is not stated, so it is not scored.</li><li>idk about the scanning, it varies. — Frequency or duration is not stated, so it is not scored.</li><li>the other thing with the state portal, no idea on timing — Frequency or duration is not stated, so it is not scored.</li></ul>
+<p>Top pick for the importable workflow: <b>Draft replies to new inquiry emails</b>.</p>
+</body></html>

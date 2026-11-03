@@ -1,0 +1,386 @@
+[
+  {
+    "id": "q01",
+    "from_name": "Priya Raman",
+    "from_email": "priya.raman@northwind-cafe.example",
+    "subject": "Quote for monthly bookkeeping",
+    "body": "Hi, this is Priya Raman (priya.raman@northwind-cafe.example). How much do you charge for monthly bookkeeping? We are behind on last quarter. Urgent. Call (503) 555-0148.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "high",
+      "service": "catch_up"
+    }
+  },
+  {
+    "id": "q02",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Monthly books",
+    "body": "Please send a quote for monthly bookkeeping.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "normal",
+      "service": "bookkeeping"
+    }
+  },
+  {
+    "id": "q03",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "New cafe",
+    "body": "Would you take on a new cafe? We like your services.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q04",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Fees",
+    "body": "How much do you charge? ASAP.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q05",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Catch up",
+    "body": "Quote for a catch-up of last year, please.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "normal",
+      "service": "catch_up"
+    }
+  },
+  {
+    "id": "q06",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Payroll quote",
+    "body": "Can you quote payroll for two employees?",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "normal",
+      "service": "payroll"
+    }
+  },
+  {
+    "id": "q07",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Proposal",
+    "body": "A proposal for monthly books.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "normal",
+      "service": "bookkeeping"
+    }
+  },
+  {
+    "id": "q08",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Price today",
+    "body": "We are behind on the books and need a price today. How much? The balance was $1,250.00.",
+    "expect": {
+      "category": "new_lead",
+      "urgency": "high",
+      "service": "catch_up"
+    }
+  },
+  {
+    "id": "q09",
+    "from_name": "Owen Blake",
+    "from_email": "owen.blake@example.org",
+    "subject": "Invoice 1042",
+    "body": "What is the status of invoice 1042? Owen Blake, owen.blake@example.org, asked me to check.",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q10",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Overdue",
+    "body": "The overdue invoice needs a look today.",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q11",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Unpaid",
+    "body": "You still have an unpaid invoice from March.",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q12",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "News",
+    "body": "Any news on our invoice?",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q13",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Invoice 88",
+    "body": "Please look at invoice 88, asap.",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q14",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Invioce",
+    "body": "Status of invioce 1042?",
+    "expect": {
+      "category": "invoice_status",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q15",
+    "from_name": "Elena Voss",
+    "from_email": "elena.voss+tax@example.com",
+    "subject": "Receipt",
+    "body": "Please send me the receipt from last week. Mail it to elena.voss+tax@example.com.",
+    "expect": {
+      "category": "document_request",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q16",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "P and L",
+    "body": "Can you resend the profit and loss?",
+    "expect": {
+      "category": "document_request",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q17",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "W-9",
+    "body": "I need the W-9 today.",
+    "expect": {
+      "category": "document_request",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q18",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "P&L",
+    "body": "Please send the p&l when you can.",
+    "expect": {
+      "category": "document_request",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q19",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Statement copy",
+    "body": "A statement copy for the landlord, please resend.",
+    "expect": {
+      "category": "document_request",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q20",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Thursday",
+    "body": "Can we meet Thursday?",
+    "expect": {
+      "category": "scheduling",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q21",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Today",
+    "body": "Are you free today for a walkthrough?",
+    "expect": {
+      "category": "scheduling",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q22",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Walkthrough",
+    "body": "Let's schedule a walkthrough next week.",
+    "expect": {
+      "category": "scheduling",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q23",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Call",
+    "body": "Can we hop on a call next Tuesday?",
+    "expect": {
+      "category": "scheduling",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q24",
+    "from_name": "Mara Ellison",
+    "from_email": "mara.ellison@example.com",
+    "subject": "Paid",
+    "body": "Payment has been sent, thanks. From Mara Ellison, mara.ellison@example.com, amount GBP 60.",
+    "expect": {
+      "category": "payment_notice",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q25",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Remittance",
+    "body": "Remittance attached for March.",
+    "expect": {
+      "category": "payment_notice",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q26",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Transfer",
+    "body": "We transferred the funds today.",
+    "expect": {
+      "category": "payment_notice",
+      "urgency": "high",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q27",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "ACH",
+    "body": "ACH confirmation is in this email. Phone on file is 503-555-0199.",
+    "expect": {
+      "category": "payment_notice",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q28",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "List",
+    "body": "Please unsubscribe me from the list.",
+    "expect": {
+      "category": "spam",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q29",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "SEO",
+    "body": "SEO services for your site, limited time.",
+    "expect": {
+      "category": "spam",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q30",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Guest post",
+    "body": "Guest post opportunity for your blog.",
+    "expect": {
+      "category": "spam",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q31",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Hello",
+    "body": "Hope the cafe is well. No ask from me.",
+    "expect": {
+      "category": "other",
+      "urgency": "normal",
+      "service": "general"
+    }
+  },
+  {
+    "id": "q32",
+    "from_name": "Alex Kim",
+    "from_email": "alex.kim@example.com",
+    "subject": "Thanks",
+    "body": "Thanks, talk soon.",
+    "expect": {
+      "category": "other",
+      "urgency": "normal",
+      "service": "general"
+    }
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "weights": {"hours": 10, "effort": 1, "risk": 0.5},
+  "capture": {
+    "n8n": 0.7,
+    "make": 0.75,
+    "claude_step": 0.5,
+    "spreadsheet": 0.6,
+    "dont_automate": 0
+  },
+  "effort_points": {
+    "base": 1,
+    "extra_tool": 1,
+    "customer_facing": 1,
+    "text_or_multi": 1,
+    "judgment_or_tax": 1,
+    "cap": 5
+  },
+  "risk_points": {
+    "customer_facing": 2,
+    "tax_or_filing": 2,
+    "approval": 1,
+    "cap": 5
+  },
+  "formula": "score = w_hours * (frequency_per_month * minutes_per_run / 60 * capture[tool]) - w_effort * effort - w_risk * risk",
+  "reorder_example": {
+    "note": "HighHours saves more time but costs more effort. Raising w_effort puts LowEffort first.",
+    "high_hours": {"hours_saved": 2, "effort": 5, "risk": 1},
+    "low_effort": {"hours_saved": 1, "effort": 1, "risk": 1},
+    "default_weights_winner": "high_hours",
+    "high_effort_weight": 5,
+    "high_effort_weight_winner": "low_effort"
+  }
+}
