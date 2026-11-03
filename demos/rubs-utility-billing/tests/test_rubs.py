@@ -84,6 +84,7 @@ SEEDED = {  # name: (edit, sheet, expected issue text)
     "bad_method": (set_("Rules", "C2", "Meters"), "invalid method"),
     "bad_owner_pct": (set_("Rules", "E2", 1.2), "owner % outside"),
     "over_capacity": (set_("Bills", f"A{B.MAXB + 2}", "B-999"), "rows below capacity"),
+    "text_owner_pct": (set_("Rules", "E2", "15%"), "owner % outside"),
     "dup_rule": (lambda wb: [wb["Rules"].__setitem__(c, v) for c, v in [("A20", "P1"), ("B20", "Water"), ("C20", "Equal")]], "duplicate rule"),
 }
 for n, (e, _) in SEEDED.items():
@@ -285,3 +286,63 @@ def test_reference_excluded_service_and_largest_remainder():
 def test_capacity_recalc_time(calc):
     calc("capacity")
     assert TIMES["all"] < 600  # all variants together; per-file time reported in TEST_REPORT
+
+
+# Defect regressions (cases found on the earlier RUBS branch) ----------------
+variant("blank_rule_pcts", lambda wb: [wb["Rules"].__setitem__("D4", None), wb["Rules"].__setitem__("E4", None)])  # P1 Trash
+variant("blank_movein_sample", lambda wb: setattr(wb["Occupancy"].cell(row_of(wb, "Occupancy", "P3-10"), 3), "value", None))
+
+
+def ps_row(wb, prop, svc):
+    for r in wb["Property_Summary"].iter_rows(min_row=2, max_row=1 + B.MAXP * 5, values_only=True):
+        if r[0] == prop and r[1] == svc:
+            return r
+
+
+def test_R1_blank_move_in_means_before_period_and_matches_reference(calc):
+    # Documented input rule: blank move-in = living there before the period. It must count the
+    # days from the period start, the same in the workbook and the Python reference.
+    wb = calc("blank_movein_sample")
+    ref, _ = rubs.allocate(*rubs.read_inputs(wb))
+    assert excel_cents(wb) == {k: v for k, v in ref.items()}
+    assert excel_cents(wb)[("B-301", "P3-10")] > excel_cents(calc("base"))[("B-301", "P3-10")]
+
+
+@pytest.mark.parametrize("name,bill,prop,svc", [("seed_bad_owner_pct", "B-101", "P1", "Water"),
+                                                ("seed_text_amount", "B-102", "P1", "Sewer"),
+                                                ("seed_neg_amount", "B-102", "P1", "Sewer"),
+                                                ("seed_bad_method", "B-101", "P1", "Water"),
+                                                ("seed_dup_rule", "B-101", "P1", "Water"),
+                                                ("seed_text_owner_pct", "B-101", "P1", "Water")])
+def test_R2_unusable_bill_is_not_spread_or_totalled(calc, name, bill, prop, svc):
+    wb = calc(name)
+    assert all(c == 0 for (b, u), c in excel_cents(wb).items() if b == bill)
+    row = {r[0]: r for r in recon_rows(wb)}[bill]
+    assert row[12] == "CHECK" and row[9] == 0 and row[8] == 0
+    s = ps_row(wb, prop, svc)
+    assert s[2] == 0 and s[3] == 0 and s[4] == 0, s
+    if name == "seed_dup_rule":
+        return  # the reference keeps one rule per key, so it cannot see a duplicate
+    ref, owner = rubs.allocate(*rubs.read_inputs(wb), known_props={"P1", "P2", "P3"})
+    assert bill not in owner and excel_cents(wb) == ref
+
+
+def test_R3_blank_rule_percents_count_as_zero(calc):
+    wb = calc("blank_rule_pcts")
+    t = exc_total(wb)
+    assert t["TOTAL issues"] == 0
+    row = {r[0]: r for r in recon_rows(wb)}["B-103"]
+    assert row[12] == "OK" and row[4] == 0  # blank owner % = 0, still spread
+    ref, owner = rubs.allocate(*rubs.read_inputs(wb))
+    assert excel_cents(wb) == ref and round(row[8] * 100) == owner["B-103"]
+    assert round(row[9] * 100) == sum(c for (b, u), c in ref.items() if b == "B-103") > 0
+
+
+@pytest.mark.parametrize("name", list(SEEDED))
+def test_R4_issue_cells_have_no_errors_or_quote_marks(calc, name):
+    wb = calc("seed_" + name)
+    assert errors(wb) == []
+    for sh, col in [("Bills", 7), ("Occupancy", 7), ("Settings_Units", 11), ("Rules", 7)]:
+        for r in wb[sh].iter_rows(min_row=2, values_only=True):
+            v = r[col - 1]
+            assert v in (None, "") or ('"' not in v and not v.startswith("#")), (sh, v)
