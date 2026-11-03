@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teams invite generator (dry run) · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Teams invite generator (dry run)</h1>
+
+<p>This tool turns a school's course sheet, one row per course, into recurring Microsoft Teams meeting series in each teacher's calendar. It removes holidays (festivos), invites the attendees and logs every row. What it handles:</p>
+<ul><li><b>Messy Spanish input:</b> "lunes y miércoles", "L-X", "lunes a jueves", 18.30 or 20h times, and festivo ranges such as "21-12-2026 a 06-01-2027".</li>
+<li><b>Row-by-row errors:</b> a bad row is logged with a reason and never stops the others.</li>
+<li><b>Clock changes:</b> times are sent in Europe/Madrid so the October clock change does not move a class.</li>
+<li><b>No duplicates:</b> each series has a stable key, so a rerun updates rather than duplicates.</li></ul>
+<p><b>This demo is offline.</b> It writes a dry-run workbook (Log, Series, Occurrences) and the exact Microsoft Graph requests a live run would send. Nothing is sent. Live invites need the client's Microsoft 365 tenant. The Power Automate flow for that, with an approval step, a log list and the permissions needed, is written up as a design.</p>
+<h2>How it was tested</h2>
+<ul><li><b>55 tests pass, 0 fail.</b>
+<ul><li>33 parsing cases (weekdays, dates, times, festivos, attendees).</li>
+<li>The class dates for 5 sample courses equal calendars written by hand before the run: 92 classes, with 10 festivos removed.</li>
+<li>7 seeded bad rows plus duplicate, ambiguous-date and holiday-year-typo cases are each logged with the right reason.</li>
+<li>Graph payload shape and the idempotency key are checked.</li></ul></li>
+<li><b>The client's own 3-row sample sheet</b> (run locally, not published): 3 of 3 rows ready, 66 classes, 1 festivo removed.</li>
+<li><b>Skeptical-buyer review:</b> 13 messy inputs were tried.
+<ul><li>It found that a duplicated row would have created double invites. That is now an Error.</li>
+<li>Score: 4 of 8 gate items pass. The fails are real data, integration, security and cost, because no tenant exists yet.</li></ul></li></ul>
+<div class="caveat"><p>Honest caveats:</p><ul><li>Nothing has been run against Microsoft Graph or Power Automate, so the payloads follow the Graph v1.0 docs but no tenant has accepted them.</li>
+<li>Google Meet rows are marked "phase 2" and not built.</li>
+<li>Dates are read day first, so 03/04/2027 becomes 3 April. It is flagged for a check, not refused.</li>
+<li>Synthetic teacher names and example.com addresses only.</li></ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/teams-invite-generator/samples/Cursos_demo.xlsx">Sample course sheet (.xlsx)</a></li>
+<li><a href="../demos/teams-invite-generator/samples/dry_run_output/dry_run.xlsx">Dry-run output (.xlsx)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/teams-invite-generator/docs/POWER_AUTOMATE_FLOW.md">Power Automate flow design</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/teams-invite-generator/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/teams-invite-generator/docs/realism-review.md">Skeptical-buyer review and score sheet</a></li>
+<li><a href="../downloads/teams-invite-generator.zip">Everything (.zip)</a></li></ul>
+</body></html>
