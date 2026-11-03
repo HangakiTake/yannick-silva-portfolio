@@ -1,0 +1,15 @@
+{
+  "__http": 200,
+  "body": {
+    "registration": "ZA22WYK",
+    "make": "TOYOTA",
+    "model": "COROLLA",
+    "firstUsedDate": "2025-12-29",
+    "fuelType": "Diesel",
+    "primaryColour": "White",
+    "registrationDate": "2025-12-29",
+    "manufactureDate": "2025-12-29",
+    "motTestDueDate": "2027-08-29",
+    "hasOutstandingRecall": "Unknown"
+  }
+}

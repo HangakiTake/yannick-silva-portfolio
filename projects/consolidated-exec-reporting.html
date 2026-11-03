@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Consolidated executive reporting (Excel + Power Query) · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Consolidated executive reporting (Excel + Power Query)</h1>
+
+<p>One Excel workbook that pulls monthly sales exports from two regional files, CRM accounts and deals (CSV) and a targets file, then refreshes a one-page executive dashboard. Every number ties back to its source rows, and anything that cannot load cleanly is listed on an Exceptions sheet instead of being dropped silently. All data is synthetic (fictional company "Kestrel Industrial Supplies").</p>
+<img src="../demos/consolidated-exec-reporting/docs/dashboard.png" alt="Dashboard">
+<h2>How it was tested</h2>
+<p>44 automated tests pass, plus 1 expected failure recorded as a missed threshold. A Python mirror of the Power Query logic is checked against an independent pandas recount, and the workbook formulas are recalculated in LibreOffice.</p>
+<ul><li>Pass: all 12 source files and 13 columns mapped; rows and EUR reconcile per file (difference 0); 15/15 seeded issues caught with 0 false alarms; 6/6 dashboard KPIs match an independent recompute; a new month appears with no edits; 4/4 damaged inputs either load correctly or fail loudly.</li>
+<li><b>Missed</b>: customer matching reached 284/293 = 96.9% against a 98% target. 0 wrong matches; every unmatched row is listed. Getting higher needs fuzzy matching or an alias table, which is a client decision.</li>
+<li>A stress test with realistic messy inputs found 6 real defects (US-format amounts, semicolon CSVs, missing optional column, blank invoice numbers, unmapped countries, bad target rows); all fixed.</li></ul>
+<p class="caveat">Honest caveats: Power Query does not run on Linux, so Refresh All in Excel is untested (a 10-point Excel checklist is included). A 1-cent rounding difference against Excel is possible. The handover and non-technical reviewer tests still need a person.</p>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/consolidated-exec-reporting/ExecReporting.xlsx">Workbook (.xlsx)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/consolidated-exec-reporting/docs/TEST_RESULTS.md">Test results</a></li>
+<li><a href="../downloads/consolidated-exec-reporting.zip">Everything incl. Power Query files and sample data (.zip)</a></li></ul>
+</body></html>

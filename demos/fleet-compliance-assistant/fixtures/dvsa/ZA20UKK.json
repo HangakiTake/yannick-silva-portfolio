@@ -1,0 +1,8 @@
+{
+  "__http": 500,
+  "body": {
+    "errorCode": "MOTH-IS-01",
+    "errorMessage": "Internal server error",
+    "requestId": "mock-req-20"
+  }
+}

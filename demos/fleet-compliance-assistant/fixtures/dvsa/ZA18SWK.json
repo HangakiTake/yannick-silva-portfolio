@@ -1,0 +1,8 @@
+{
+  "__http": 404,
+  "body": {
+    "errorCode": "MOTH-NP-01",
+    "errorMessage": "No data found for the provided registration ZA18SWK",
+    "requestId": "mock-req-18"
+  }
+}
