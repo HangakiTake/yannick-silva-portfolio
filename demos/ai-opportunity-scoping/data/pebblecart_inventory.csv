@@ -1,0 +1,47 @@
+﻿"Pebblecart process inventory DRAFT — synthetic, not a real company",,,,,,,
+,,,,,,,
+Process,Team / dept,Volume (monthly),Time per item,Error %,Systems,Notes / comments,Owner (ignore)
+"Customer support queue: order status, refunds and tickets",Support,"5,000",8,8%,"Shopify, Helpdesk, Policy PDF","Customers write in chat and email. Look up the order, check the refund policy, issue the refund under the cap, or escalate. Judgment on tone.",Rowan
+Answer product questions from the help center,Support,2500,7,9%,"Help center, Policy PDFs",Staff paste the question and need the paragraph from the help center articles. No account changes.,Rowan
+"Three-way match of PO, receipt and invoice",Finance,1800,5,3%,"NetSuite, Email","Match the PO, the receipt and the invoice amount. Flag mismatches. Deterministic, no judgment.",Rowan
+Monthly close commentary for the board pack,Finance,1,480,1%,NetSuite,One-off executive narrative for the board pack. Keep human.,Rowan
+Failed-card dunning ladder,Finance,600,3,~2%,"Stripe, Customer.io","If payment fails, retry on day 1, day 3 and day 7, then email. Fixed ladder, always the same.",Rowan
+Churn risk score for Plus subscribers,Product,8000,2,12%,"Warehouse, Stripe",Predict which accounts cancel within 30 days. Historical labels from the last two years.,Rowan
+SKU demand forecast,Warehouse,400,20,18%,Shopify,Forecast next month's units from three years of sales.,Rowan
+New-hire contract questions,People,40,25 min,5%,Handbook PDF,Recruiter asks what the probation clause says. Quote the handbook. A human sends the answer.,Rowan
+Final salary offer,People,8,45,0%,ATS,The hiring manager negotiates pay. Keep human.,Rowan
+  Warehouse pick confirmation  ,Warehouse ,15000,1.2 min,1.2%,WMS,"Scan the bin, confirm the SKU, mark picked. Checklist, always the same, no language.",Rowan
+Supplier delay emails to customers,Support,700,9,~7%,"WMS, Helpdesk, Shopify",Customers write in when an ETA slips. Look up the order and reply with the new date.,Rowan
+Return shipping label,Warehouse,1100,2,2%,"Shopify, ShipStation","If the return is authorized, create the label in ShipStation. Always the same API calls, no judgment.",Rowan
+Campaign creative brief,Marketing,6,180,0%,Brand guide,Brand creative brief. One-off each month.,Rowan
+Inbound demo lead scoring,Sales,500 per month,12,20%,HubSpot,Score leads from firmographics and win/loss labels.,Rowan
+File sales-call notes into the CRM,Sales,300,10,15%,"Transcripts, HubSpot","After a call, the transcript is messy. Update the CRM stage and file the summary.",Rowan
+Find the liability clause in a contract,Legal,80,30,4%,Contract PDFs,Find the liability cap and quote the contract. Counsel reviews before it is sent.,Rowan
+Settlement negotiation,Legal,3,200,0%,Email,Negotiate the settlement. Legal advice. Do not automate.,Rowan
+Merge duplicate customer records,Support,250,6,8%,"Shopify, HubSpot",Exact email match is automatic. Always the same rule.,Rowan
+Ticket topic classifier,Support,4200,1,11%,Helpdesk,Classify urgent versus normal from the subject line. Labelled tickets from last year. No reply is sent.,Rowan
+Barcode exception SOP lookup,Warehouse,400,12,10%,SOP wiki,What do I do if the barcode will not scan? Answer from the SOP wiki. No account changes.,Rowan
+Checkout address validation,Ops,9000,0.5,3%,"Shopify, Address API",Validate and standardise the address through the address API. Deterministic.,Rowan
+Chargeback evidence draft,Finance,40,40,6%,"Shopify, Stripe","Look up the order, the shipment and the dispute, then draft a response. A person submits it.",Rowan
+Pause a subscription from chat,Support,350,7,5%,"Stripe, Helpdesk","The customer asks in chat to pause. Look up the subscription and pause it if the rule allows, once a year.",Rowan
+Weekly social captions,Marketing,12,40,0%,Brand guide,Brand creative captions for social posts.,Rowan
+Expense policy questions,People,~180/week,5,about 4%,Expense policy PDF,Staff ask if an expense is allowed. Answer from the expense policy PDF. Do not approve the expense.,Rowan
+Reconcile Stripe payouts to the bank,Finance,1.200,"1,5 h",2%,"Stripe, Bank CSV",Match the payout lines to the bank statement. Amounts must tie to the cent.,Rowan
+Security questionnaire first draft,Legal,6,2h,3%,Security PDF pack,Answers come from the security PDF pack. Quote the document. A human reviews before send.,Rowan
+Tag blog posts from past tags,Marketing,20,half an hour,5%,Blog,We have two years of tagged posts. Assign a topic tag. No customer involved.,Rowan
+Billing email triage and correction,Finance,6k,1h 15m,6 percent,"NetSuite, Helpdesk","Read the billing email, classify the issue, and if it is a duplicate charge look up the invoice and reply to the customer. Labelled categories from last year.",Rowan
+Weekend warehouse cycle count,Warehouse,approx. 40 per day,90 min,,WMS,"Checklist, always the same. Count the bin and write the quantity. No language.",Rowan
+"Customer support queue: order status, refunds and tickets",Support,100,8,1%,Shopify,Copy of the support row.,Rowan
+"  customer   support queue: order status, refunds and tickets ", support ,100,8,1%,Shopify,"Same queue, typed again.",Rowan
+,Finance,10,10,1%,NetSuite,No name was typed.,Rowan
+Ad hoc partner gifts,Marketing,100-200,15,0%,Email,"A range, not a count.",Rowan
+Exec inbox zero,Finance,varies,20,0%,Email,Nobody counted these.,Rowan
+Press replies,Marketing,10,ASAP,0%,Email,Time was not a number.,Rowan
+Card testing reviews,Finance,100,10,150%,Stripe,Error rate above 100 percent.,Rowan
+Formula leak,Ops,=SUM(A1),5,0%,Sheets,A formula was pasted in.,Rowan
+,,,,,,,
+Mystery queue,Support,see notes,10,1%,Helpdesk,"Volume was described, not counted.",Rowan
+Negative time,Ops,10,-5,0%,WMS,Minutes cannot be negative.,Rowan
+Pop-up stock check,Warehouse,n/a,10,0%,WMS,Volume not available.,Rowan
+,,,,,,,Rowan
+— end of list —,,,,,,,

@@ -1,0 +1,11 @@
+{
+  "as_of": "2026-11-03",
+  "as_of_note": "The demo clock is frozen on this date so the sample orders stay inside the windows. A live shop would use today's date.",
+  "window_days": 30,
+  "changed_mind_days": 14,
+  "max_auto_refund_usd": 75,
+  "allowed_reasons": ["damaged", "wrong_item", "not_as_described", "late_delivery", "changed_mind"],
+  "blocked_item_types": ["final_sale", "digital"],
+  "currency": "USD",
+  "hard_ceiling_usd": 100000
+}
