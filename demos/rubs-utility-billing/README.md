@@ -30,13 +30,15 @@ Capacity: 10 properties, 40 units, 100 occupancy rows, 30 bills a month, 60 rule
 pip install openpyxl pytest            # plus LibreOffice (soffice) on PATH
 python src/build_workbook.py RUBS_Billing_Demo.xlsx
 python src/build_workbook.py RUBS_Billing_BLANK.xlsx --blank
-python -m pytest -q tests              # 56 tests, about 1 minute
+python -m pytest -q tests              # 87 tests, about 1 minute
 python tests/stress.py                 # messy-input stress run
 ```
 `src/rubs.py` is a separate Python version of the same maths, using exact fractions. The tests check the workbook against it cent by cent.
 
 ## Limits
-- **Credits.** A credit or refund on a bill (a negative amount) is flagged as an exception and is not split. Enter it as a reduced amount instead.
+- **Bills that are not spread.** A bill is only allocated when its amount and dates are numbers, the amount is not negative, the property and service are known and its rule is usable (valid method, owner % and vacant weight between 0 and 1, no duplicate rule; a blank % counts as 0). Otherwise it is flagged, charges nobody and stays out of the Property_Summary totals.
+- **Credits.** A credit or refund on a bill (a negative amount) is therefore flagged and not split. Enter it as a reduced amount instead.
+- **Move-in dates.** A blank move-in means the tenant was there before the period, so it counts from the period start. A move date typed as text is flagged and that row counts no days.
 - **Rule changes.** One rule per property and service applies to the whole period. A rule change in the middle of a period is not supported.
 - **Testing.** Formulas were recalculated with LibreOffice. They use only standard functions (MAXIFS needs Excel 2019 or 365), but the file has not been opened in Microsoft Excel during testing.
 - **Legal.** RUBS rules differ by US state and city (disclosure, caps, admin fees). This is a calculation tool, not legal advice.

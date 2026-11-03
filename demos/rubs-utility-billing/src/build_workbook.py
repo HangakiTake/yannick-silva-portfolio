@@ -106,13 +106,14 @@ def build(path, blank=False):
                     oc.cell(r, c, v)
     for r in range(2, MAXO + 2):
         oc.cell(r, 3).number_format = oc.cell(r, 4).number_format = "yyyy-mm-dd"
-        oc.cell(r, 5, f'=IF(C{r}="",1,C{r})'); oc.cell(r, 6, f'=IF(D{r}="",2958465,D{r})')
+        # A text date makes the row count no days (it is flagged), instead of a #VALUE! in every formula that reads it.
+        oc.cell(r, 5, f'=IF(C{r}="",1,IF(ISNUMBER(C{r}),C{r},2958465))'); oc.cell(r, 6, f'=IF(D{r}="",2958465,IF(ISNUMBER(D{r}),D{r},1))')
         oc.cell(r, 8, f"=N(B{r})")
         oc.cell(r, 7, (f'=IF(A{r}="","",TRIM('
                        f'IF(COUNTIF(Settings_Units!$A$2:$A${MAXU+1},A{r})=0,"unknown unit; ","")'
                        f'&IF(N(B{r})<=0,"occupants missing or not positive; ","")'
                        f'&IF(OR(AND(C{r}<>"",NOT(ISNUMBER(C{r}))),AND(D{r}<>"",NOT(ISNUMBER(D{r})))),"text instead of a date; ","")'
-                       f'&IF(F{r}<E{r},"move-out before move-in; ","")'
+                       f'&IF(AND(OR(C{r}="",ISNUMBER(C{r})),OR(D{r}="",ISNUMBER(D{r})),F{r}<E{r}),"move-out before move-in; ","")'
                        f'&IF(COUNTIFS($A$2:$A${MAXO+1},A{r},$E$2:$E${MAXO+1},"<="&F{r},$F$2:$F${MAXO+1},">="&E{r})>1,"overlapping occupancy rows; ","")))'))
     for c in "EFH":
         oc.column_dimensions[c].hidden = True
@@ -120,7 +121,7 @@ def build(path, blank=False):
 
     # ---- Bills  G Issue
     bl = wb.create_sheet("Bills")
-    header(bl, ["BillID", "PropID", "Service", "Period start", "Period end", "Amount ($)", "Issue"], {7: 45})
+    header(bl, ["BillID", "PropID", "Service", "Period start", "Period end", "Amount ($)", "Issue", "Spread (1/0)"], {7: 45})
     shade(bl, 6, MAXB)
     dv_list(bl, SERVICES, f"C2:C{MAXB+1}")
     if not blank:
@@ -128,6 +129,7 @@ def build(path, blank=False):
             for c, v in enumerate(b, 1):
                 bl.cell(r, c, v)
     for r in range(2, MAXB + 2):
+        rule_ok = f'IFERROR(INDEX(Rules!$H$2:$H${MAXR+1},MATCH(B{r}&"|"&C{r},Rules!$F$2:$F${MAXR+1},0)),1)'  # no rule = default, usable
         bl.cell(r, 4).number_format = bl.cell(r, 5).number_format = "yyyy-mm-dd"
         bl.cell(r, 6).number_format = "#,##0.00"
         prev = f'_xlfn.MAXIFS($E$2:$E${MAXB+1},$B$2:$B${MAXB+1},B{r},$C$2:$C${MAXB+1},C{r},$D$2:$D${MAXB+1},"<"&D{r})'
@@ -141,12 +143,18 @@ def build(path, blank=False):
                        f'&IF(ISNA(MATCH(C{r},{{"Water","Sewer","Trash","Gas","Other"}},0)),"invalid service; ","")'
                        f'&IF(COUNTIFS(Rules!$A$2:$A${MAXR+1},B{r},Rules!$B$2:$B${MAXR+1},C{r})=0,"no rule (default Occupants, 0% owner); ","")'
                        f'&IF(AND({prev}>0,N(D{r})<>{prev}+1),"gap or overlap with previous period; ","")'
-                       f'&IF(AND(N(F{r})<>0,SUMIFS(Allocation!$X:$X,Allocation!$A:$A,ROW()-1,Allocation!$B:$B,1)=0),"no billable units, all to owner; ","")))'))
+                       f'&IF(AND(COUNTIF(Rules!$F$2:$F${MAXR+1},B{r}&"|"&C{r})>0,{rule_ok}<>1),"rule unusable, bill not allocated; ","")'
+                       f'&IF(AND(H{r}=1,N(F{r})<>0,SUMIFS(Allocation!$X:$X,Allocation!$A:$A,ROW()-1,Allocation!$B:$B,1)=0),"no billable units, all to owner; ","")))'))
+        # Spread = the bill is actually allocated. Unspread bills stay out of Allocation, Reconciliation and Property_Summary totals.
+        bl.cell(r, 8, (f'=IF(A{r}="","",IF(AND(B{r}<>"",ISNUMBER(D{r}),ISNUMBER(E{r}),ISNUMBER(F{r}),N(F{r})>=0,N(E{r})>=N(D{r}),'
+                       f'COUNTIF(Settings_Properties!$A$2:$A${MAXP+1},B{r})>0,ISNUMBER(MATCH(C{r},{{"Water","Sewer","Trash","Gas","Other"}},0)),'
+                       f'{rule_ok}=1),1,0))'))
+    bl.column_dimensions["H"].hidden = True
     flag_issue(bl, "G", MAXB)
 
     # ---- Rules
     ru = wb.create_sheet("Rules")
-    header(ru, ["PropID", "Service", "Method", "Vacant weight (0 or 1)", "Owner-paid %", "Key", "Issue"], {7: 40})
+    header(ru, ["PropID", "Service", "Method", "Vacant weight (0 or 1)", "Owner-paid %", "Key", "Issue", "Usable (1/0)"], {7: 40})
     shade(ru, 5, MAXR)
     dv_list(ru, SERVICES, f"B2:B{MAXR+1}"); dv_list(ru, METHODS, f"C2:C{MAXR+1}")
     if not blank:
@@ -158,10 +166,14 @@ def build(path, blank=False):
         ru.cell(r, 6, f'=A{r}&"|"&B{r}')
         ru.cell(r, 7, (f'=IF(A{r}="","",TRIM('
                        f'IF(ISNA(MATCH(C{r},{{"Occupants","SqFt","Equal"}},0)),"invalid method; ","")'
-                       f'&IF(OR(N(E{r})<0,N(E{r})>1),"owner % outside 0-100%; ","")'
-                       f'&IF(OR(N(D{r})<0,N(D{r})>1),"vacant weight outside 0-1; ","")'
+                       f'&IF(OR(N(E{r})<0,N(E{r})>1,AND(E{r}<>"",NOT(ISNUMBER(E{r})))),"owner % outside 0-100%; ","")'
+                       f'&IF(OR(N(D{r})<0,N(D{r})>1,AND(D{r}<>"",NOT(ISNUMBER(D{r})))),"vacant weight outside 0-1; ","")'
                        f'&IF(COUNTIF($F$2:$F${MAXR+1},F{r})>1,"duplicate rule; ","")))'))
-    ru.column_dimensions["F"].hidden = True
+        # Usable = valid method, blank-or-number percents inside their range, not a duplicate. Blank % counts as 0.
+        ru.cell(r, 8, (f'=IF(A{r}="","",IF(AND(ISNUMBER(MATCH(C{r},{{"Occupants","SqFt","Equal"}},0)),'
+                       f'OR(D{r}="",ISNUMBER(D{r})),OR(E{r}="",ISNUMBER(E{r})),N(D{r})>=0,N(D{r})<=1,N(E{r})>=0,N(E{r})<=1,'
+                       f'COUNTIF($F$2:$F${MAXR+1},F{r})=1),1,0))'))
+    ru.column_dimensions["F"].hidden = ru.column_dimensions["H"].hidden = True
     flag_issue(ru, "G", MAXR)
 
     # ---- Allocation (one row per bill slot x unit slot)
@@ -186,7 +198,7 @@ def build(path, blank=False):
                 "C": f'=IF(Bills!$A${b}="","",Bills!$A${b})', "D": f'=Bills!$B${b}&""', "E": f'=Bills!$C${b}&""',
                 "F": f"=N(Bills!$D${b})", "G": f"=N(Bills!$E${b})", "H": f"=N(Bills!$F${b})",
                 "I": f'=Settings_Units!$A${u}&""', "J": f'=Settings_Units!$B${u}&""',
-                "K": (f'=IF(AND(C{r}<>"",I{r}<>"",J{r}=D{r},G{r}>=F{r},'
+                "K": (f'=IF(AND(C{r}<>"",Bills!$H${b}=1,I{r}<>"",J{r}=D{r},G{r}>=F{r},'
                       f'IFERROR(INDEX(Settings_Units!$F${u}:$J${u},MATCH(E{r},{{"Water","Sewer","Trash","Gas","Other"}},0)),"Y")<>"Y"),1,0)'),
                 "L": f'=D{r}&"|"&E{r}',
                 "M": f'=IFERROR(INDEX(Rules!$C$2:$C${MAXR+1},MATCH(L{r},Rules!$F$2:$F${MAXR+1},0))&"","Occupants")',
@@ -234,7 +246,7 @@ def build(path, blank=False):
     for p in range(1, MAXP + 1):
         for s in SERVICES:
             ps.cell(r, 1, f'=IF(Settings_Properties!$A${p+1}="","",Settings_Properties!$A${p+1})'); ps.cell(r, 2, s)
-            ps.cell(r, 3, f'=IF(A{r}="","",SUMIFS(Bills!$F:$F,Bills!$B:$B,A{r},Bills!$C:$C,B{r}))')
+            ps.cell(r, 3, f'=IF(A{r}="","",SUMIFS(Bills!$F:$F,Bills!$B:$B,A{r},Bills!$C:$C,B{r},Bills!$H:$H,1))')
             ps.cell(r, 4, f'=IF(A{r}="","",SUMIFS(Allocation!$AG:$AG,Allocation!$D:$D,A{r},Allocation!$E:$E,B{r}))')
             ps.cell(r, 5, f'=IF(A{r}="","",C{r}-D{r})')
             ps.cell(r, 6, f'=IF(OR(A{r}="",N(C{r})=0),"",E{r}/C{r})').number_format = "0.0%"
@@ -254,20 +266,21 @@ def build(path, blank=False):
         A = lambda c: f"Allocation!${c}${top}:${c}${bot}"
         rc.cell(r, 1, f'=IF(Bills!A{r}="","",Bills!A{r})'); rc.cell(r, 2, f'=IF(A{r}="","",Bills!B{r})'); rc.cell(r, 3, f'=IF(A{r}="","",Bills!C{r})')
         rc.cell(r, 4, f'=IF(A{r}="","",N(Bills!F{r}))')
-        rc.cell(r, 5, f'=IF(A{r}="","",ROUND(D{r}*Allocation!O{top},2))')
-        rc.cell(r, 6, f'=IF(A{r}="","",IF(Allocation!X{top}>0,Allocation!Y{top}*SUM({A("V")})/Allocation!X{top},Allocation!Y{top}))')
+        sp = f'Bills!$H${r}<>1'
+        rc.cell(r, 5, f'=IF(A{r}="","",IF({sp},0,ROUND(D{r}*Allocation!O{top},2)))')
+        rc.cell(r, 6, f'=IF(A{r}="","",IF({sp},0,IF(Allocation!X{top}>0,Allocation!Y{top}*SUM({A("V")})/Allocation!X{top},Allocation!Y{top})))')
         rc.cell(r, 7, f'=IF(A{r}="","",IF(Allocation!X{top}>0,Allocation!Y{top}*SUMPRODUCT({A("U")},{A("W")})/Allocation!X{top},0))')
         rc.cell(r, 10, f'=IF(A{r}="","",SUM({A("AF")})/100)')
-        rc.cell(r, 8, f'=IF(A{r}="","",D{r}-E{r}-F{r}-G{r}-J{r})')
+        rc.cell(r, 8, f'=IF(A{r}="","",IF({sp},0,D{r}-E{r}-F{r}-G{r}-J{r}))')
         rc.cell(r, 9, f'=IF(A{r}="","",E{r}+F{r}+G{r}+H{r})')
         rc.cell(r, 11, f'=IF(A{r}="","",I{r}+J{r})')
-        rc.cell(r, 12, f'=IF(A{r}="","",ROUND(D{r}-K{r},2))')
+        rc.cell(r, 12, f'=IF(A{r}="","",IF({sp},0,ROUND(D{r}-K{r},2)))')
         rc.cell(r, 13, (f'=IF(A{r}="","",IF(AND(L{r}=0,ABS(H{r})<0.005,SUM({A("AF")})=Allocation!AC{top},'
                         f'J{r}>=0,I{r}>=-0.005,Bills!G{r}=""),"OK","CHECK"))'))
         for c in range(4, 13):
             rc.cell(r, c).number_format = "#,##0.00"
     t = MAXB + 3
-    rc.cell(t, 1, "All bills"); rc.cell(t, 4, f"=SUM(D2:D{MAXB+1})"); rc.cell(t, 10, f"=SUM(J2:J{MAXB+1})")
+    rc.cell(t, 1, "All bills"); rc.cell(t, 4, f"=SUMIFS(D2:D{MAXB+1},Bills!H2:H{MAXB+1},1)"); rc.cell(t, 10, f"=SUM(J2:J{MAXB+1})")
     rc.cell(t, 9, f"=SUM(I2:I{MAXB+1})")
     rc.cell(t + 1, 1, "Unit statements total"); rc.cell(t + 1, 10, f"=SUM(Unit_Statements!H2:H{MAXU+1})")
     rc.cell(t + 2, 1, "Statements tie to allocation")
@@ -302,7 +315,7 @@ def build(path, blank=False):
     mc["B11"] = f'=IFERROR(INDEX({RR("C")},{rule}),"Occupants")'
     mc["B12"] = f'=IFERROR(N(INDEX({RR("D")},{rule})),0)'
     mc["B13"] = f'=IFERROR(N(INDEX({RR("E")},{rule})),0)'
-    mc["B14"] = "=B10-ROUND(B10*B13,2)"
+    mc["B14"] = f'=IF(IFERROR(INDEX(Bills!$H$2:$H${MAXB+1},MATCH(B3,{BR("A")},0)),0)=1,B10-ROUND(B10*B13,2),0)'
     # per-unit working table starting row 30
     mc["A28"] = "Working: every unit slot for this bill"; mc["A28"].font = Font(bold=True)
     wh = ["UnitID", "In property", "Excluded", "Applies", "Base", "Occupant-days", "Occupied days", "Vacant days", "Tenant wt", "Vacant wt", "Discount"]

@@ -1,6 +1,6 @@
-amount typed as text '1,234.50'               -> exceptions {'text instead of a number or date': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-102']; formula errors 0; python ref crashed: ValueError: Invalid literal for Fraction: '1,234.50'
-bill date typed as text '18/09/2026'          -> exceptions {'text instead of a number or date': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-101']; formula errors 0; python ref crashed: TypeError: unsupported operand type(s) for -: 'datetime.date' and 'str'
-credit (refund) bill -25.00                   -> exceptions {'negative amount': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-102']; formula errors 0; python agrees 106/106
+amount typed as text '1,234.50'               -> exceptions {'text instead of a number or date': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-102']; formula errors 0; python agrees 102/102
+bill date typed as text '18/09/2026'          -> exceptions {'text instead of a number or date': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-101']; formula errors 0; python agrees 102/102
+credit (refund) bill -25.00                   -> exceptions {'negative amount': 1, 'Reconciliation rows not OK': 1}; recon not OK ['B-102']; formula errors 0; python agrees 102/102
 zero-amount bill                              -> exceptions none; recon not OK none; formula errors 0; python agrees 106/106
 unit ID lower case in Occupancy               -> exceptions none; recon not OK none; formula errors 0; python agrees 106/106
 unit ID with trailing space                   -> exceptions {'unknown unit': 1}; recon not OK none; formula errors 0; python agrees 106/106

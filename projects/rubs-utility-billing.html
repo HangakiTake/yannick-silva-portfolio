@@ -11,12 +11,13 @@
 <p>Capacity: 10 properties, 40 units, 30 bills a month. All data is synthetic.</p>
 <h2>How it was tested</h2>
 <p>The workbook is recalculated in LibreOffice and compared cent by cent with a separate Python version of the same maths, which uses exact fractions and reads no workbook formulas.</p>
-<ul><li><b>56 tests pass, 0 fail.</b>
+<ul><li><b>87 tests pass, 0 fail.</b>
 <ul><li>Every bill reconciles to the cent on 6 clean data sets, including a random full-capacity file (40 units × 30 bills).</li>
 <li>Workbook and Python agree on every charge.</li>
 <li>Manual_Check matches on 6 chosen bill/unit pairs.</li>
 <li>Changing inputs only (occupants, owner %, a new month) recalculates correctly.</li>
-<li>21 of 21 seeded input errors are flagged.</li>
+<li>22 of 22 seeded input errors are flagged.</li>
+<li>Bills with a bad rule, a text amount or a negative amount are not split and stay out of the property totals.</li>
 <li>0 formula errors in 7 workbooks.</li></ul></li>
 <li><b>Sample month:</b> 13 of 13 bills reconcile. $6,794.73 billed = $6,427.52 charged to tenants + $367.21 owner. 106 of 106 unit charges match the Python version.</li>
 <li><b>Speed:</b> about 1 s to recalculate a full-capacity file in LibreOffice.</li>

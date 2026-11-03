@@ -2,7 +2,7 @@
 
 - **Run:** 2026-11-03 (Europe/Zurich).
 - **Software:** Python 3.13.5, openpyxl 3.1.5, LibreOffice 25.2.3.2.
-- **Command:** `python -m pytest -q tests`. **Result: 56 passed, 0 failed** (about 60 s, mostly LibreOffice recalculating 34 workbook variants).
+- **Command:** `python -m pytest -q tests`. **Result: 87 passed, 0 failed** (about 70 s, mostly LibreOffice recalculating 37 workbook variants).
 
 | Spec | What is checked | Tests | Result |
 |---|---|---|---|
@@ -10,7 +10,8 @@
 | T2 Workbook = Python | Every (bill, unit) charge in cents matches the separate Python version (exact fractions) on the same 6 data sets. Unit_Statements and Property_Summary match too. | 7 | pass |
 | T3 Manual_Check | 6 chosen bill/unit pairs (discount, vacant unit, excluded gas, move-in, move-out/move-in) show MATCH and equal the Allocation charge. | 6 | pass |
 | T4 Inputs only | More occupants shifts cost to that unit. A higher owner % moves cost to the owner. A new month entered in the input tables recalculates with no formula edits. | 3 | pass |
-| T5 Exceptions | Clean data sets show 0 issues. Each of 21 seeded errors is flagged by its own check. | 22 | pass |
+| T5 Exceptions | Clean data sets show 0 issues. Each of 22 seeded errors is flagged by its own check. | 23 | pass |
+| R Regressions | Blank move-in counts from the period start (workbook = Python). Bills with a bad owner %, text owner %, bad method, duplicate rule, text amount or negative amount are not spread and not in Property_Summary. Blank owner % / vacant weight count as 0 and the bill is still spread. No #VALUE! and no quote marks in any Issue cell across the 22 seeded-error workbooks (a text move date used to cause thousands of #VALUE! cells). | 30 | pass |
 | Other | No formula errors in 7 workbooks (including the blank copy). The blank copy is empty. Full-capacity recalculation time. 3 hand-worked examples for the Python version. | 12 | pass |
 
 ## Sample month (synthetic, `RUBS_Billing_Demo.xlsx`)
