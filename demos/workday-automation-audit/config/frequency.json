@@ -1,0 +1,14 @@
+{
+  "weeks_per_month": 4.3333333333,
+  "notes": "A weekday daily habit is 5 times a week. 'A couple' is 2 and 'a few' or 'several' is 3. Monthly rate is times-per-week times weeks_per_month (52/12). First matching phrase wins. The value is never guessed when no phrase matches.",
+  "phrases": [
+    {"pattern": "once a year|every year|yearly|annually", "times_per_week": 0, "per_month": 0.0833333333},
+    {"pattern": "a couple of times a month|a couple times a month|twice a month", "per_month": 2},
+    {"pattern": "once a month|every month|monthly", "per_month": 1},
+    {"pattern": "a few times a week|few times a week|several times a week", "times_per_week": 3},
+    {"pattern": "a couple of times a week|a couple times a week|couple times a week|twice a week|2x/week|2x a week", "times_per_week": 2},
+    {"pattern": "every morning|each morning|every weekday|every workday|each weekday|\\bdaily\\b|every day|mon-fri|monday to friday|monday-friday|\\bweekdays\\b", "times_per_week": 5},
+    {"pattern": "every monday|every tuesday|every wednesday|every thursday|every friday|every saturday|every sunday", "times_per_week": 1},
+    {"pattern": "once a week|every week|weekly|on fridays|\\bfridays\\b", "times_per_week": 1}
+  ]
+}

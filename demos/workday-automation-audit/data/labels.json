@@ -1,0 +1,791 @@
+{
+  "persona": {
+    "name": "Mara Ellison",
+    "fictional": true,
+    "role": "solo freelance bookkeeper in Portland. Invented. Not a client."
+  },
+  "note": "Hand labels for the three week notes. Acceptance windows below were set from the phrases in the notes (weekday daily = 5 x 52/12, weekly = 52/12, a couple a week = 2 x 52/12, a few or several a week = 3 x 52/12). Tool labels follow the decision rules in README.",
+  "tasks": [
+    {
+      "id": "inquiry_replies",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        25,
+        30
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "lead_sheet",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "make"
+    },
+    {
+      "id": "receipt_coding",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "claude_step"
+    },
+    {
+      "id": "pos_sales",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "make"
+    },
+    {
+      "id": "xero_exceptions",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "dont_automate"
+    },
+    {
+      "id": "statement_emails",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        8,
+        8
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "invoice_chase",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        45,
+        45
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "mileage_log",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "drive_backup",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        5,
+        5
+      ],
+      "tool": "make"
+    },
+    {
+      "id": "bank_reconcile",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        35,
+        45
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "cashflow",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        20,
+        20
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "square_payout",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        25,
+        25
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "missing_receipts",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        25,
+        25
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "stale_proposals",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "appointment_reminders",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "client_calls",
+      "frequency_per_month": [
+        8,
+        9
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "dont_automate"
+    },
+    {
+      "id": "whatsapp_calendar",
+      "frequency_per_month": [
+        8,
+        9
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "make"
+    },
+    {
+      "id": "vendor_bills",
+      "frequency_per_month": [
+        8,
+        9
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "voicemail",
+      "frequency_per_month": [
+        12,
+        14
+      ],
+      "minutes_per_run": [
+        10,
+        10
+      ],
+      "tool": "claude_step"
+    },
+    {
+      "id": "invoice_descriptions",
+      "frequency_per_month": [
+        4,
+        4.5
+      ],
+      "minutes_per_run": [
+        20,
+        20
+      ],
+      "tool": "claude_step"
+    },
+    {
+      "id": "time_log",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        5,
+        5
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "pdf_filing",
+      "frequency_per_month": [
+        21,
+        22
+      ],
+      "minutes_per_run": [
+        12,
+        12
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "client_report",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        90,
+        90
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "sales_tax",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        60,
+        60
+      ],
+      "tool": "dont_automate"
+    },
+    {
+      "id": "recurring_templates",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        20,
+        20
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "duplicate_clients",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        20,
+        20
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "uncleared_cheques",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        30,
+        30
+      ],
+      "tool": "dont_automate"
+    },
+    {
+      "id": "pricing",
+      "frequency_per_month": [
+        1,
+        1
+      ],
+      "minutes_per_run": [
+        15,
+        15
+      ],
+      "tool": "spreadsheet"
+    },
+    {
+      "id": "onboard",
+      "frequency_per_month": [
+        2,
+        2
+      ],
+      "minutes_per_run": [
+        40,
+        40
+      ],
+      "tool": "n8n"
+    },
+    {
+      "id": "ten99",
+      "frequency_per_month": [
+        0.08,
+        0.09
+      ],
+      "minutes_per_run": [
+        120,
+        120
+      ],
+      "tool": "dont_automate"
+    }
+  ],
+  "mentions": [
+    {
+      "week": "week_a",
+      "anchor": "Every morning I go through the new inquiry emails and draft replies, which takes 25-30 min, and I never send those replies until I've read them.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "inquiry_replies"
+    },
+    {
+      "week": "week_b",
+      "anchor": "every morning i go thru the inquiry emials again and draft the replies, takes like 25-30 mins, same as always.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typos and voice",
+      "task_id": "inquiry_replies"
+    },
+    {
+      "week": "week_c",
+      "anchor": "go through inquiry emails and draft replies (25 to 30 min)",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "caps and a written-out range",
+      "task_id": "inquiry_replies"
+    },
+    {
+      "week": "week_c",
+      "anchor": "I already said I draft inquiry replies every morning, about half an hour",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "duplicate, half an hour",
+      "task_id": "inquiry_replies"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Then I copy the new leads into the Google Sheet every morning, about 10 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "lead_sheet"
+    },
+    {
+      "week": "week_b",
+      "anchor": "i copy new leads into the googel sheet every morning, aprox 10 min.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typos",
+      "task_id": "lead_sheet"
+    },
+    {
+      "week": "week_c",
+      "anchor": "copy new leads into the googel sheet, ~10min, daily",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typo and ~10min",
+      "task_id": "lead_sheet"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Every morning I also code the reciepts from photos, roughly 15 minuts.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typos",
+      "task_id": "receipt_coding"
+    },
+    {
+      "week": "week_c",
+      "anchor": "reciepts coding, daily, 15 min",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typo",
+      "task_id": "receipt_coding"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I type the Square daily sales into the sheet from the POS email, ~10 min.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "tilde",
+      "task_id": "pos_sales"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I check the Xero bank feed exceptions every morning, about 10 min, and I have to look at each one.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "xero_exceptions"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I answer the \"did you get my statement\" emails every weekday.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "statement_emails"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Fridays I chase unpaid invoices for about 45 minutes.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "invoice_chase"
+    },
+    {
+      "week": "week_b",
+      "anchor": "fridays i chase unpaid invioce... unpaid invoices, maybe 45 minuts.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typos and voice",
+      "task_id": "invoice_chase"
+    },
+    {
+      "week": "week_c",
+      "anchor": "Fridays: unpaid invoices chase, 45mins",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "45mins",
+      "task_id": "invoice_chase"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I update the mileage log every Friday, 10 min",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "mileage_log"
+    },
+    {
+      "week": "week_c",
+      "anchor": "mileage, Fridays, 10 min",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "shorthand",
+      "task_id": "mileage_log"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I back up the client folder to Drive once a week, 5 minutes.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "drive_backup"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I reconcile the bank CSV against the sheet, usually 40 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "bank_reconcile"
+    },
+    {
+      "week": "week_b",
+      "anchor": "once a week i reconcil the bank csv, 35-45 min depending.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typo and a range",
+      "task_id": "bank_reconcile"
+    },
+    {
+      "week": "week_c",
+      "anchor": "bank reconciliation weekly 40 minutes",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "bank_reconcile"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I refresh the cashflow sheet, 20 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "cashflow"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I match the Square payouts to the sales, about 25 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "square_payout"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I chase clients for missing receipts, 25 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "missing_receipts"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I follow up proposals that went quiet, 15 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "stale_proposals"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I draft appointment reminders once a week, 15 min, but I don't send them until I approve each one.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "appointment_reminders"
+    },
+    {
+      "week": "week_a",
+      "anchor": "A couple of times a week I decide who I should call and put those client calls on the calendar, around 15 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "client_calls"
+    },
+    {
+      "week": "week_c",
+      "anchor": "client calls, it depends who, a couple times a week, maybe 15 min, i pick who",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "voice, depends who",
+      "task_id": "client_calls"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I move WhatsApp appointment requests onto the calendar a couple of times a week, about 10 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "whatsapp_calendar"
+    },
+    {
+      "week": "week_b",
+      "anchor": "a couple of times a week, whatsapp to the calender, ~10 min.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typo calender",
+      "task_id": "whatsapp_calendar"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Vendor bills get entered from the email into Xero a couple of times a week, 15 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "vendor_bills"
+    },
+    {
+      "week": "week_a",
+      "anchor": "A few times a week I transcribe voicemails into the task list, 10 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "voicemail"
+    },
+    {
+      "week": "week_c",
+      "anchor": "no that's the voicemails, 10 min, a few times a week",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "typo severl",
+      "task_id": "voicemail"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a week I write the wording on the invoice descriptions, 20 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "invoice_descriptions"
+    },
+    {
+      "week": "week_b",
+      "anchor": "i write invoice wording once a week, about 20 minutes.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "invoice_descriptions"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Every weekday I log my hours on the time sheet, 5 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "time_log"
+    },
+    {
+      "week": "week_c",
+      "anchor": "time sheet: log my hours every weekday, 5 minutes",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "shorthand",
+      "task_id": "time_log"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Every weekday I rename the PDFs and file them into the client folders, about 12 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "pdf_filing"
+    },
+    {
+      "week": "week_b",
+      "anchor": "every weekday i rename pdfs, 12 mins, filing them.",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "voice",
+      "task_id": "pdf_filing"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a month I write the monthly client report, about 90 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "client_report"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I prepare the sales tax figures once a month, an hour, and I sign off on the filing myself.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "sales_tax"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I set up recurring invoice templates once a month, 20 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "recurring_templates"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I look for duplicate client records once a month, about 20 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "duplicate_clients"
+    },
+    {
+      "week": "week_a",
+      "anchor": "I review uncleared cheques once a month, 30 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "uncleared_cheques"
+    },
+    {
+      "week": "week_c",
+      "anchor": "half an hr on uncleared cheques, monthly",
+      "expect": "task",
+      "messy": true,
+      "messy_kind": "half an hr",
+      "task_id": "uncleared_cheques"
+    },
+    {
+      "week": "week_a",
+      "anchor": "When my rates change I update the pricing sheet, once a month, 15 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "pricing"
+    },
+    {
+      "week": "week_a",
+      "anchor": "A couple of times a month I onboard a new client with the checklist email, about 40 min.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "onboard"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Once a year I pull the 1099 list, and that takes about 2 hours.",
+      "expect": "task",
+      "messy": false,
+      "messy_kind": "",
+      "task_id": "ten99"
+    },
+    {
+      "week": "week_a",
+      "anchor": "Payroll is a mess, not sure how often or how long.",
+      "expect": "question",
+      "messy": true,
+      "messy_kind": "no numbers"
+    },
+    {
+      "week": "week_a",
+      "anchor": "And sometimes the portal thing.",
+      "expect": "question",
+      "messy": true,
+      "messy_kind": "no numbers"
+    },
+    {
+      "week": "week_b",
+      "anchor": "something with the payroll, i forget how long.",
+      "expect": "question",
+      "messy": true,
+      "messy_kind": "voice, no duration"
+    },
+    {
+      "week": "week_b",
+      "anchor": "idk about the scanning, it varies.",
+      "expect": "question",
+      "messy": true,
+      "messy_kind": "voice"
+    },
+    {
+      "week": "week_c",
+      "anchor": "the other thing with the state portal, no idea on timing",
+      "expect": "question",
+      "messy": true,
+      "messy_kind": "no numbers"
+    }
+  ]
+}

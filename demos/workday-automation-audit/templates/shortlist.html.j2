@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workday shortlist (fictional)</title>
+<style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.3rem .5rem;vertical-align:top} .caveat{background:#fff6e0;border-left:4px solid #e0a800;padding:.6rem 1rem}</style></head><body>
+<h1>Workday automation shortlist</h1>
+<p class="caveat">Fictional person: Mara Ellison, a solo bookkeeper. Invented week, invented inbox. Not a client. Personal details in the sample notes are replaced below. The placeholder map is not on this page.</p>
+<p>Formula: <code>{{ formula }}</code></p>
+<p>Weights used: hours {{ weights.hours }}, effort {{ weights.effort }}, risk {{ weights.risk }}.</p>
+<p>Redaction before any model call: {% for kind, n in counts.items() %}{{ n }} {{ kind }}{{ ', ' if not loop.last }}{% endfor %}{% if not counts %}nothing matched the redaction rules{% endif %}.</p>
+<h2>Ranked tasks</h2>
+<table>
+<tr><th>#</th><th>Task</th><th>Tool</th><th>Hours saved / month</th><th>Score</th><th>Why</th></tr>
+{% for row in rows %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ row.summary }}<br><small>{{ '%.2f'|format(row.frequency_per_month) }} / month × {{ '%.1f'|format(row.minutes_per_run) }} min. Effort {{ row.effort }}, risk {{ row.risk }}, capture {{ row.capture }}.{% if row.requires_approval %} Approval required.{% endif %}</small></td>
+<td>{{ row.tool }}</td>
+<td>{{ row.hours_saved }}</td>
+<td>{{ row.score }}</td>
+<td>{{ row.reason }}</td>
+</tr>
+{% endfor %}
+</table>
+<h2>Questions to ask on the call</h2>
+<ul>{% for q in questions %}<li>{{ q.quote }} — {{ q.reason }}</li>{% endfor %}</ul>
+<p>Top pick for the importable workflow: <b>{{ top.summary }}</b>.</p>
+</body></html>
