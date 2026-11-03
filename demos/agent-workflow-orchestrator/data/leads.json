@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Amira Hassan",
+    "email": "Amira.Hassan@Example.com",
+    "phone": "(415) 555-0142",
+    "site_address": "18 Cedar Lane, Oakland, CA 94607",
+    "monthly_kwh": "640"
+  },
+  {
+    "name": "Amira Hassan",
+    "email": "Amira.Hassan@Example.com",
+    "phone": "(415) 555-0142",
+    "site_address": "18 Cedar Lane, Oakland, CA 94607",
+    "monthly_kwh": "640"
+  },
+  {
+    "name": "Ben Okoye",
+    "email": "ben.okoye@example.com",
+    "phone": "4155550177",
+    "site_address": "902 Market Street, San Francisco, CA 94103",
+    "monthly_kwh": "410"
+  },
+  {
+    "name": "  Ben   Okoye ",
+    "email": " BEN.OKOYE@Example.com ",
+    "phone": "(415) 555-0177",
+    "site_address": "902 Market Street, San Francisco, CA 94103",
+    "monthly_kwh": "410"
+  },
+  {
+    "name": "Chiara Vogel",
+    "email": "chiara.vogel@example.com",
+    "phone": "5105550114",
+    "site_address": "",
+    "monthly_kwh": "880"
+  },
+  {
+    "name": "Chiara Vogel",
+    "email": "chiara.vogel@example.com",
+    "phone": "5105550114",
+    "site_address": "",
+    "monthly_kwh": "880"
+  },
+  {
+    "name": "Diego Santos",
+    "email": "diego.santos@example.com",
+    "phone": "4085550160",
+    "site_address": "44 Palm Court, San Jose, CA 95112",
+    "monthly_kwh": "about 900"
+  },
+  {
+    "name": "Elena Novak",
+    "email": "elena.novak@example.com",
+    "phone": "6505550188",
+    "site_address": "TBD",
+    "monthly_kwh": "n/a"
+  },
+  {
+    "name": "Farid Malik",
+    "email": "farid.malik@example.net",
+    "phone": "7075550133",
+    "site_address": "5 Ridge Road, Napa, CA 94558",
+    "monthly_kwh": "1200"
+  },
+  {
+    "name": "Grace Lee",
+    "email": "grace.lee@example.com",
+    "phone": "9165550194",
+    "site_address": "77 River Street, Sacramento, CA 95814",
+    "monthly_kwh": "1,150"
+  },
+  {
+    "name": "Hiro Tanaka",
+    "email": "hiro.tanaka@example.com",
+    "phone": "8315550126",
+    "site_address": "see attached",
+    "monthly_kwh": "530"
+  },
+  {
+    "name": "Ines Costa",
+    "email": "ines.costa@example.com",
+    "phone": "2095550155",
+    "site_address": "3 Orchard Way, Modesto, CA 95354",
+    "monthly_kwh": "470"
+  }
+]
