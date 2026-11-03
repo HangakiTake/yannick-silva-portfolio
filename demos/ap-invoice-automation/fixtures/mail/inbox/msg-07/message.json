@@ -1,0 +1,8 @@
+{
+  "id": "msg-07",
+  "from_name": "Harbour Metal Billing",
+  "from_email": "billing@harbour-metal.example",
+  "subject": "Invoice INV-1007",
+  "received_at": "2026-03-14T15:00:00Z",
+  "body": "Please see the attached invoice."
+}

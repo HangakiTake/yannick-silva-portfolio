@@ -1,0 +1,8 @@
+{
+  "id": "msg-20",
+  "from_name": "Cedarline Supply Accounts",
+  "from_email": "ap@cedarline-supply.example",
+  "subject": "Invoice INV-2004",
+  "received_at": "2026-03-09T15:00:00Z",
+  "body": "Please see the attached invoice."
+}

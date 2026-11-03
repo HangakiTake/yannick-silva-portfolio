@@ -1,0 +1,34 @@
+{
+  "vendors": [
+    {
+      "id": "v-cedarline",
+      "name": "Cedarline Supply Co.",
+      "aliases": ["Cedarline Supply Co"],
+      "email_domains": ["cedarline-supply.example"]
+    },
+    {
+      "id": "v-harbour",
+      "name": "Harbour Metal Roofing",
+      "aliases": [],
+      "email_domains": ["harbour-metal.example"]
+    },
+    {
+      "id": "v-prairie",
+      "name": "Prairie Fastener Ltd.",
+      "aliases": [],
+      "email_domains": ["prairie-fastener.example"]
+    },
+    {
+      "id": "v-lakeside",
+      "name": "Lakeside Insulation Supply",
+      "aliases": [],
+      "email_domains": ["lakeside-insulation.example"]
+    },
+    {
+      "id": "v-summit",
+      "name": "Summit Underlayment Inc.",
+      "aliases": [],
+      "email_domains": ["summit-underlayment.example"]
+    }
+  ]
+}

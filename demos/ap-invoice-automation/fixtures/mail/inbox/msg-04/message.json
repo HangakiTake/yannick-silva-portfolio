@@ -1,0 +1,8 @@
+{
+  "id": "msg-04",
+  "from_name": "Lakeside Accounts",
+  "from_email": "ar@lakeside-insulation.example",
+  "subject": "Invoice INV-1004",
+  "received_at": "2026-03-08T15:00:00Z",
+  "body": "Please see the attached invoice."
+}

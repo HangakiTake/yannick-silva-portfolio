@@ -1,0 +1,8 @@
+{
+  "id": "msg-28",
+  "from_name": "Prairie Fastener Invoices",
+  "from_email": "invoices@prairie-fastener.example",
+  "subject": "Invoice INV-2011",
+  "received_at": "2026-03-29T16:00:00Z",
+  "body": "Please see the attached invoice."
+}
