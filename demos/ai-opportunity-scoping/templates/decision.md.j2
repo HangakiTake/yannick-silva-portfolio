@@ -1,0 +1,100 @@
+# {{ company }} — where AI is worth it
+
+Synthetic company. Generated {{ generated }}. This is a decision note, not a live bill and not a production system.
+
+## Ranked shortlist
+
+Processes we would actually build, highest net score first. "Don't automate" rows are listed later and are not in this shortlist.
+
+| Rank | Process | Team | Hours / month | Payoff | Effort | Net | Architecture | OpenAI USD / month |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+{% for row in shortlist -%}
+| {{ row.rank }} | {{ row.process }} | {{ row.team }} | {{ row.hours }} | {{ row.payoff }} | {{ row.effort }} | {{ row.net }} | {{ row.pattern }} | {{ row.usd }} |
+{% endfor %}
+
+{{ parsed_count }} processes were scored. {{ exception_count }} inventory rows were exceptions and were not scored. None were dropped.
+
+{% for row in rows if row.error_note %}
+- {{ row.process }}: {{ row.error_note }}
+{% endfor %}
+
+## Recommended architecture
+
+{% for row in shortlist %}
+### {{ row.process }}
+
+- Architecture: **{{ row.pattern }}** (rule `{{ row.rule }}`)
+- Why: {{ row.reason }}
+- Systems: {{ row.sources }}
+- Human in the loop: {{ row.human }}
+- Main risk: {{ row.risk }}
+{% endfor %}
+
+## Integration plan
+
+The first build talks to the shop's order API (lookup, refund policy, refund, ticket, escalation). The other systems below are named in the inventory. They are not connected in this demo.
+
+{% for row in shortlist %}
+- **{{ row.process }}** ({{ row.pattern }}): {{ row.sources }}
+{% endfor %}
+
+## Cost and risk
+
+Prices are from `config/openai_prices.json`, checked {{ prices.as_of }}. Source: {{ prices.source }}. {{ prices.note }}
+
+Model for agent and RAG calls: `{{ prices.profiles.llm_agent.model }}` at ${{ prices.models[prices.profiles.llm_agent.model].input_usd_per_million }} per million input tokens and ${{ prices.models[prices.profiles.llm_agent.model].output_usd_per_million }} per million output tokens. Embedding `text-embedding-3-small` at ${{ prices.models["text-embedding-3-small"].usd_per_million }} per million. Cache discounts are not applied.
+
+Token assumptions per item: agent {{ prices.profiles.llm_agent.input_tokens_per_item }} in / {{ prices.profiles.llm_agent.output_tokens_per_item }} out ({{ prices.profiles.llm_agent.why }}). RAG {{ prices.profiles.rag.input_tokens_per_item }} in / {{ prices.profiles.rag.output_tokens_per_item }} out plus {{ prices.profiles.rag.embedding_tokens_per_item }} embedding tokens ({{ prices.profiles.rag.why }}). Rules, classic ML and "don't automate" are $0 in this table. Classic ML training cost is not included.
+
+| Process | Architecture | OpenAI USD / month | Main risk | Human in the loop |
+| --- | --- | --- | --- | --- |
+{% for row in shortlist -%}
+| {{ row.process }} | {{ row.pattern }} | {{ row.usd }} | {{ row.risk }} | {{ row.human }} |
+{% endfor %}
+
+## Phased plan
+
+Phase 0. Clear the {{ exception_count }} exception rows with the team leads (ranges, formulas, missing names, duplicates) before anyone trusts the ranking.
+
+Phase 1. Workflow automation, no model, for the fixed procedures: {% for row in rules %}{{ row.process }}; {% endfor %}
+
+Phase 2. First AI build: the support agent{% if top_agent %} ({{ top_agent.process }}, net {{ top_agent.net }}){% endif %}. It looks up an order, checks the refund policy, issues a refund only inside the cap, and escalates everything else. The prototype in this repo is that agent, against a fake API, with a mock mode that needs no key.
+
+Phase 3. Retrieval over the documents already named, for: {% for row in rags %}{{ row.process }}; {% endfor %}
+
+Phase 4. Classic models only where the history already exists, and only after a person checks the first month: {% for row in ml %}{{ row.process }}; {% endfor %}
+
+{% if held %}
+Scored at or below zero, so not in the first build: {% for row in held %}{{ row.process }} ({{ row.pattern }}, net {{ row.net }}); {% endfor %}
+{% endif %}
+
+## Leave with the team
+
+{% for row in leave %}
+- {{ row.process }}: {{ row.reason }}
+{% endfor %}
+
+## Where the hand labels differ
+
+{% if gaps %}
+{% for gap in gaps %}
+- **{{ gap.process }}**: hand label `{{ gap.pattern }}`, rubric says `{{ gap.rubric_will_say }}`. {{ gap.why_it_differs }}
+{% endfor %}
+{% else %}
+None in this run.
+{% endif %}
+
+## Assumptions
+
+- Scoring weights and caps are in `config/scoring.json`. The formula is `docs/scoring.md`.
+- The demo refund clock is frozen on {{ policy_as_of }} so the sample orders stay inside the windows.
+- Live OpenAI calls are off unless `OPENAI_API_KEY` is set. The figures above are estimates, not an invoice.
+- Customer records in the demo are invented. Emails are example.com.
+
+## Exceptions
+
+| Sheet row | Reasons | Process cell |
+| --- | --- | --- |
+{% for row in exceptions -%}
+| {{ row.source_row }} | {{ row.reasons }} | {{ row.process }} |
+{% endfor %}

@@ -1,0 +1,188 @@
+{
+  "labelled_on": "2026-11-03",
+  "rubric": "docs/architecture_rubric.md",
+  "note": "Human labels were written from the rubric before the recommender. agreement=match means a faithful reading of the rubric returns pattern. agreement=mismatch means the human label differs from the rubric on purpose, and why_it_differs says what the rubric will say.",
+  "labels": [
+    {
+      "process": "Customer support queue: order status, refunds and tickets",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "Customers write in. The reply looks up the order and may issue a refund or escalate."
+    },
+    {
+      "process": "Answer product questions from the help center",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "The answer is a paragraph in the help center. Nothing on the account changes."
+    },
+    {
+      "process": "Three-way match of PO, receipt and invoice",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "The match is the same every time. No model."
+    },
+    {
+      "process": "Monthly close commentary for the board pack",
+      "pattern": "dont_automate",
+      "agreement": "match",
+      "because": "One executive narrative. The rubric says keep this human."
+    },
+    {
+      "process": "Failed-card dunning ladder",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Retry on day 1, 3 and 7. A fixed ladder."
+    },
+    {
+      "process": "Churn risk score for Plus subscribers",
+      "pattern": "classic_ml",
+      "agreement": "match",
+      "because": "Predict a cancel from historical labels. Not a conversation."
+    },
+    {
+      "process": "SKU demand forecast",
+      "pattern": "classic_ml",
+      "agreement": "match",
+      "because": "A forecast from sales history, and the volume is large enough."
+    },
+    {
+      "process": "New-hire contract questions",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "Quote the handbook. A person sends the answer."
+    },
+    {
+      "process": "Final salary offer",
+      "pattern": "dont_automate",
+      "agreement": "match",
+      "because": "Pay is negotiated by a person."
+    },
+    {
+      "process": "Warehouse pick confirmation",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Scan, confirm, mark picked. A checklist."
+    },
+    {
+      "process": "Supplier delay emails to customers",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "The customer writes in and the reply needs the order record."
+    },
+    {
+      "process": "Return shipping label",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Once a return is authorized the label call is always the same."
+    },
+    {
+      "process": "Campaign creative brief",
+      "pattern": "dont_automate",
+      "agreement": "match",
+      "because": "Brand creative, and each brief is a one-off."
+    },
+    {
+      "process": "Inbound demo lead scoring",
+      "pattern": "classic_ml",
+      "agreement": "match",
+      "because": "A score from win/loss history."
+    },
+    {
+      "process": "File sales-call notes into the CRM",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "The transcript is messy and the CRM record has to be updated."
+    },
+    {
+      "process": "Find the liability clause in a contract",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "Find and quote a clause. Counsel still sends it."
+    },
+    {
+      "process": "Settlement negotiation",
+      "pattern": "dont_automate",
+      "agreement": "match",
+      "because": "Legal advice and a negotiation. Do not automate."
+    },
+    {
+      "process": "Merge duplicate customer records",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "An exact email match is a rule."
+    },
+    {
+      "process": "Ticket topic classifier",
+      "pattern": "classic_ml",
+      "agreement": "match",
+      "because": "Classify from labelled tickets. No reply is sent."
+    },
+    {
+      "process": "Barcode exception SOP lookup",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "The answer is in the SOP wiki."
+    },
+    {
+      "process": "Checkout address validation",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Validate and standardise. Deterministic."
+    },
+    {
+      "process": "Chargeback evidence draft",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "Look up the order and draft the response. A person submits it."
+    },
+    {
+      "process": "Pause a subscription from chat",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "The customer asks in chat and the subscription record may change."
+    },
+    {
+      "process": "Weekly social captions",
+      "pattern": "dont_automate",
+      "agreement": "match",
+      "because": "Brand creative captions."
+    },
+    {
+      "process": "Expense policy questions",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "Answer from the policy PDF. Do not approve the expense."
+    },
+    {
+      "process": "Reconcile Stripe payouts to the bank",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Match lines and tie them to the cent."
+    },
+    {
+      "process": "Security questionnaire first draft",
+      "pattern": "rag",
+      "agreement": "match",
+      "because": "Quote the security PDF pack. A person reviews before send."
+    },
+    {
+      "process": "Tag blog posts from past tags",
+      "pattern": "classic_ml",
+      "agreement": "mismatch",
+      "rubric_will_say": "dont_automate",
+      "why_it_differs": "A person sees two years of tags as a labelled set, so the honest label is classic ML. The rubric never treats the word tagged as a history phrase, and 20 posts a month is under the 200 cutoff, so step 11 says don't automate. Left as a known miss rather than relabelled."
+    },
+    {
+      "process": "Billing email triage and correction",
+      "pattern": "llm_agent",
+      "agreement": "match",
+      "because": "It says classify, but the job is to look up the invoice and reply to the customer. The action phrase wins."
+    },
+    {
+      "process": "Weekend warehouse cycle count",
+      "pattern": "rules",
+      "agreement": "match",
+      "because": "Count the bin and write the quantity. A checklist."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ company }} — where AI is worth it</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}
+table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border:1px solid #ddd;padding:.35rem .5rem;vertical-align:top}
+.note{background:#fff6e0;border-left:4px solid #e0a800;padding:.6rem 1rem}
+</style>
+</head>
+<body>
+<p class="note">Synthetic company. Generated {{ generated }}. This is a decision note, not a live bill and not a production system.</p>
+<h1>{{ company }} — where AI is worth it</h1>
+
+<h2>Ranked shortlist</h2>
+<p>Processes we would actually build, highest net score first. "Don't automate" rows are listed later and are not in this shortlist. {{ parsed_count }} processes were scored. {{ exception_count }} inventory rows were exceptions and were not scored. None were dropped.</p>
+{% if shortlist %}
+<ul>
+{% for row in rows if row.error_note %}
+<li>{{ row.process }}: {{ row.error_note }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<table>
+<tr><th>Rank</th><th>Process</th><th>Team</th><th>Hours / month</th><th>Payoff</th><th>Effort</th><th>Net</th><th>Architecture</th><th>OpenAI USD / month</th></tr>
+{% for row in shortlist %}
+<tr><td>{{ row.rank }}</td><td>{{ row.process }}</td><td>{{ row.team }}</td><td>{{ row.hours }}</td><td>{{ row.payoff }}</td><td>{{ row.effort }}</td><td>{{ row.net }}</td><td>{{ row.pattern }}</td><td>{{ row.usd }}</td></tr>
+{% endfor %}
+</table>
+
+<h2>Recommended architecture</h2>
+{% for row in shortlist %}
+<h3>{{ row.process }}</h3>
+<ul>
+<li>Architecture: <b>{{ row.pattern }}</b> (rule {{ row.rule }})</li>
+<li>Why: {{ row.reason }}</li>
+<li>Systems: {{ row.sources }}</li>
+<li>Human in the loop: {{ row.human }}</li>
+<li>Main risk: {{ row.risk }}</li>
+</ul>
+{% endfor %}
+
+<h2>Integration plan</h2>
+<p>The first build talks to the shop's order API (lookup, refund policy, refund, ticket, escalation). The other systems below are named in the inventory. They are not connected in this demo.</p>
+<ul>
+{% for row in shortlist %}
+<li><b>{{ row.process }}</b> ({{ row.pattern }}): {{ row.sources }}</li>
+{% endfor %}
+</ul>
+
+<h2>Cost and risk</h2>
+<p>Prices are from config/openai_prices.json, checked {{ prices.as_of }}. Source: {{ prices.source }}. {{ prices.note }}</p>
+<p>Model for agent and RAG calls: {{ prices.profiles.llm_agent.model }} at ${{ prices.models[prices.profiles.llm_agent.model].input_usd_per_million }} per million input tokens and ${{ prices.models[prices.profiles.llm_agent.model].output_usd_per_million }} per million output tokens. Embedding text-embedding-3-small at ${{ prices.models["text-embedding-3-small"].usd_per_million }} per million. Cache discounts are not applied.</p>
+<p>Token assumptions per item: agent {{ prices.profiles.llm_agent.input_tokens_per_item }} in / {{ prices.profiles.llm_agent.output_tokens_per_item }} out. RAG {{ prices.profiles.rag.input_tokens_per_item }} in / {{ prices.profiles.rag.output_tokens_per_item }} out plus {{ prices.profiles.rag.embedding_tokens_per_item }} embedding tokens. Rules, classic ML and "don't automate" are $0 in this table. Classic ML training cost is not included.</p>
+<table>
+<tr><th>Process</th><th>Architecture</th><th>OpenAI USD / month</th><th>Main risk</th><th>Human in the loop</th></tr>
+{% for row in shortlist %}
+<tr><td>{{ row.process }}</td><td>{{ row.pattern }}</td><td>{{ row.usd }}</td><td>{{ row.risk }}</td><td>{{ row.human }}</td></tr>
+{% endfor %}
+</table>
+
+<h2>Phased plan</h2>
+<ol>
+<li>Phase 0. Clear the {{ exception_count }} exception rows with the team leads before anyone trusts the ranking.</li>
+<li>Phase 1. Workflow automation, no model: {% for row in rules %}{{ row.process }}; {% endfor %}</li>
+<li>Phase 2. First AI build: the support agent{% if top_agent %} ({{ top_agent.process }}, net {{ top_agent.net }}){% endif %}. It looks up an order, checks the refund policy, issues a refund only inside the cap, and escalates everything else. The prototype in this repo is that agent, against a fake API, with a mock mode that needs no key.</li>
+<li>Phase 3. Retrieval over the documents already named: {% for row in rags %}{{ row.process }}; {% endfor %}</li>
+<li>Phase 4. Classic models only where the history already exists, after a person checks the first month: {% for row in ml %}{{ row.process }}; {% endfor %}</li>
+</ol>
+{% if held %}
+<p>Scored at or below zero, so not in the first build: {% for row in held %}{{ row.process }} ({{ row.pattern }}, net {{ row.net }}); {% endfor %}</p>
+{% endif %}
+
+<h2>Leave with the team</h2>
+<ul>
+{% for row in leave %}
+<li>{{ row.process }}: {{ row.reason }}</li>
+{% endfor %}
+</ul>
+
+<h2>Where the hand labels differ</h2>
+{% if gaps %}
+<ul>
+{% for gap in gaps %}
+<li><b>{{ gap.process }}</b>: hand label {{ gap.pattern }}, rubric says {{ gap.rubric_will_say }}. {{ gap.why_it_differs }}</li>
+{% endfor %}
+</ul>
+{% else %}
+<p>None in this run.</p>
+{% endif %}
+
+<h2>Assumptions</h2>
+<ul>
+<li>Scoring weights and caps are in config/scoring.json. The formula is docs/scoring.md.</li>
+<li>The demo refund clock is frozen on {{ policy_as_of }} so the sample orders stay inside the windows.</li>
+<li>Live OpenAI calls are off unless OPENAI_API_KEY is set. The figures above are estimates, not an invoice.</li>
+<li>Customer records in the demo are invented. Emails are example.com.</li>
+</ul>
+
+<h2>Exceptions</h2>
+<table>
+<tr><th>Sheet row</th><th>Reasons</th><th>Process cell</th></tr>
+{% for row in exceptions %}
+<tr><td>{{ row.source_row }}</td><td>{{ row.reasons }}</td><td>{{ row.process }}</td></tr>
+{% endfor %}
+</table>
+</body>
+</html>

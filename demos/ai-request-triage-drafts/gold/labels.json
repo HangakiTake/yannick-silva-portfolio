@@ -1,0 +1,948 @@
+{
+  "labelled_on": "2026-11-03",
+  "labelled_before_extractor": true,
+  "business": "Linden Home Services (fictional)",
+  "rules": "gold/LABELLING.md",
+  "low_confidence_threshold": 0.6,
+  "field_score_fields": [
+    "customer_name",
+    "contact_email",
+    "contact_phone",
+    "key_dates",
+    "amounts"
+  ],
+  "count": 47,
+  "messy_count": 29,
+  "items": [
+    {
+      "company": "",
+      "contact_phone": "503-555-0172",
+      "key_dates": [
+        "2026-04-12"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "eml-001",
+      "source": "samples/eml/eml-001.eml",
+      "request_type": "quote",
+      "customer_name": "Maria Chen",
+      "contact_email": "maria.chen@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-05-02"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "eml-002",
+      "source": "samples/eml/eml-002.eml",
+      "request_type": "booking",
+      "customer_name": "James Okonkwo",
+      "contact_email": "james.okonkwo@example.net",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "971-555-0133",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "eml-003",
+      "source": "samples/eml/eml-003.eml",
+      "request_type": "support",
+      "customer_name": "Priya Nair",
+      "contact_email": "priya.nair@example.org",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "Northwind Bakery",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-03-03"
+      ],
+      "amounts": [
+        "$186.00"
+      ],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "eml-004",
+      "source": "samples/eml/eml-004.eml",
+      "request_type": "billing",
+      "customer_name": "Helen Cho",
+      "contact_email": "ap@northwind-bakery.example",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0188",
+      "key_dates": [
+        "2026-06-07"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-005",
+      "source": "samples/eml/eml-005.eml",
+      "request_type": "quote",
+      "customer_name": "Owen Brooks",
+      "contact_email": "owen.brooks@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0190",
+      "key_dates": [
+        "2026-05-15"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "fr",
+      "id": "eml-006",
+      "source": "samples/eml/eml-006.eml",
+      "request_type": "quote",
+      "customer_name": "Camille Bernard",
+      "contact_email": "camille.bernard@example.fr",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-06-20"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "pt",
+      "id": "eml-007",
+      "source": "samples/eml/eml-007.eml",
+      "request_type": "booking",
+      "customer_name": "João Ferreira",
+      "contact_email": "joao.ferreira@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0166",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "angry"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "es",
+      "id": "eml-008",
+      "source": "samples/eml/eml-008.eml",
+      "request_type": "complaint",
+      "customer_name": "Lucía Romero",
+      "contact_email": "lucia.romero@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint",
+        "high_urgency",
+        "angry"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-009",
+      "source": "samples/eml/eml-009.eml",
+      "request_type": "quote",
+      "customer_name": "Nina Patel",
+      "contact_email": "nina.patel@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "Bright Elm Cafe",
+      "contact_phone": "503-555-0144",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-010",
+      "source": "samples/eml/eml-010.eml",
+      "request_type": "quote",
+      "customer_name": "Robert Hale",
+      "contact_email": "robert.hale@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-04-14"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-011",
+      "source": "samples/eml/eml-011.eml",
+      "request_type": "booking",
+      "customer_name": "Elena Voss",
+      "contact_email": "elena.voss@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "empty",
+        "low_confidence"
+      ],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-012",
+      "source": "samples/eml/eml-012.eml",
+      "request_type": "other",
+      "customer_name": "Samir Haddad",
+      "contact_email": "samir.haddad@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type",
+        "empty",
+        "low_confidence"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "spam",
+        "low_confidence"
+      ],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-013",
+      "source": "samples/eml/eml-013.eml",
+      "request_type": "other",
+      "customer_name": "",
+      "contact_email": "boost@rank-fast.example",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type",
+        "spam",
+        "low_confidence"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0128",
+      "key_dates": [
+        "2026-04-18"
+      ],
+      "amounts": [],
+      "flags": [
+        "legal"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "en",
+      "id": "eml-014",
+      "source": "samples/eml/eml-014.eml",
+      "request_type": "complaint",
+      "customer_name": "Dana Whitfield",
+      "contact_email": "dana.whitfield@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint",
+        "high_urgency",
+        "legal"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-02-02"
+      ],
+      "amounts": [
+        "$129.00"
+      ],
+      "flags": [
+        "payment_dispute"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "en",
+      "id": "eml-015",
+      "source": "samples/eml/eml-015.eml",
+      "request_type": "billing",
+      "customer_name": "Marcus Bell",
+      "contact_email": "marcus.bell@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "high_urgency",
+        "payment_dispute"
+      ]
+    },
+    {
+      "company": "Atelier Lumière",
+      "contact_phone": "06 55 50 12 21",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "fr",
+      "id": "eml-016",
+      "source": "samples/eml/eml-016.eml",
+      "request_type": "support",
+      "customer_name": "Inès Morel",
+      "contact_email": "ines.morel@example.fr",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "angry"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "en",
+      "id": "eml-017",
+      "source": "samples/eml/eml-017.eml",
+      "request_type": "complaint",
+      "customer_name": "Greg Stanton",
+      "contact_email": "greg.stanton@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint",
+        "high_urgency",
+        "angry"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-07-09"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-018",
+      "source": "samples/eml/eml-018.eml",
+      "request_type": "quote",
+      "customer_name": "Lila Harper",
+      "contact_email": "lila.harper@harper-clinic.example",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0122",
+      "key_dates": [
+        "2026-05-19"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "eml-047",
+      "source": "samples/eml/eml-047.eml",
+      "request_type": "quote",
+      "customer_name": "Alice Berg",
+      "contact_email": "alice.berg@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0110",
+      "key_dates": [
+        "2026-04-18"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-031",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "quote",
+      "customer_name": "Sophie Grant",
+      "contact_email": "sophie.grant@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-05-16"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-032",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "booking",
+      "customer_name": "Chris Adeyemi",
+      "contact_email": "chris.adeyemi@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "971-555-0101",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-033",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "support",
+      "customer_name": "Noah Bennett",
+      "contact_email": "noah.bennett@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "Nguyen Flowers",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-034",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "billing",
+      "customer_name": "Alicia Nguyen",
+      "contact_email": "alicia.nguyen@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0181",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-035",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "complaint",
+      "customer_name": "Felix Ortega",
+      "contact_email": "felix.ortega@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "empty",
+        "low_confidence"
+      ],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "form-036",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "other",
+      "customer_name": "",
+      "contact_email": "blank@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type",
+        "empty",
+        "low_confidence"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0142",
+      "key_dates": [
+        "2026-09-01"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "es",
+      "id": "form-037",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "quote",
+      "customer_name": "Mateo Ruiz",
+      "contact_email": "mateo.ruiz@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-10-02"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "fr",
+      "id": "form-038",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "booking",
+      "customer_name": "Chloé Martin",
+      "contact_email": "chloe.martin@example.fr",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "Lima Studio",
+      "contact_phone": "503-555-0160",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "pt",
+      "id": "form-039",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "quote",
+      "customer_name": "Beatriz Lima",
+      "contact_email": "beatriz.lima@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "spam",
+        "low_confidence"
+      ],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "form-040",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "other",
+      "customer_name": "",
+      "contact_email": "deals@free-crypto.example",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type",
+        "spam",
+        "low_confidence"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0139",
+      "key_dates": [
+        "2026-04-30"
+      ],
+      "amounts": [],
+      "flags": [
+        "legal"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "en",
+      "id": "form-041",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "complaint",
+      "customer_name": "Patricia Gomez",
+      "contact_email": "patricia.gomez@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint",
+        "high_urgency",
+        "legal"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [
+        "$129.00"
+      ],
+      "flags": [
+        "payment_dispute"
+      ],
+      "urgency": "high",
+      "messy": true,
+      "language": "en",
+      "id": "form-042",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "billing",
+      "customer_name": "Ian Brooks",
+      "contact_email": "ian.brooks@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "high_urgency",
+        "payment_dispute"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-043",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "quote",
+      "customer_name": "",
+      "contact_email": "jordan.lee@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503.555.0170",
+      "key_dates": [
+        "2026-11-12"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "form-044",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "booking",
+      "customer_name": "Sara Novak",
+      "contact_email": "sara.novak@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "form-045",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "other",
+      "customer_name": "Evan Price",
+      "contact_email": "evan.price@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-05-09"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "form-046",
+      "source": "samples/forms/web_form.csv",
+      "request_type": "quote",
+      "customer_name": "Rafael Costa",
+      "contact_email": "rafael.costa@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0177",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "pt",
+      "id": "json-019",
+      "source": "samples/json/json-019.json",
+      "request_type": "support",
+      "customer_name": "Ana Souza",
+      "contact_email": "ana.souza@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-08-11"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "es",
+      "id": "json-020",
+      "source": "samples/json/json-020.json",
+      "request_type": "quote",
+      "customer_name": "Pedro Álvarez",
+      "contact_email": "pedro.alvarez@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "json-021",
+      "source": "samples/json/json-021.json",
+      "request_type": "billing",
+      "customer_name": "Grace Kim",
+      "contact_email": "grace.kim@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "json-022",
+      "source": "samples/json/json-022.json",
+      "request_type": "other",
+      "customer_name": "Tom Becker",
+      "contact_email": "tom.becker@supply-co.example",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [
+        "spam",
+        "low_confidence"
+      ],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "json-023",
+      "source": "samples/json/json-023.json",
+      "request_type": "other",
+      "customer_name": "",
+      "contact_email": "notify@winner-draw.example",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "unknown_type",
+        "spam",
+        "low_confidence"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "503-555-0155",
+      "key_dates": [
+        "2026-05-05"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "json-024",
+      "source": "samples/json/json-024.json",
+      "request_type": "booking",
+      "customer_name": "Hannah Lee",
+      "contact_email": "hannah.lee@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [
+        "$75"
+      ],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "json-025",
+      "source": "samples/json/json-025.json",
+      "request_type": "complaint",
+      "customer_name": "Victor Lang",
+      "contact_email": "victor.lang@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "complaint"
+      ]
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "high",
+      "messy": false,
+      "language": "en",
+      "id": "json-026",
+      "source": "samples/json/json-026.json",
+      "request_type": "support",
+      "customer_name": "Rita Gomez",
+      "contact_email": "rita.gomez@example.com",
+      "expect_needs_human": true,
+      "routing_reasons": [
+        "high_urgency"
+      ]
+    },
+    {
+      "company": "Holm Dental",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-06-22"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": false,
+      "language": "en",
+      "id": "json-027",
+      "source": "samples/json/json-027.json",
+      "request_type": "quote",
+      "customer_name": "Derek Holm",
+      "contact_email": "derek.holm@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "low",
+      "messy": false,
+      "language": "en",
+      "id": "json-028",
+      "source": "samples/json/json-028.json",
+      "request_type": "quote",
+      "customer_name": "Wendy Chu",
+      "contact_email": "wendy.chu@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "",
+      "contact_phone": "",
+      "key_dates": [
+        "2026-08-03"
+      ],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "json-029",
+      "source": "samples/json/json-029.json",
+      "request_type": "booking",
+      "customer_name": "Paul Adler",
+      "contact_email": "paul.adler@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    },
+    {
+      "company": "Café du Parc",
+      "contact_phone": "503-555-0194",
+      "key_dates": [],
+      "amounts": [],
+      "flags": [],
+      "urgency": "normal",
+      "messy": true,
+      "language": "en",
+      "id": "json-030",
+      "source": "samples/json/json-030.json",
+      "request_type": "billing",
+      "customer_name": "Claire Dupont",
+      "contact_email": "claire.dupont@example.com",
+      "expect_needs_human": false,
+      "routing_reasons": []
+    }
+  ]
+}
