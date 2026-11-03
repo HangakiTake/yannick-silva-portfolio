@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lead workflow orchestrator · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Lead workflow orchestrator</h1>
+
+<p>Brightfield Solar is a fictional installer. Twelve lead rows go through a mock CRM, a mock calendar and a mock outbox. A ledger skips work that already finished, a failed booking is retried or handed to a named person, and a follow-up stays queued until someone approves that exact draft. What it handles:</p>
+<ul><li><b>Repeat leads:</b> two exact copies and one copy that differs by letter case, spacing and phone punctuation become one CRM record per person.</li>
+<li><b>Half-empty leads:</b> a blank address, "TBD", "see attached", "about 900" or "n/a" opens one internal task. A later blank value does not wipe a real address or phone.</li>
+<li><b>A calendar that drops calls:</b> one lead fails twice and is then booked. One lead fails three times and is assigned to Priya Shah. Slots are not double-booked.</li>
+<li><b>A person before anything is sent:</b> the run opens the approval file read-only. The outbox gets a message only after <code>approve</code>, and only when the approved text still matches.</li></ul>
+<p><b>This demo is offline.</b> CRM, calendar and mail are SQLite tables. The draft is a template, and the first line says so. No model is called. No account is connected.</p>
+<h2>How it was tested</h2>
+<ul><li><b>22 tests pass, 0 fail</b> (Python 3.12.3, pytest 9.2.0, 1.73 seconds).</li>
+<li><b>12 inbox rows, 9 CRM records, 4 tasks, 8 events, 1 exception, 9 drafts, 0 emails.</b> The tests count a second run as 0 new CRM writes, 0 new events and 0 new emails.</li>
+<li><b>After the eight booked drafts are approved:</b> 8 messages in the outbox, 1 draft still queued (the call that was never booked). The run after that adds 0 emails.</li>
+<li><b>Crash and resume:</b> stopping after ledger mark 4 leaves one event and no drafts. Continuing matches a clean run. The same check at marks 1, 7, 15, 30, 45 and past the end matches too.</li>
+<li><b>One default run on this machine:</b> 0.464 seconds, including the seeded 0.05s and 0.10s waits. With the waits set to zero: 0.126 seconds.</li></ul>
+<div class="caveat"><p>Honest caveats:</p><ul><li>The company, the leads and the addresses are invented. There is no Salesforce, Gmail or Google Calendar behind the tables.</li>
+<li>The two calendar failures are planted so the retry and the hand-off can be seen. They are not a live error rate. Passing <code>--no-faults</code> turns the plant off.</li>
+<li>The approval file is local. The run cannot insert an approval. A person who can edit the file on disk can. The audit log stores the email address.</li>
+<li>Slots are labels for Tuesday 10 Nov 2026, Pacific wall time. They are not checked against a real person's calendar.</li>
+<li>A site address with no number, or shorter than 8 characters, is treated as missing. A real rural name in that shape would be flagged.</li>
+<li>Tasks are rows in the file. They are not tickets in another system.</li></ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/agent-workflow-orchestrator/README.md">How to run it</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/agent-workflow-orchestrator/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/agent-workflow-orchestrator/docs/realism-review.md">Skeptical-buyer review</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/agent-workflow-orchestrator/docs/code-quality-review.md">Code review</a></li>
+<li><a href="../downloads/agent-workflow-orchestrator.zip">Everything (.zip)</a></li></ul>
+</body></html>
