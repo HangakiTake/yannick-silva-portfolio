@@ -13,7 +13,7 @@ The properties, stays, and bills are **synthetic**. They are not a real communit
 
 ## How a bill is split
 
-1. A negative amount, or a period that runs backwards or is longer than 366 days, is not allocated. It is listed on Exceptions.
+1. A negative amount, a non-numeric amount, or a period that runs backwards or is longer than 366 days, is not allocated. A rule with an owner percent outside 0–100, an unknown method, or a bad partial-vacancy value is not allocated either. A blank owner percent or blank vacant equivalent means 0. These cases are listed on Exceptions.
 2. The amount is converted to cents.
 3. The owner-paid percent is taken off the top. Enter **15** for 15%, not 0.15.
 4. The rest is split by weight. Odd cents use largest remainder. If two buckets tie, the lower key wins (`HC-01` before `HC-02`; within one unit the `|O` vacancy bucket is ahead of `|T`).

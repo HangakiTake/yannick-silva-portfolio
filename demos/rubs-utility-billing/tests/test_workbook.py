@@ -320,6 +320,11 @@ def test_blank_move_in_bad_owner_percent_and_text_amount_are_not_billed(tmp_path
         if bills.cell(row, 1).value == "MT-W-2026-03":
             bills.cell(row, 4).value = "abc"
             break
+    for row in range(DATA_START, DATA_START + 48):
+        if rules.cell(row, 1).value == "CS" and rules.cell(row, 2).value == "sewer":
+            rules.cell(row, 4).value = None
+            rules.cell(row, 6).value = None
+            break
     book.save(path)
     document = lo.open(path)
     try:
@@ -334,6 +339,11 @@ def test_blank_move_in_bad_owner_percent_and_text_amount_are_not_billed(tmp_path
         assert by_bill["HC-T-2026-03"][6] == "Excluded"
         assert float(by_bill["HC-T-2026-03"][7]) == 0
         assert by_bill["MT-W-2026-03"][6] == "Excluded"
+        assert by_bill["CS-S-2026-03"][6].startswith("Tied")
+        summary = document.Sheets.getByName("Property_Summary").getCellRangeByName("A5:H12").getDataArray()
+        for prop, *_rest, difference in summary:
+            if prop:
+                assert abs(float(difference)) < 0.001
         messages = " ".join(
             str(row[0])
             for row in document.Sheets.getByName("Exceptions").getCellRangeByName("G40:G209").getDataArray()

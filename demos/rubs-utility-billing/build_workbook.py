@@ -313,11 +313,13 @@ def engine_formulas(row: int) -> dict[str, str]:
         ),
         "vacant_eq": (
             f'IF({cell("method", row)}="","",'
-            f'IFERROR(INDEX(RuleEquiv,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)),0))'
+            f'IFERROR(IF(INDEX(RuleEquiv,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0))="",0,'
+            f'INDEX(RuleEquiv,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0))),0))'
         ),
         "owner_bps": (
             f'IF(OR({cell("rule_usable", row)}<>1,{cell("valid", row)}<>1),"",'
-            f'ROUND(INDEX(RuleOwner,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0))*100,0))'
+            f'ROUND(IF(INDEX(RuleOwner,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0))="",0,'
+            f'INDEX(RuleOwner,MATCH({cell("bill_property", row)}&"|"&{cell("utility", row)},RuleKey,0)))*100,0))'
         ),
         "scope": (
             f'IF(AND({cell("bill_id", row)}<>"",{cell("unit_id", row)}<>"",'
@@ -476,6 +478,7 @@ def _names(wb: Workbook) -> None:
         "BillValid": f"Bills!$H${DATA_START}:$H${BILL_LAST}",
         "BillPrior": f"Bills!$I${DATA_START}:$I${BILL_LAST}",
         "BillOverlap": f"Bills!$J${DATA_START}:$J${BILL_LAST}",
+        "BillAllocated": f"Bills!$K${DATA_START}:$K${BILL_LAST}",
         "RuleProp": f"Rules!$A${DATA_START}:$A${RULE_LAST}",
         "RuleUtil": f"Rules!$B${DATA_START}:$B${RULE_LAST}",
         "RuleMethod": f"Rules!$C${DATA_START}:$C${RULE_LAST}",
@@ -504,7 +507,7 @@ def _readme(ws) -> None:
         "How to run a month: edit the yellow cells only. Add or change bills, occupancy dates, discounts, exclusions, and rules. Do not edit gray cells or the Allocation engine. Filter Allocation column scope to Y to read unit lines. Reconciliation should show a difference of $0.00 on every bill that was allocated. Exceptions lists anything the checks caught.",
         "Allocation order, same in the workbook and in rubs.py: (1) drop a bill with a negative amount or a backwards period and list it on Exceptions; (2) convert the amount to cents; (3) take the owner-paid percent off the top; (4) split the remaining pool by weight using largest remainder so the cents sum exactly; (5) take a unit discount from that unit's tenant share and give those cents to Owner; (6) if nobody has weight, the whole pool goes to Owner and Exceptions says so.",
         "Weights. occupant_days uses occupants times inclusive days in the service period. per_unit uses occupied days, and if partial vacancy is owner the vacant days in that unit's month go to Owner. square_footage uses square feet times occupied days. A unit marked vacant contributes no tenant weight even if an occupancy row exists; that conflict is flagged. A utility named in Excluded utilities is left out of the denominator. Days are inclusive: 1 March through 31 March is 31 days, and a move-in on 16 March counts 16 days.",
-        "Rounding. Largest remainder on integer cents. If two buckets have the same remainder, the lower key wins. The key is the unit id plus |O for the owner (vacancy) bucket or |T for the tenant bucket, so |O is ahead of |T when the unit id is the same. Percentages are entered as points: 15 means 15%, not 0.15. Sample bill amounts are stored as cents/100 so the demo file is exact; type a normal dollar amount over them for a new month.",
+        "Rounding. Largest remainder on integer cents. If two buckets have the same remainder, the lower key wins. The key is the unit id plus |O for the owner (vacancy) bucket or |T for the tenant bucket, so |O is ahead of |T when the unit id is the same. Percentages are entered as points: 15 means 15%, not 0.15. A blank owner percent or blank vacant equivalent means 0. A percent outside 0 to 100, or a value that is not a number, is not allocated. Sample bill amounts are stored as cents/100 so the demo file is exact; type a normal dollar amount over them for a new month.",
         "Capacity without editing formulas: 8 properties, 30 units, 60 occupancy rows, 32 bills, 48 rules. The readable Allocation list shows the first 400 in-scope lines. Reconciliation, Unit_Statements, and Property_Summary sum the full engine (32 bills x 30 units), so a line past the readable list is still in the totals. Overlapping occupancy rows are flagged. Until they are fixed, per-unit and square-footage day counts add the overlapping stints and cap them at the length of the period, which can overstate occupied days. Occupant-day weights add the overlapping people too.",
         "Sample mess, on purpose: Harbor Court has 4 units, Maple Terrace 8, Cedar Station 12. HC-02 moves in on 16 March. HC-03 is vacant but has an occupancy row. HC-04 has a 10% discount and no gas. Harbor Court trash is 15% owner-paid, then split per occupied day with vacant days to Owner. Maple Terrace gas uses square footage. Cedar Station has an extra electric bill, split by occupant-days. HC water has a February bill that ends on 26 February, so 27-28 February are a gap. CS-E-CREDIT is a negative amount and is not allocated.",
         "What was checked: rubs.py is an independent cent-level implementation. pytest covers reconciliation to the cent, partial months, vacancies, exclusions, discounts, owner percent, largest remainder, and the seeded exceptions. A second test opens this file in LibreOffice, recalculates the formulas, and compares every in-scope line to rubs.py. Manual_Check is a separate formula block; its difference cell should be $0.00. Changing an occupant count or an owner percent changes the results without a formula edit.",
@@ -586,7 +589,15 @@ def _occupancy(ws, data) -> None:
             ws.cell(row, 6, record.notes)
     for row in range(DATA_START, OCC_LAST + 1):
         ws.cell(row, 7, f'=IF(A{row}="","",IF(E{row}="",DATE(2099,12,31),E{row}))')
-        ws.cell(row, 8, f'=IF(A{row}="","",COUNTIFS($B${DATA_START}:$B${OCC_LAST},B{row},$D${DATA_START}:$D${OCC_LAST},"<="&G{row},$G${DATA_START}:$G${OCC_LAST},">="&D{row}))')
+        ws.cell(
+            row,
+            8,
+            (
+                f'=IF(OR(A{row}="",D{row}=""),"",'
+                f'COUNTIFS($B${DATA_START}:$B${OCC_LAST},B{row},$D${DATA_START}:$D${OCC_LAST},"<="&G{row},'
+                f'$G${DATA_START}:$G${OCC_LAST},">="&D{row},$D${DATA_START}:$D${OCC_LAST},">0"))'
+            ),
+        )
         ws.cell(row, 7).number_format = "YYYY-MM-DD"
         ws.cell(row, 4).number_format = "YYYY-MM-DD"
         ws.cell(row, 5).number_format = "YYYY-MM-DD"
@@ -613,6 +624,7 @@ def _bills(ws, data) -> None:
         "Valid (calculated)",
         "Prior period end (calculated)",
         "Overlapping bills (calculated)",
+        "Allocated (calculated)",
     ]
     write_headers(ws, headers, calculated_from=8)
     for index, bill in enumerate(data.bills):
@@ -629,7 +641,15 @@ def _bills(ws, data) -> None:
         ws.cell(
             row,
             8,
-            f'=IF(AND(A{row}<>"",ISNUMBER(D{row}),D{row}>=0,ISNUMBER(E{row}),ISNUMBER(F{row}),F{row}>=E{row},F{row}-E{row}+1<=366),1,0)',
+            (
+                f'=IF(A{row}="",0,'
+                f'IF(NOT(ISNUMBER(D{row})),0,'
+                f'IF(D{row}<0,0,'
+                f'IF(NOT(ISNUMBER(E{row})),0,'
+                f'IF(NOT(ISNUMBER(F{row})),0,'
+                f'IF(F{row}<E{row},0,'
+                f'IF(F{row}-E{row}+1>366,0,1)))))))'
+            ),
         )
         ws.cell(row, 9, f"={prior_end_formula(row)}")
         ws.cell(
@@ -637,14 +657,19 @@ def _bills(ws, data) -> None:
             10,
             f'=IF(H{row}<>1,"",COUNTIFS($B${DATA_START}:$B${BILL_LAST},B{row},$C${DATA_START}:$C${BILL_LAST},C{row},$E${DATA_START}:$E${BILL_LAST},"<="&F{row},$F${DATA_START}:$F${BILL_LAST},">="&E{row},$H${DATA_START}:$H${BILL_LAST},1))',
         )
+        ws.cell(
+            row,
+            11,
+            f'=IF(H{row}<>1,0,IF(COUNTIF(RuleKey,B{row}&"|"&C{row})=0,1,IFERROR(INDEX(RuleUsable,MATCH(B{row}&"|"&C{row},RuleKey,0)),0)))',
+        )
         for col in (4,):
             ws.cell(row, col).number_format = '"$"#,##0.00'
         ws.cell(row, 5).number_format = "YYYY-MM-DD"
         ws.cell(row, 6).number_format = "YYYY-MM-DD"
         ws.cell(row, 9).number_format = "YYYY-MM-DD"
-    paint_inputs(ws, first_calc_col=8, last_col=10, capacity=MAX_BILLS, formats={4: '"$"#,##0.00', 5: "YYYY-MM-DD", 6: "YYYY-MM-DD"})
-    widths(ws, [18, 14, 14, 14, 16, 16, 70, 20, 28, 26])
-    ws.auto_filter.ref = f"A{HEADER_ROW}:J{BILL_LAST}"
+    paint_inputs(ws, first_calc_col=8, last_col=11, capacity=MAX_BILLS, formats={4: '"$"#,##0.00', 5: "YYYY-MM-DD", 6: "YYYY-MM-DD"})
+    widths(ws, [18, 14, 14, 14, 16, 16, 70, 20, 28, 26, 24])
+    ws.auto_filter.ref = f"A{HEADER_ROW}:K{BILL_LAST}"
     utility = list_validation("=UtilityList", "Pick a utility, or add its name to the list on Rules (column AA).")
     props = list_validation("=PropID", "Use a property id from Settings_Properties.")
     ws.add_data_validation(utility)
@@ -656,7 +681,7 @@ def _bills(ws, data) -> None:
 def _rules(ws, data) -> None:
     apply_title(ws, "Rules")
     ws.sheet_properties.tabColor = NAVY
-    instruction(ws, "One rule per property and utility. Method is occupant_days, per_unit, or square_footage. Owner-paid % is points: 15 means 15% off the top. Partial vacancy owner sends vacant days to Owner; absorb leaves them out of the denominator. Vacant equivalent is used only by occupant_days when partial vacancy is owner (1 means one phantom occupant on vacant days).")
+    instruction(ws, "One rule per property and utility. Method is occupant_days, per_unit, or square_footage. Owner-paid % is points: 15 means 15% off the top. Leave it blank for 0. Leave vacant equivalent blank for 0. Partial vacancy owner sends vacant days to Owner; absorb leaves them out of the denominator. Vacant equivalent is used only by occupant_days when partial vacancy is owner (1 means one phantom occupant on vacant days).")
     headers = [
         "Property ID",
         "Utility",
@@ -685,8 +710,13 @@ def _rules(ws, data) -> None:
             row,
             9,
             (
-                f'=IF(A{row}="","",IF(AND(OR(C{row}="occupant_days",C{row}="per_unit",C{row}="square_footage"),'
-                f'OR(E{row}="absorb",E{row}="owner"),ISNUMBER(D{row}),D{row}>=0,D{row}<=100,ISNUMBER(F{row}),F{row}>=0),1,0))'
+                f'=IF(A{row}="","",'
+                f'IF(AND(C{row}<>"occupant_days",C{row}<>"per_unit",C{row}<>"square_footage"),0,'
+                f'IF(AND(E{row}<>"absorb",E{row}<>"owner"),0,'
+                f'IF(AND(D{row}<>"",NOT(ISNUMBER(D{row}))),0,'
+                f'IF(AND(ISNUMBER(D{row}),OR(D{row}<0,D{row}>100)),0,'
+                f'IF(AND(F{row}<>"",NOT(ISNUMBER(F{row}))),0,'
+                f'IF(AND(ISNUMBER(F{row}),F{row}<0),0,1)))))))'
             ),
         )
     paint_inputs(ws, first_calc_col=8, last_col=9, capacity=MAX_RULES, formats={4: '0.00"%"'})
@@ -867,13 +897,13 @@ def _statements(ws) -> None:
 def _summary(ws) -> None:
     apply_title(ws, "Property summary")
     ws.sheet_properties.tabColor = "5B7C4A"
-    instruction(ws, "Valid bills are non-negative, with a real period of at most 366 days. Tenant charges plus the owner share should equal those bills. The owner share includes the percent off the top, vacant-day shares, discounts, and any pool that had no eligible weight. The utility columns are the tenant portion only.")
+    instruction(ws, "Allocated bills are the ones this workbook spread. A bad rule or a non-numeric amount is left out, so the difference stays $0.00. Tenant charges plus the owner share should equal allocated bills. The utility columns are the tenant portion only.")
     headers = [
         "Property ID",
         "Property name",
         "Units",
         "Vacant units",
-        "Valid bills",
+        "Allocated bills",
         "Tenant charges",
         "Owner share",
         "Difference",
@@ -890,7 +920,7 @@ def _summary(ws) -> None:
         ws.cell(row, 2, f'=IF(A{row}="","",INDEX(PropName,{index + 1}))')
         ws.cell(row, 3, f'=IF(A{row}="","",COUNTIF(UnitProp,A{row}))')
         ws.cell(row, 4, f'=IF(A{row}="","",COUNTIFS(UnitProp,A{row},UnitVac,"Y"))')
-        ws.cell(row, 5, f'=IF(A{row}="","",SUMIFS(BillAmt,BillProp,A{row},BillValid,1))')
+        ws.cell(row, 5, f'=IF(A{row}="","",SUMIFS(BillAmt,BillProp,A{row},BillAllocated,1))')
         ws.cell(row, 6, f'=IF(A{row}="","",SUMIF(Eng_bill_property,A{row},Eng_tenant_net)/100)')
         ws.cell(
             row,
@@ -1294,10 +1324,10 @@ def _write_rule_checks(ws, row: int) -> int:
         source = DATA_START + index
         message = (
             f'IF(Rules!A{source}="","",'
-            f'IF(OR(Rules!D{source}<0,Rules!D{source}>100),"Owner-paid percent must be between 0 and 100 (enter 15 for 15%). ","")'
+            f'IF(Rules!D{source}="","",IF(NOT(ISNUMBER(Rules!D{source})),"Owner-paid percent is not a number. The bill was not allocated. ",IF(OR(Rules!D{source}<0,Rules!D{source}>100),"Owner-paid percent must be between 0 and 100 (enter 15 for 15%). The bill was not allocated. ","")))'
             f'&IF(AND(Rules!C{source}<>"occupant_days",Rules!C{source}<>"per_unit",Rules!C{source}<>"square_footage"),"Unknown allocation method. ","")'
             f'&IF(AND(Rules!E{source}<>"absorb",Rules!E{source}<>"owner"),"Partial vacancy must be absorb or owner. ","")'
-            f'&IF(AND(ISNUMBER(Rules!F{source}),Rules!F{source}<0),"Vacant equivalent cannot be negative. ","")'
+            f'&IF(Rules!F{source}="","",IF(NOT(ISNUMBER(Rules!F{source})),"Vacant equivalent is not a number. The bill was not allocated. ",IF(Rules!F{source}<0,"Vacant equivalent cannot be negative. The bill was not allocated. ","")))'
             f'&IF(AND(Rules!A{source}<>"",COUNTIF(RuleKey,Rules!H{source})>1),"Duplicate rule for this property and utility. ",""))'
         )
         _detail_row(
