@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Incoming request drafts · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Incoming request drafts</h1>
+
+<p>A small fictional home-services company gets quote, booking, billing and complaint messages all day. This reads a sample inbox (email files, a JSON export and a web form), pulls out who is asking and what they need, and saves a reply for a person to check. What it handles:</p>
+<ul><li><b>Messy mail:</b> forwarded threads, signatures, quoted replies, HTML-only bodies, French, Portuguese and Spanish, empty messages and spam.</li>
+<li><b>A person in the loop:</b> complaints, legal threats, payment disputes, low confidence and ambiguous dates are flagged. The draft is a file. Nothing is sent.</li>
+<li><b>No invented prices:</b> a quote uses only the prices in the tone file, and only for the service the customer named. A booking or a complaint draft has no dollar amount.</li>
+<li><b>Same inbox twice:</b> the second run adds no rows and no drafts.</li></ul>
+<p><b>This demo is offline.</b> Mock mode needs no API key. The notes for Zapier and Power Automate say which accounts and which prices were current on 3 Nov 2026. Those tools were not connected.</p>
+<h2>How it was tested</h2>
+<ul><li><b>24 tests pass, 0 fail</b> (Python 3.12.3, pytest 9.2.0). One Starlette warning about its HTTP client. It does not fail a test.</li>
+<li><b>47 synthetic messages, 29 of them messy.</b> Labels were written before the extractor.
+<ul><li>Request type: 47 / 47. Misses: none.</li>
+<li>Name, email, phone, dates and amounts: 235 / 235. A field that was empty in the label stayed empty.</li>
+<li>16 / 16 requests that need a person were flagged, including 5 low-confidence ones.</li>
+<li>12 / 12 malformed model replies were rejected. 0 were kept.</li>
+<li>0 of 47 drafts contained a price, date or promise outside the request or the tone file.</li></ul></li>
+<li><b>Second run:</b> 0 new rows and 0 new drafts.</li>
+<li><b>300 plain emails:</b> 0.431 seconds on this machine, mock mode.</li>
+<li><b>Live model:</b> not run. No API key was set.</li></ul>
+<div class="caveat"><p>Honest caveats:</p><ul><li>The messages are synthetic, and the labels were written by the same person who built the extractor. 47/47 is this set, not a real inbox.</li>
+<li>The figures above are mock mode. A live OpenAI or Anthropic run was not done.</li>
+<li>Zapier and Power Automate are described in the handoff, including list prices read on 3 Nov 2026. They were not connected.</li>
+<li>"Tomorrow" is not turned into a date. The draft asks which day.</li></ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-request-triage-drafts/HANDOFF.md">Handoff (Zapier, Power Automate, costs)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-request-triage-drafts/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-request-triage-drafts/docs/realism-review.md">Skeptical-buyer review</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/ai-request-triage-drafts/docs/code-quality-review.md">Code review</a></li>
+<li><a href="../downloads/ai-request-triage-drafts.zip">Everything (.zip)</a></li></ul>
+</body></html>

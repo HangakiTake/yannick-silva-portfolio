@@ -1,0 +1,43 @@
+{
+  "business_name": "Linden Home Services",
+  "city": "Portland, Oregon",
+  "tone": "Warm, plain, and brief. Short sentences. No slang and no emojis.",
+  "opening_hours": "Monday to Friday, 8:00 to 17:00, and Saturday 9:00 to 13:00. Closed Sunday.",
+  "business_phone_digits": "5035550100",
+  "prices": [
+    {
+      "service": "standard home clean",
+      "price": "$129",
+      "unit": "per visit",
+      "aliases": ["standard home clean", "standard clean", "house clean", "home clean", "limpieza estándar", "limpieza estandar", "nettoyage standard", "limpeza padrão", "limpeza padrao"]
+    },
+    {
+      "service": "deep clean",
+      "price": "$249",
+      "unit": "per visit",
+      "aliases": ["deep clean", "nettoyage complet", "limpeza completa", "limpieza profunda"]
+    },
+    {
+      "service": "hourly handyman",
+      "price": "$85",
+      "unit": "per hour",
+      "aliases": ["handyman", "handy person"]
+    }
+  ],
+  "allowed_commitments": [
+    "A person on our team reviews this reply before it is sent.",
+    "We are open Monday to Friday, 8:00 to 17:00, and Saturday 9:00 to 13:00."
+  ],
+  "never_promise": [
+    "a specific arrival time",
+    "same-day service",
+    "a refund or a credit",
+    "that a price will stay the same after a visit",
+    "any legal or insurance outcome"
+  ],
+  "signature_lines": [
+    "Sam Linden",
+    "Linden Home Services",
+    "hello@lindenhomeservices.example"
+  ]
+}

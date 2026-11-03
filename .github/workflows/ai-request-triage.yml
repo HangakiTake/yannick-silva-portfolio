@@ -1,0 +1,28 @@
+name: ai-request-triage-drafts
+
+on:
+  push:
+    paths:
+      - "demos/ai-request-triage-drafts/**"
+      - ".github/workflows/ai-request-triage.yml"
+  pull_request:
+    paths:
+      - "demos/ai-request-triage-drafts/**"
+      - ".github/workflows/ai-request-triage.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        working-directory: demos/ai-request-triage-drafts
+        run: pip install -r requirements.txt
+      - name: Test in mock mode
+        working-directory: demos/ai-request-triage-drafts
+        env:
+          TRIAGE_LLM_MODE: mock
+        run: python -m pytest -q tests
