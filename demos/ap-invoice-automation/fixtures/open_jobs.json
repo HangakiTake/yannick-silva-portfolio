@@ -1,0 +1,13 @@
+{
+  "jobs": [
+    {"po_number": "PO-2401", "job_name": "Maple Street re-roof", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2402", "job_name": "Oak Avenue repair", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2408", "job_name": "Harbour warehouse coating", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2415", "job_name": "Cedar Court shingles", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2420", "job_name": "Lakeside condo Building B", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2422", "job_name": "Ridgeway barn metal", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2430", "job_name": "Main Street flashing", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2433", "job_name": "Elm Drive flat roof", "status": "open", "qbo_customer_id": null},
+    {"po_number": "PO-2440", "job_name": "King Road tear-off", "status": "closed", "qbo_customer_id": null}
+  ]
+}

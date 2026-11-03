@@ -1,0 +1,28 @@
+[project]
+name = "ap-invoice-automation"
+version = "0.1.0"
+description = "Portfolio demo: accounts-payable invoice automation with mock adapters and untested live clients."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "pdfplumber>=0.11.4",
+  "requests>=2.32.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0",
+  "reportlab>=4.2.0",
+  "pillow>=10.4.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["ap_pipeline*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

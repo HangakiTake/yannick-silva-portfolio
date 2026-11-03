@@ -1,0 +1,8 @@
+{
+  "id": "msg-05",
+  "from_name": "Summit Accounts",
+  "from_email": "accounts@summit-underlayment.example",
+  "subject": "Invoice INV-1005",
+  "received_at": "2026-03-10T15:00:00Z",
+  "body": "Please see the attached invoice."
+}

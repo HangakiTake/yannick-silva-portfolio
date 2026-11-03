@@ -1,0 +1,186 @@
+{
+  "name": "AP invoice automation UNTESTED",
+  "flow": [
+    {
+      "id": 1,
+      "module": "microsoft-email:watchEmails",
+      "version": 1,
+      "parameters": {
+        "folder": "Inbox",
+        "criteria": "unread"
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {"x": 0, "y": 0},
+        "note": "UNTESTED trigger. Confirm the Microsoft 365 Email module key after import. Watch new messages that have attachments."
+      }
+    },
+    {
+      "id": 2,
+      "module": "microsoft-email:listAttachments",
+      "version": 1,
+      "parameters": {},
+      "mapper": {"messageId": "{{1.id}}"},
+      "metadata": {"designer": {"x": 300, "y": 0}}
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": null,
+      "metadata": {"designer": {"x": 600, "y": 0}},
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 4,
+              "module": "http:ActionSendData",
+              "version": 1,
+              "parameters": {"url": "https://api.openai.com/v1/chat/completions"},
+              "filter": {
+                "name": "Exactly one PDF",
+                "conditions": [[{"a": "{{2.pdfCount}}", "o": "number:equal", "b": "1"}]]
+              },
+              "mapper": {
+                "body": "Structured extract of the PDF text. JSON schema fields: vendor_name, invoice_number, po_number, invoice_date, subtotal, tax, total, currency. Do not invent a missing total."
+              },
+              "metadata": {"designer": {"x": 900, "y": -150}, "note": "UNTESTED. Replace with your OpenAI or Anthropic module and connection."}
+            },
+            {
+              "id": 5,
+              "module": "builtin:BasicRouter",
+              "version": 1,
+              "parameters": {},
+              "mapper": null,
+              "metadata": {"designer": {"x": 1200, "y": -150}},
+              "routes": [
+                {
+                  "flow": [
+                    {
+                      "id": 6,
+                      "module": "quickbooks:createBill",
+                      "version": 1,
+                      "parameters": {},
+                      "filter": {
+                        "name": "Validation passed and not a duplicate",
+                        "conditions": [[{"a": "{{4.ok}}", "o": "text:equal", "b": "true"}]]
+                      },
+                      "mapper": {
+                        "vendorName": "{{4.vendor_name}}",
+                        "docNumber": "{{4.invoice_number}}",
+                        "txnDate": "{{4.invoice_date}}",
+                        "total": "{{4.total}}",
+                        "privateNote": "{{4.po_number}} {{4.job_name}}",
+                        "currency": "CAD"
+                      },
+                      "metadata": {"designer": {"x": 1500, "y": -300}, "note": "UNTESTED QuickBooks Online module key. Duplicate check must run before this module."}
+                    },
+                    {
+                      "id": 7,
+                      "module": "http:ActionSendData",
+                      "version": 1,
+                      "parameters": {"url": "https://sandbox-quickbooks.api.intuit.com/v3/company/{realmId}/upload"},
+                      "mapper": {
+                        "billId": "{{6.id}}",
+                        "file": "{{2.pdf}}",
+                        "note": "Multipart upload: file_metadata_0 plus file_content_0 linked to the Bill."
+                      },
+                      "metadata": {"designer": {"x": 1800, "y": -300}}
+                    },
+                    {
+                      "id": 8,
+                      "module": "microsoft-email:moveMessage",
+                      "version": 1,
+                      "parameters": {},
+                      "mapper": {
+                        "messageId": "{{1.id}}",
+                        "folder": "Processed Invoices"
+                      },
+                      "metadata": {"designer": {"x": 2100, "y": -300}}
+                    }
+                  ]
+                },
+                {
+                  "flow": [
+                    {
+                      "id": 9,
+                      "module": "microsoft-email:sendReply",
+                      "version": 1,
+                      "parameters": {},
+                      "filter": {
+                        "name": "Validation failed or duplicate",
+                        "conditions": [[{"a": "{{4.ok}}", "o": "text:notequal", "b": "true"}]]
+                      },
+                      "mapper": {
+                        "messageId": "{{1.id}}",
+                        "body": "Hello,\n\nThank you for your invoice. We could not enter it for payment because:\n\n{{4.reason_bullets}}\n\nPlease send a corrected PDF invoice.\n\nAccounts Payable\nNorthline Roofing"
+                      },
+                      "metadata": {"designer": {"x": 1500, "y": 0}, "note": "Use a draft action when testing. UNTESTED."}
+                    },
+                    {
+                      "id": 10,
+                      "module": "microsoft-email:moveMessage",
+                      "version": 1,
+                      "parameters": {},
+                      "mapper": {
+                        "messageId": "{{1.id}}",
+                        "folder": "Failed Invoices"
+                      },
+                      "metadata": {"designer": {"x": 1800, "y": 0}}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 11,
+              "module": "microsoft-email:sendReply",
+              "version": 1,
+              "parameters": {},
+              "filter": {
+                "name": "Missing or multiple PDFs",
+                "conditions": [[{"a": "{{2.pdfCount}}", "o": "number:notequal", "b": "1"}]]
+              },
+              "mapper": {
+                "messageId": "{{1.id}}",
+                "body": "The email needs exactly one PDF invoice."
+              },
+              "metadata": {"designer": {"x": 900, "y": 200}}
+            },
+            {
+              "id": 12,
+              "module": "microsoft-email:moveMessage",
+              "version": 1,
+              "parameters": {},
+              "mapper": {"messageId": "{{1.id}}", "folder": "Failed Invoices"},
+              "metadata": {"designer": {"x": 1200, "y": 200}}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": 1,
+    "instant": false,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": true,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {"orphans": []},
+    "untested": true,
+    "untested_notice": "UNTESTED: this blueprint was written by hand. It has not been imported into Make.com and has not been run. Module keys are placeholders until confirmed in the scenario editor."
+  }
+}

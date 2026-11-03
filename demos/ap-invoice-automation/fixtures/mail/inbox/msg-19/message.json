@@ -1,0 +1,8 @@
+{
+  "id": "msg-19",
+  "from_name": "Northwind Billing",
+  "from_email": "ap@northwind-shingles.example",
+  "subject": "Invoice INV-2003",
+  "received_at": "2026-03-07T15:00:00Z",
+  "body": "Please see the attached invoice."
+}
