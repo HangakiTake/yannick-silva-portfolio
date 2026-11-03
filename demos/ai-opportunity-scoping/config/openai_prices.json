@@ -1,0 +1,42 @@
+{
+  "as_of": "2026-11-03",
+  "source": "https://developers.openai.com/api/docs/pricing",
+  "note": "Standard published prices. Cache discounts are not applied, so the figure is the full input price. gpt-4.1-mini is on the deprecation list (shutdown 2027-01-14), so the estimate uses gpt-5-mini. Checked 2026-11-03.",
+  "models": {
+    "gpt-5-mini": {
+      "input_usd_per_million": 0.25,
+      "output_usd_per_million": 2.00
+    },
+    "text-embedding-3-small": {
+      "usd_per_million": 0.02
+    }
+  },
+  "profiles": {
+    "llm_agent": {
+      "model": "gpt-5-mini",
+      "input_tokens_per_item": 7000,
+      "output_tokens_per_item": 400,
+      "why": "Three tool rounds. Schemas and tool results are sent again each round. Cache not assumed."
+    },
+    "rag": {
+      "model": "gpt-5-mini",
+      "input_tokens_per_item": 5000,
+      "output_tokens_per_item": 500,
+      "embedding_model": "text-embedding-3-small",
+      "embedding_tokens_per_item": 800,
+      "why": "One question plus retrieved excerpts. The embedding line is the query only. Building the index is not in the monthly figure."
+    },
+    "rules": {
+      "model": null,
+      "why": "No OpenAI calls."
+    },
+    "classic_ml": {
+      "model": null,
+      "why": "Trained outside this estimate. No per-item OpenAI cost is included."
+    },
+    "dont_automate": {
+      "model": null,
+      "why": "Left with the team. No OpenAI calls."
+    }
+  }
+}

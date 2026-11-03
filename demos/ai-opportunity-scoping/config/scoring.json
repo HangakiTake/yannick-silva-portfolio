@@ -1,0 +1,20 @@
+{
+  "hours_cap": 400,
+  "error_cap": 0.10,
+  "source_cap": 4,
+  "w_hours": 0.70,
+  "w_error": 0.30,
+  "w_sources": 0.40,
+  "w_unstructured": 0.60,
+  "w_effort": 0.25,
+  "effort_high": 85,
+  "effort_low": 25,
+  "effort_mid": 55,
+  "missing_error_rate_as": 0,
+  "round_places": 4,
+  "tiny_hours": 5,
+  "tiny_volume": 30,
+  "ml_min_volume": 200,
+  "fallback_rules_min_volume": 100,
+  "fallback_rules_max_minutes": 5
+}

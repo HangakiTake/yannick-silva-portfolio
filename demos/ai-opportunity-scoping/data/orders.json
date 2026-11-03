@@ -1,0 +1,21 @@
+{
+  "company": "Pebblecart",
+  "note": "Synthetic orders for the fictional shop. Emails are example.com. The policy clock is config/refund_policy.json as_of (2026-11-03).",
+  "orders": [
+    {"order_id": "PBL-1001", "customer_name": "Alex Quinn", "email": "alex.quinn@example.com", "status": "delivered", "item_type": "standard", "item_name": "Kettle", "total_usd": 40, "delivered_on": "2026-10-24", "tracking": "TRK1001"},
+    {"order_id": "PBL-1002", "customer_name": "Sam Okonkwo", "email": "sam.okonkwo@example.com", "status": "delivered", "item_type": "standard", "item_name": "Desk lamp", "total_usd": 120, "delivered_on": "2026-10-29", "tracking": "TRK1002"},
+    {"order_id": "PBL-1003", "customer_name": "Riley Chen", "email": "riley.chen@example.com", "status": "delivered", "item_type": "standard", "item_name": "Mug set", "total_usd": 30, "delivered_on": "2026-09-24", "tracking": "TRK1003"},
+    {"order_id": "PBL-1004", "customer_name": "Jordan Hale", "email": "jordan.hale@example.com", "status": "delivered", "item_type": "final_sale", "item_name": "Sale blanket", "total_usd": 25, "delivered_on": "2026-11-01", "tracking": "TRK1004"},
+    {"order_id": "PBL-1005", "customer_name": "Mina Petrov", "email": "mina.petrov@example.com", "status": "shipped", "item_type": "standard", "item_name": "Toaster", "total_usd": 60, "delivered_on": null, "tracking": "TRK1005"},
+    {"order_id": "PBL-1006", "customer_name": "Casey Duarte", "email": "casey.duarte@example.com", "status": "delivered", "item_type": "standard", "item_name": "Tea towels", "total_usd": 20, "delivered_on": "2026-10-20", "tracking": "TRK1006"},
+    {"order_id": "PBL-1007", "customer_name": "Noor Rahman", "email": "noor.rahman@example.com", "status": "delivered", "item_type": "standard", "item_name": "Spoon rest", "total_usd": 15, "delivered_on": "2026-10-19", "tracking": "TRK1007"},
+    {"order_id": "PBL-1008", "customer_name": "Ellis Park", "email": "ellis.park@example.com", "status": "refunded", "item_type": "standard", "item_name": "Cutting board", "total_usd": 22, "delivered_on": "2026-10-28", "tracking": "TRK1008"},
+    {"order_id": "PBL-1009", "customer_name": "Harper Singh", "email": "harper.singh@example.com", "status": "delivered", "item_type": "standard", "item_name": "Cast pan", "total_usd": 75, "delivered_on": "2026-11-02", "tracking": "TRK1009"},
+    {"order_id": "PBL-1010", "customer_name": "Quinn Adler", "email": "quinn.adler@example.com", "status": "delivered", "item_type": "standard", "item_name": "Cast pan plus", "total_usd": 75.01, "delivered_on": "2026-11-02", "tracking": "TRK1010"},
+    {"order_id": "PBL-1012", "customer_name": "Rowan Ibarra", "email": "rowan.ibarra@example.com", "status": "delivered", "item_type": "digital", "item_name": "Recipe download", "total_usd": 12, "delivered_on": "2026-11-01", "tracking": null},
+    {"order_id": "PBL-1013", "customer_name": "Avery Brooks", "email": "avery.brooks@example.com", "status": "delivered", "item_type": "standard", "item_name": "Blue mug", "total_usd": 50, "delivered_on": "2026-10-27", "tracking": "TRK1013"},
+    {"order_id": "PBL-1014", "customer_name": "Skyler Nguyen", "email": "skyler.nguyen@example.com", "status": "cancelled", "item_type": "standard", "item_name": "Cancelled vase", "total_usd": 35, "delivered_on": null, "tracking": null},
+    {"order_id": "PBL-1015", "customer_name": "Drew Okada", "email": "drew.okada@example.com", "status": "delivered", "item_type": "standard", "item_name": "Linen set", "total_usd": 30, "delivered_on": "2026-10-04", "tracking": "TRK1015"},
+    {"order_id": "PBL-1016", "customer_name": "Jamie Costa", "email": "jamie.costa@example.com", "status": "delivered", "item_type": "standard", "item_name": "Old linen", "total_usd": 10, "delivered_on": "2026-10-03", "tracking": "TRK1016"}
+  ]
+}

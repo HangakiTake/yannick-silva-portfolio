@@ -1,0 +1,81 @@
+{
+  "tools": [
+    {
+      "name": "lookup_order",
+      "description": "Look up one Pebblecart order by id. Read only. Does not change the order.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {
+            "type": "string",
+            "description": "Order id, normalised to PBL- and at least 4 digits.",
+            "pattern": "^PBL-[0-9]{4,}$"
+          }
+        },
+        "required": ["order_id"]
+      }
+    },
+    {
+      "name": "check_refund_policy",
+      "description": "Check whether a refund is allowed and the maximum that can be issued without a person. Does not move money.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {"type": "string", "pattern": "^PBL-[0-9]{4,}$"},
+          "reason": {
+            "type": "string",
+            "enum": ["damaged", "wrong_item", "not_as_described", "late_delivery", "changed_mind"]
+          }
+        },
+        "required": ["order_id", "reason"]
+      }
+    },
+    {
+      "name": "issue_refund",
+      "description": "Issue a refund only when check_refund_policy says it is allowed and the amount is within the cap and the amount paid. Out-of-policy calls are rejected and not executed.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {"type": "string", "pattern": "^PBL-[0-9]{4,}$"},
+          "amount_usd": {"type": "number", "exclusiveMinimum": 0},
+          "reason": {
+            "type": "string",
+            "enum": ["damaged", "wrong_item", "not_as_described", "late_delivery", "changed_mind"]
+          }
+        },
+        "required": ["order_id", "amount_usd", "reason"]
+      }
+    },
+    {
+      "name": "open_ticket",
+      "description": "Open a support ticket. Does not move money.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {"type": "string", "pattern": "^PBL-[0-9]{4,}$"},
+          "summary": {"type": "string", "minLength": 1, "maxLength": 500},
+          "priority": {"type": "string", "enum": ["low", "normal", "high"]}
+        },
+        "required": ["order_id", "summary", "priority"]
+      }
+    },
+    {
+      "name": "escalate_to_human",
+      "description": "Hand the case to a person. Use this when a refund is not allowed. This does not issue a refund.",
+      "parameters": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order_id": {"type": "string", "pattern": "^PBL-[0-9]{4,}$"},
+          "reason": {"type": "string", "minLength": 1, "maxLength": 500},
+          "requested_amount_usd": {"type": "number"}
+        },
+        "required": ["order_id", "reason"]
+      }
+    }
+  ]
+}
