@@ -1,0 +1,219 @@
+[
+  {
+    "key": "e73294638c0b",
+    "mailbox": "profe1@example.com",
+    "create_event": {
+      "subject": "English A2+ Grupo 3",
+      "body": {
+        "contentType": "text",
+        "content": "Hi ! This is the link for your English classes. If you have any questions, please contact us. Demo School Team"
+      },
+      "start": {
+        "dateTime": "2026-09-14T09:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "end": {
+        "dateTime": "2026-09-14T10:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "recurrence": {
+        "pattern": {
+          "type": "weekly",
+          "interval": 1,
+          "daysOfWeek": [
+            "monday",
+            "wednesday"
+          ],
+          "firstDayOfWeek": "monday"
+        },
+        "range": {
+          "type": "endDate",
+          "startDate": "2026-09-14",
+          "endDate": "2026-12-14",
+          "recurrenceTimeZone": "Europe/Madrid"
+        }
+      },
+      "attendees": [
+        {
+          "emailAddress": {
+            "address": "alumnos.a2@example.com"
+          },
+          "type": "required"
+        }
+      ],
+      "transactionId": "e73294638c0b",
+      "isOnlineMeeting": true,
+      "onlineMeetingProvider": "teamsForBusiness"
+    },
+    "cancel_occurrences": [
+      "2026-10-12"
+    ]
+  },
+  {
+    "key": "e62dfc18a806",
+    "mailbox": "profe2@example.com",
+    "create_event": {
+      "subject": "English B2 Grupo 2",
+      "body": {
+        "contentType": "text",
+        "content": "Link for your class. Questions? Reply to this invite."
+      },
+      "start": {
+        "dateTime": "2026-09-15T08:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "end": {
+        "dateTime": "2026-09-15T09:30:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "recurrence": {
+        "pattern": {
+          "type": "weekly",
+          "interval": 1,
+          "daysOfWeek": [
+            "tuesday",
+            "thursday"
+          ],
+          "firstDayOfWeek": "monday"
+        },
+        "range": {
+          "type": "endDate",
+          "startDate": "2026-09-15",
+          "endDate": "2026-12-15",
+          "recurrenceTimeZone": "Europe/Madrid"
+        }
+      },
+      "attendees": [
+        {
+          "emailAddress": {
+            "address": "ana@example.com"
+          },
+          "type": "required"
+        },
+        {
+          "emailAddress": {
+            "address": "luis@example.com"
+          },
+          "type": "required"
+        }
+      ],
+      "transactionId": "e62dfc18a806",
+      "isOnlineMeeting": true,
+      "onlineMeetingProvider": "teamsForBusiness"
+    },
+    "cancel_occurrences": [
+      "2026-12-08"
+    ]
+  },
+  {
+    "key": "b0ed4846eade",
+    "mailbox": "profe3@example.com",
+    "create_event": {
+      "subject": "English C1 Grupo 1",
+      "body": {
+        "contentType": "text",
+        "content": "Link for your class. Questions? Reply to this invite."
+      },
+      "start": {
+        "dateTime": "2026-09-18T13:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "end": {
+        "dateTime": "2026-09-18T15:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "recurrence": {
+        "pattern": {
+          "type": "weekly",
+          "interval": 1,
+          "daysOfWeek": [
+            "friday"
+          ],
+          "firstDayOfWeek": "monday"
+        },
+        "range": {
+          "type": "endDate",
+          "startDate": "2026-09-18",
+          "endDate": "2026-12-16",
+          "recurrenceTimeZone": "Europe/Madrid"
+        }
+      },
+      "attendees": [
+        {
+          "emailAddress": {
+            "address": "c1.group@example.com"
+          },
+          "type": "required"
+        }
+      ],
+      "transactionId": "b0ed4846eade",
+      "isOnlineMeeting": true,
+      "onlineMeetingProvider": "teamsForBusiness"
+    },
+    "cancel_occurrences": []
+  },
+  {
+    "key": "07e335e4f14c",
+    "mailbox": "profe1@example.com",
+    "create_event": {
+      "subject": "Business English",
+      "body": {
+        "contentType": "text",
+        "content": "Business English - evening group"
+      },
+      "start": {
+        "dateTime": "2026-11-30T18:30:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "end": {
+        "dateTime": "2026-11-30T20:00:00",
+        "timeZone": "Europe/Madrid"
+      },
+      "recurrence": {
+        "pattern": {
+          "type": "weekly",
+          "interval": 1,
+          "daysOfWeek": [
+            "monday",
+            "wednesday",
+            "friday"
+          ],
+          "firstDayOfWeek": "monday"
+        },
+        "range": {
+          "type": "endDate",
+          "startDate": "2026-11-30",
+          "endDate": "2027-01-29",
+          "recurrenceTimeZone": "Europe/Madrid"
+        }
+      },
+      "attendees": [
+        {
+          "emailAddress": {
+            "address": "biz1@example.com"
+          },
+          "type": "required"
+        },
+        {
+          "emailAddress": {
+            "address": "biz2@example.com"
+          },
+          "type": "required"
+        }
+      ],
+      "transactionId": "07e335e4f14c",
+      "isOnlineMeeting": true,
+      "onlineMeetingProvider": "teamsForBusiness"
+    },
+    "cancel_occurrences": [
+      "2026-12-21",
+      "2026-12-23",
+      "2026-12-25",
+      "2026-12-28",
+      "2026-12-30",
+      "2027-01-01",
+      "2027-01-04",
+      "2027-01-06"
+    ]
+  }
+]

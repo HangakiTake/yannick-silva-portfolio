@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RUBS utility billing workbook · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>RUBS utility billing workbook</h1>
+
+<p>This Excel workbook splits each property's water, sewer, trash, gas and other bills across its units, using ratio utility billing (RUBS). It covers:</p>
+<ul><li><b>Split methods:</b> by occupant-days, square feet or equally, with mid-period move-ins and move-outs pro-rated by day.</li>
+<li><b>Owner costs:</b> an owner-paid share, vacant-unit shares and unit discounts are charged to the owner.</li>
+<li><b>Exclusions:</b> a service can be switched off per unit.</li>
+<li><b>Rounding:</b> done in cents, so every bill ties out exactly.</li>
+<li><b>Monthly use:</b> every rule sits in an input table, so a new month needs no formula edits.</li>
+<li><b>Checks:</b> a Manual_Check sheet rebuilds any one unit's charge from scratch, and an Exceptions sheet counts every input problem.</li></ul>
+<p>Capacity: 10 properties, 40 units, 30 bills a month. All data is synthetic.</p>
+<h2>How it was tested</h2>
+<p>The workbook is recalculated in LibreOffice and compared cent by cent with a separate Python version of the same maths, which uses exact fractions and reads no workbook formulas.</p>
+<ul><li><b>56 tests pass, 0 fail.</b>
+<ul><li>Every bill reconciles to the cent on 6 clean data sets, including a random full-capacity file (40 units × 30 bills).</li>
+<li>Workbook and Python agree on every charge.</li>
+<li>Manual_Check matches on 6 chosen bill/unit pairs.</li>
+<li>Changing inputs only (occupants, owner %, a new month) recalculates correctly.</li>
+<li>21 of 21 seeded input errors are flagged.</li>
+<li>0 formula errors in 7 workbooks.</li></ul></li>
+<li><b>Sample month:</b> 13 of 13 bills reconcile. $6,794.73 billed = $6,427.52 charged to tenants + $367.21 owner. 106 of 106 unit charges match the Python version.</li>
+<li><b>Speed:</b> about 1 s to recalculate a full-capacity file in LibreOffice.</li>
+<li><b>Skeptical-buyer review:</b> 11 messy inputs were tried.
+<ul><li>It found that an amount or date typed as text was silently read as $0. That is now flagged, with regression tests.</li>
+<li>Score: 6 of 8 gate items pass. The fails are "no real bills or rent roll" and "no import from a property system".</li></ul></li></ul>
+<div class="caveat"><p>Honest caveats:</p><ul><li>Tested in LibreOffice, not desktop Excel. It needs Excel 2019 or 365 for MAXIFS.</li>
+<li>Synthetic data only.</li>
+<li>Credits (negative bills) are flagged, not split.</li>
+<li>A unit ID with a stray space is flagged, but until it is fixed that unit's share goes to its neighbours.</li>
+<li>RUBS rules differ by US state and city, so this is a calculation tool, not legal advice.</li></ul></div>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/rubs-utility-billing/RUBS_Billing_Demo.xlsx">Workbook with sample data (.xlsx)</a></li>
+<li><a href="../demos/rubs-utility-billing/RUBS_Billing_BLANK.xlsx">Blank copy (.xlsx)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/rubs-utility-billing/TEST_REPORT.md">Full test report</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/rubs-utility-billing/docs/realism-review.md">Skeptical-buyer review and score sheet</a></li>
+<li><a href="../downloads/rubs-utility-billing.zip">Everything (.zip)</a></li></ul>
+</body></html>
