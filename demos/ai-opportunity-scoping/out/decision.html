@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pebblecart — where AI is worth it</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:980px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}
+table{border-collapse:collapse;width:100%;font-size:.92rem}td,th{border:1px solid #ddd;padding:.35rem .5rem;vertical-align:top}
+.note{background:#fff6e0;border-left:4px solid #e0a800;padding:.6rem 1rem}
+</style>
+</head>
+<body>
+<p class="note">Synthetic company. Generated 2026-11-03. This is a decision note, not a live bill and not a production system.</p>
+<h1>Pebblecart — where AI is worth it</h1>
+
+<h2>Ranked shortlist</h2>
+<p>Processes we would actually build, highest net score first. "Don't automate" rows are listed later and are not in this shortlist. 30 processes were scored. 14 inventory rows were exceptions and were not scored. None were dropped.</p>
+
+<ul>
+
+<li>Weekend warehouse cycle count: Error rate was blank and was counted as 0 for the score.</li>
+
+</ul>
+
+<table>
+<tr><th>Rank</th><th>Process</th><th>Team</th><th>Hours / month</th><th>Payoff</th><th>Effort</th><th>Net</th><th>Architecture</th><th>OpenAI USD / month</th></tr>
+
+<tr><td>1</td><td>Customer support queue: order status, refunds and tickets</td><td>Support</td><td>666.6667</td><td>94.0000</td><td>81.0000</td><td>73.7500</td><td>llm_agent</td><td>12.7500</td></tr>
+
+<tr><td>2</td><td>Billing email triage and correction</td><td>Finance</td><td>7500.0000</td><td>88.0000</td><td>71.0000</td><td>70.2500</td><td>llm_agent</td><td>15.3000</td></tr>
+
+<tr><td>3</td><td>Reconcile Stripe payouts to the bank</td><td>Finance</td><td>1800.0000</td><td>76.0000</td><td>35.0000</td><td>67.2500</td><td>rules</td><td>0.0000</td></tr>
+
+<tr><td>4</td><td>Weekend warehouse cycle count</td><td>Warehouse</td><td>1825.0001</td><td>70.0000</td><td>25.0000</td><td>63.7500</td><td>rules</td><td>0.0000</td></tr>
+
+<tr><td>5</td><td>Churn risk score for Plus subscribers</td><td>Product</td><td>266.6667</td><td>76.6667</td><td>53.0000</td><td>63.4167</td><td>classic_ml</td><td>0.0000</td></tr>
+
+<tr><td>6</td><td>Answer product questions from the help center</td><td>Support</td><td>291.6667</td><td>78.0417</td><td>71.0000</td><td>60.2917</td><td>rag</td><td>5.6650</td></tr>
+
+<tr><td>7</td><td>Warehouse pick confirmation</td><td>Warehouse</td><td>300.0000</td><td>56.1000</td><td>25.0000</td><td>49.8500</td><td>rules</td><td>0.0000</td></tr>
+
+<tr><td>8</td><td>SKU demand forecast</td><td>Warehouse</td><td>133.3333</td><td>53.3333</td><td>43.0000</td><td>42.5833</td><td>classic_ml</td><td>0.0000</td></tr>
+
+</table>
+
+<h2>Recommended architecture</h2>
+
+<h3>Customer support queue: order status, refunds and tickets</h3>
+<ul>
+<li>Architecture: <b>llm_agent</b> (rule action)</li>
+<li>Why: The work includes a customer reply or a record change (look up the order).</li>
+<li>Systems: Shopify, Helpdesk, Policy PDF</li>
+<li>Human in the loop: A person handles anything the policy or the tool check refuses.</li>
+<li>Main risk: The model can pick the wrong tool or invent a fact. Arguments are checked, and a refund the policy does not allow is not executed. A person takes the escalation. Order text would be sent to OpenAI.</li>
+</ul>
+
+<h3>Billing email triage and correction</h3>
+<ul>
+<li>Architecture: <b>llm_agent</b> (rule action)</li>
+<li>Why: The work includes a customer reply or a record change (reply to the customer).</li>
+<li>Systems: NetSuite, Helpdesk</li>
+<li>Human in the loop: A person handles anything the policy or the tool check refuses.</li>
+<li>Main risk: The model can pick the wrong tool or invent a fact. Arguments are checked, and a refund the policy does not allow is not executed. A person takes the escalation. Order text would be sent to OpenAI.</li>
+</ul>
+
+<h3>Reconcile Stripe payouts to the bank</h3>
+<ul>
+<li>Architecture: <b>rules</b> (rule rules)</li>
+<li>Why: The steps are fixed (tie to the cent). A workflow can do this without a model.</li>
+<li>Systems: Stripe, Bank CSV</li>
+<li>Human in the loop: A person handles the cases the rules do not cover.</li>
+<li>Main risk: A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</li>
+</ul>
+
+<h3>Weekend warehouse cycle count</h3>
+<ul>
+<li>Architecture: <b>rules</b> (rule rules)</li>
+<li>Why: The steps are fixed (always the same). A workflow can do this without a model.</li>
+<li>Systems: WMS</li>
+<li>Human in the loop: A person handles the cases the rules do not cover.</li>
+<li>Main risk: A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</li>
+</ul>
+
+<h3>Churn risk score for Plus subscribers</h3>
+<ul>
+<li>Architecture: <b>classic_ml</b> (rule ml)</li>
+<li>Why: This is a score or a class (predict), and there is history to learn from.</li>
+<li>Systems: Warehouse, Stripe</li>
+<li>Human in the loop: A person reviews the scores for the first month.</li>
+<li>Main risk: Bad labels teach the wrong score, and scores drift. A person should review the first month. This is not a refund bot.</li>
+</ul>
+
+<h3>Answer product questions from the help center</h3>
+<ul>
+<li>Architecture: <b>rag</b> (rule rag)</li>
+<li>Why: The answer is already in a document (help center). Retrieve it, and let a person send it.</li>
+<li>Systems: Help center, Policy PDFs</li>
+<li>Human in the loop: A person reviews the answer before it is sent out.</li>
+<li>Main risk: The right passage can be missing or out of date. A person should review anything that is sent out. The documents would be sent to the API.</li>
+</ul>
+
+<h3>Warehouse pick confirmation</h3>
+<ul>
+<li>Architecture: <b>rules</b> (rule rules)</li>
+<li>Why: The steps are fixed (always the same). A workflow can do this without a model.</li>
+<li>Systems: WMS</li>
+<li>Human in the loop: A person handles the cases the rules do not cover.</li>
+<li>Main risk: A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</li>
+</ul>
+
+<h3>SKU demand forecast</h3>
+<ul>
+<li>Architecture: <b>classic_ml</b> (rule ml)</li>
+<li>Why: This is a score or a class (forecast), and there is history to learn from.</li>
+<li>Systems: Shopify</li>
+<li>Human in the loop: A person reviews the scores for the first month.</li>
+<li>Main risk: Bad labels teach the wrong score, and scores drift. A person should review the first month. This is not a refund bot.</li>
+</ul>
+
+
+<h2>Integration plan</h2>
+<p>The first build talks to the shop's order API (lookup, refund policy, refund, ticket, escalation). The other systems below are named in the inventory. They are not connected in this demo.</p>
+<ul>
+
+<li><b>Customer support queue: order status, refunds and tickets</b> (llm_agent): Shopify, Helpdesk, Policy PDF</li>
+
+<li><b>Billing email triage and correction</b> (llm_agent): NetSuite, Helpdesk</li>
+
+<li><b>Reconcile Stripe payouts to the bank</b> (rules): Stripe, Bank CSV</li>
+
+<li><b>Weekend warehouse cycle count</b> (rules): WMS</li>
+
+<li><b>Churn risk score for Plus subscribers</b> (classic_ml): Warehouse, Stripe</li>
+
+<li><b>Answer product questions from the help center</b> (rag): Help center, Policy PDFs</li>
+
+<li><b>Warehouse pick confirmation</b> (rules): WMS</li>
+
+<li><b>SKU demand forecast</b> (classic_ml): Shopify</li>
+
+</ul>
+
+<h2>Cost and risk</h2>
+<p>Prices are from config/openai_prices.json, checked 2026-11-03. Source: https://developers.openai.com/api/docs/pricing. Standard published prices. Cache discounts are not applied, so the figure is the full input price. gpt-4.1-mini is on the deprecation list (shutdown 2027-01-14), so the estimate uses gpt-5-mini. Checked 2026-11-03.</p>
+<p>Model for agent and RAG calls: gpt-5-mini at $0.25 per million input tokens and $2.0 per million output tokens. Embedding text-embedding-3-small at $0.02 per million. Cache discounts are not applied.</p>
+<p>Token assumptions per item: agent 7000 in / 400 out. RAG 5000 in / 500 out plus 800 embedding tokens. Rules, classic ML and "don't automate" are $0 in this table. Classic ML training cost is not included.</p>
+<table>
+<tr><th>Process</th><th>Architecture</th><th>OpenAI USD / month</th><th>Main risk</th><th>Human in the loop</th></tr>
+
+<tr><td>Customer support queue: order status, refunds and tickets</td><td>llm_agent</td><td>12.7500</td><td>The model can pick the wrong tool or invent a fact. Arguments are checked, and a refund the policy does not allow is not executed. A person takes the escalation. Order text would be sent to OpenAI.</td><td>A person handles anything the policy or the tool check refuses.</td></tr>
+
+<tr><td>Billing email triage and correction</td><td>llm_agent</td><td>15.3000</td><td>The model can pick the wrong tool or invent a fact. Arguments are checked, and a refund the policy does not allow is not executed. A person takes the escalation. Order text would be sent to OpenAI.</td><td>A person handles anything the policy or the tool check refuses.</td></tr>
+
+<tr><td>Reconcile Stripe payouts to the bank</td><td>rules</td><td>0.0000</td><td>A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</td><td>A person handles the cases the rules do not cover.</td></tr>
+
+<tr><td>Weekend warehouse cycle count</td><td>rules</td><td>0.0000</td><td>A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</td><td>A person handles the cases the rules do not cover.</td></tr>
+
+<tr><td>Churn risk score for Plus subscribers</td><td>classic_ml</td><td>0.0000</td><td>Bad labels teach the wrong score, and scores drift. A person should review the first month. This is not a refund bot.</td><td>A person reviews the scores for the first month.</td></tr>
+
+<tr><td>Answer product questions from the help center</td><td>rag</td><td>5.6650</td><td>The right passage can be missing or out of date. A person should review anything that is sent out. The documents would be sent to the API.</td><td>A person reviews the answer before it is sent out.</td></tr>
+
+<tr><td>Warehouse pick confirmation</td><td>rules</td><td>0.0000</td><td>A case that was never written down falls through to a person. Rules do not invent facts. Someone has to own that queue.</td><td>A person handles the cases the rules do not cover.</td></tr>
+
+<tr><td>SKU demand forecast</td><td>classic_ml</td><td>0.0000</td><td>Bad labels teach the wrong score, and scores drift. A person should review the first month. This is not a refund bot.</td><td>A person reviews the scores for the first month.</td></tr>
+
+</table>
+
+<h2>Phased plan</h2>
+<ol>
+<li>Phase 0. Clear the 14 exception rows with the team leads before anyone trusts the ranking.</li>
+<li>Phase 1. Workflow automation, no model: Reconcile Stripe payouts to the bank; Weekend warehouse cycle count; Warehouse pick confirmation; Three-way match of PO, receipt and invoice; Checkout address validation; Merge duplicate customer records; Return shipping label; Failed-card dunning ladder; </li>
+<li>Phase 2. First AI build: the support agent (Customer support queue: order status, refunds and tickets, net 73.7500). It looks up an order, checks the refund policy, issues a refund only inside the cap, and escalates everything else. The prototype in this repo is that agent, against a fake API, with a mock mode that needs no key.</li>
+<li>Phase 3. Retrieval over the documents already named: Answer product questions from the help center; Barcode exception SOP lookup; Find the liability clause in a contract; Expense policy questions; New-hire contract questions; </li>
+<li>Phase 4. Classic models only where the history already exists, after a person checks the first month: Churn risk score for Plus subscribers; SKU demand forecast; Inbound demo lead scoring; Ticket topic classifier; </li>
+</ol>
+
+<p>Scored at or below zero, so not in the first build: Security questionnaire first draft (rag, net -4.1500); </p>
+
+
+<h2>Leave with the team</h2>
+<ul>
+
+<li>Tag blog posts from past tags: The steps are not clear enough to automate. Leave it with the team until they are written down.</li>
+
+<li>Monthly close commentary for the board pack: The notes say this stays with a person (board pack).</li>
+
+<li>Campaign creative brief: The notes say this stays with a person (one-off).</li>
+
+<li>Settlement negotiation: The notes say this stays with a person (negotiat).</li>
+
+<li>Weekly social captions: The notes say this stays with a person (brand creative).</li>
+
+<li>Final salary offer: The notes say this stays with a person (keep human).</li>
+
+</ul>
+
+<h2>Where the hand labels differ</h2>
+
+<ul>
+
+<li><b>Tag blog posts from past tags</b>: hand label classic_ml, rubric says dont_automate. A person sees two years of tags as a labelled set, so the honest label is classic ML. The rubric never treats the word tagged as a history phrase, and 20 posts a month is under the 200 cutoff, so step 11 says don't automate. Left as a known miss rather than relabelled.</li>
+
+</ul>
+
+
+<h2>Assumptions</h2>
+<ul>
+<li>Scoring weights and caps are in config/scoring.json. The formula is docs/scoring.md.</li>
+<li>The demo refund clock is frozen on 2026-11-03 so the sample orders stay inside the windows.</li>
+<li>Live OpenAI calls are off unless OPENAI_API_KEY is set. The figures above are estimates, not an invoice.</li>
+<li>Customer records in the demo are invented. Emails are example.com.</li>
+</ul>
+
+<h2>Exceptions</h2>
+<table>
+<tr><th>Sheet row</th><th>Reasons</th><th>Process cell</th></tr>
+
+<tr><td>34</td><td>duplicate</td><td>Customer support queue: order status, refunds and tickets</td></tr>
+
+<tr><td>35</td><td>duplicate</td><td>  customer   support queue: order status, refunds and tickets </td></tr>
+
+<tr><td>36</td><td>missing_process</td><td></td></tr>
+
+<tr><td>37</td><td>bad_volume</td><td>Ad hoc partner gifts</td></tr>
+
+<tr><td>38</td><td>bad_volume</td><td>Exec inbox zero</td></tr>
+
+<tr><td>39</td><td>bad_minutes</td><td>Press replies</td></tr>
+
+<tr><td>40</td><td>bad_error</td><td>Card testing reviews</td></tr>
+
+<tr><td>41</td><td>bad_volume</td><td>Formula leak</td></tr>
+
+<tr><td>42</td><td>blank_row</td><td></td></tr>
+
+<tr><td>43</td><td>bad_volume</td><td>Mystery queue</td></tr>
+
+<tr><td>44</td><td>bad_minutes</td><td>Negative time</td></tr>
+
+<tr><td>45</td><td>bad_volume</td><td>Pop-up stock check</td></tr>
+
+<tr><td>46</td><td>missing_process</td><td></td></tr>
+
+<tr><td>47</td><td>bad_volume, bad_minutes</td><td>— end of list —</td></tr>
+
+</table>
+</body>
+</html>
