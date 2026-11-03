@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Travel agency finance workbook · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>Travel agency finance workbook</h1>
+
+<p>An Excel finance system for a fictional B2B travel agency: bookings (individual and group), profit per booking, invoices, supplier bills, full and partial payments, expenses, EUR/BAM/USD, a monthly dashboard and reports. Excel Tables with SUMIFS and XLOOKUP, no macros. All names and figures are fictional.</p>
+<img src="../demos/travel-agency-finance-workbook/dashboard.png" alt="Dashboard">
+<h2>How it was tested</h2>
+<p>An automated test suite recalculates the workbook in LibreOffice and an independent Python recheck rebuilds every figure from the typed inputs only (706/706 figures match).</p>
+<ul><li><b>10 tests pass</b>: profit per booking (40/40), partial payments (10/10 scripted cases), base-currency switch (3/3), dashboard tie-out (19/19 checks), reports (4/4), aging buckets (12/12), validation (8/8 bad inputs flagged), extensibility (add 5 bookings, everything updates), blank copy (0 errors).</li>
+<li><b>1 test fails</b>: T10 scale. At 2,000 bookings / 5,000 payments a full recalculation took 11.9 s in LibreOffice against a 3 s target. Excel was not available to time it.</li>
+<li><b>2 tests need a person in Excel</b>: T08 sheet protection and T12 handover (someone else using only the guide).</li></ul>
+<p>Requirements: 17 of 20 met, 2 partial (R10, R13), 1 not met (R19, the scale target).</p>
+<p class="caveat">Honest caveats: tested in LibreOffice, not desktop Excel. The scale target is missed in LibreOffice. Protection and handover still need a manual check in Excel.</p>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/travel-agency-finance-workbook/TravelAgency_Finance_Workbook.xlsx">Workbook with sample data (.xlsx)</a></li>
+<li><a href="../demos/travel-agency-finance-workbook/TravelAgency_Finance_Workbook_BLANK.xlsx">Blank copy (.xlsx)</a></li>
+<li><a href="../demos/travel-agency-finance-workbook/HANDOVER_GUIDE.pdf">Handover guide (PDF)</a></li>
+<li><a href="https://github.com/HangakiTake/yannick-silva-portfolio/blob/main/demos/travel-agency-finance-workbook/TEST_REPORT.md">Full test report</a></li>
+<li><a href="../downloads/travel-agency-finance-workbook.zip">Everything (.zip)</a></li></ul>
+</body></html>

@@ -1,0 +1,399 @@
+{
+  "id": "FleetDemo0000001",
+  "name": "Fleet compliance assistant (demo)",
+  "nodes": [
+    {
+      "id": "every-day-07-00",
+      "name": "Every day 07:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "triggerAtHour": 7
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "run-now-manual-",
+      "name": "Run now (manual)",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "run-compliance-checks",
+      "name": "Run compliance checks",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        240,
+        100
+      ],
+      "parameters": {
+        "command": "=cd \"{{ $env.FLEET_APP_DIR || \"/opt/fleet-compliance-assistant\" }}\" && node src/run.js --json"
+      }
+    },
+    {
+      "id": "split-alerts",
+      "name": "Split alerts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.stdout || '';\nlet run;\ntry { run = JSON.parse(raw.trim().split('\\n').pop()); } catch (e) { throw new Error('Compliance run did not return JSON: ' + raw.slice(0, 300)); }\nconst to = { primary: { email: $env.ALERT_EMAIL_PRIMARY, whatsapp: $env.ALERT_WHATSAPP_PRIMARY }, escalation: { email: $env.ALERT_EMAIL_ESCALATION, whatsapp: $env.ALERT_WHATSAPP_ESCALATION } };\nreturn run.outbox.map(o => ({ json: { ...o, address: (to[o.recipient_role] || {})[o.channel] || '', send: $env.SEND_ENABLED === 'yes' } }));"
+      }
+    },
+    {
+      "id": "sending-enabled-",
+      "name": "Sending enabled?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        100
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.send }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "by-channel",
+      "name": "By channel",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        960,
+        0
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.channel }}",
+                    "rightValue": "whatsapp",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "whatsapp"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.channel }}",
+                    "rightValue": "email",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "email"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "whatsapp-twilio-",
+      "name": "WhatsApp (Twilio)",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -100
+      ],
+      "parameters": {
+        "toWhatsapp": true,
+        "from": "={{ $env.TWILIO_WHATSAPP_FROM }}",
+        "to": "={{ $json.address }}",
+        "message": "={{ $json.text }}"
+      },
+      "credentials": {
+        "twilioApi": {
+          "id": "REPLACE_ME",
+          "name": "Twilio account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "email-smtp-",
+      "name": "Email (SMTP)",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        100
+      ],
+      "parameters": {
+        "fromEmail": "={{ $env.ALERT_EMAIL_FROM }}",
+        "toEmail": "={{ $json.address }}",
+        "subject": "={{ $json.level === \"reminder\" ? \"Fleet reminder\" : \"URGENT fleet alert\" }}: {{ $json.text.slice(0, 60) }}",
+        "emailFormat": "text",
+        "text": "={{ $json.text }}\n\nOpen the dashboard for details. Reply is not monitored.",
+        "options": {}
+      },
+      "credentials": {
+        "smtp": {
+          "id": "REPLACE_ME",
+          "name": "SMTP account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "pack-whatsapp-results",
+      "name": "Pack WhatsApp results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        -100
+      ],
+      "parameters": {
+        "jsCode": "const clean = s => String(s ?? '').replace(/[^A-Za-z0-9 |:._-]/g, ' ');\nconst srcs = $('By channel').all(0);\nconst out = $input.all();\nif (out.length !== srcs.length) throw new Error('result count ' + out.length + ' != sent count ' + srcs.length);\nconst rows = out.map((it, i) => {\n  const src = srcs[i].json, j = it.json;\n  const err = j.error && (j.error.message || j.error);\n  const result = !src.send ? 'DRY_RUN' : (!err && (j.sid || j.messageId)) ? 'SENT' : 'FAILED';\n  return [src.run_date, src.key, src.channel, result, result === 'FAILED' ? (err || 'no delivery id returned') : ''].map(clean).join('~');\n});\nreturn [{ json: { batch: rows.join(';;'), count: rows.length } }];"
+      }
+    },
+    {
+      "id": "pack-email-results",
+      "name": "Pack email results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        100
+      ],
+      "parameters": {
+        "jsCode": "const clean = s => String(s ?? '').replace(/[^A-Za-z0-9 |:._-]/g, ' ');\nconst srcs = $('By channel').all(1);\nconst out = $input.all();\nif (out.length !== srcs.length) throw new Error('result count ' + out.length + ' != sent count ' + srcs.length);\nconst rows = out.map((it, i) => {\n  const src = srcs[i].json, j = it.json;\n  const err = j.error && (j.error.message || j.error);\n  const result = !src.send ? 'DRY_RUN' : (!err && (j.sid || j.messageId)) ? 'SENT' : 'FAILED';\n  return [src.run_date, src.key, src.channel, result, result === 'FAILED' ? (err || 'no delivery id returned') : ''].map(clean).join('~');\n});\nreturn [{ json: { batch: rows.join(';;'), count: rows.length } }];"
+      }
+    },
+    {
+      "id": "pack-dry-run",
+      "name": "Pack DRY_RUN",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        300
+      ],
+      "parameters": {
+        "jsCode": "const clean = s => String(s ?? '').replace(/[^A-Za-z0-9 |:._-]/g, ' ');\nconst srcs = $input.all();\nconst out = $input.all();\nif (out.length !== srcs.length) throw new Error('result count ' + out.length + ' != sent count ' + srcs.length);\nconst rows = out.map((it, i) => {\n  const src = srcs[i].json, j = it.json;\n  const err = j.error && (j.error.message || j.error);\n  const result = !src.send ? 'DRY_RUN' : (!err && (j.sid || j.messageId)) ? 'SENT' : 'FAILED';\n  return [src.run_date, src.key, src.channel, result, result === 'FAILED' ? (err || 'no delivery id returned') : ''].map(clean).join('~');\n});\nreturn [{ json: { batch: rows.join(';;'), count: rows.length } }];"
+      }
+    },
+    {
+      "id": "write-to-audit-log",
+      "name": "Write to audit log",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        100
+      ],
+      "parameters": {
+        "command": "=cd \"{{ $env.FLEET_APP_DIR || \"/opt/fleet-compliance-assistant\" }}\" && node src/log_delivery.js out '{{ $json.batch }}'"
+      }
+    }
+  ],
+  "connections": {
+    "Every day 07:00": {
+      "main": [
+        [
+          {
+            "node": "Run compliance checks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run now (manual)": {
+      "main": [
+        [
+          {
+            "node": "Run compliance checks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run compliance checks": {
+      "main": [
+        [
+          {
+            "node": "Split alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split alerts": {
+      "main": [
+        [
+          {
+            "node": "Sending enabled?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sending enabled?": {
+      "main": [
+        [
+          {
+            "node": "By channel",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pack DRY_RUN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "By channel": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp (Twilio)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email (SMTP)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp (Twilio)": {
+      "main": [
+        [
+          {
+            "node": "Pack WhatsApp results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email (SMTP)": {
+      "main": [
+        [
+          {
+            "node": "Pack email results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack WhatsApp results": {
+      "main": [
+        [
+          {
+            "node": "Write to audit log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack email results": {
+      "main": [
+        [
+          {
+            "node": "Write to audit log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pack DRY_RUN": {
+      "main": [
+        [
+          {
+            "node": "Write to audit log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/London"
+  },
+  "active": false,
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "tags": []
+}

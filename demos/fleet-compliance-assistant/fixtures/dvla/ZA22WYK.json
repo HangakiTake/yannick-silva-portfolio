@@ -1,0 +1,19 @@
+{
+  "__http": 200,
+  "body": {
+    "registrationNumber": "ZA22WYK",
+    "make": "TOYOTA",
+    "colour": "WHITE",
+    "fuelType": "DIESEL",
+    "yearOfManufacture": 2021,
+    "engineCapacity": 1995,
+    "taxStatus": "Taxed",
+    "taxDueDate": "2027-05-21",
+    "motStatus": "No details held by DVLA",
+    "co2Emissions": 199,
+    "markedForExport": false,
+    "typeApproval": "N1",
+    "dateOfLastV5CIssued": "2025-03-14",
+    "monthOfFirstRegistration": "2021-03"
+  }
+}

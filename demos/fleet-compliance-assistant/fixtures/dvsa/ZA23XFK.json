@@ -1,0 +1,28 @@
+{
+  "__http": 200,
+  "body": {
+    "registration": "ZA23XFK",
+    "make": "VOLKSWAGEN",
+    "model": "CRAFTER",
+    "firstUsedDate": "2021-03-01",
+    "fuelType": "Diesel",
+    "primaryColour": "White",
+    "registrationDate": "2021-03-01",
+    "manufactureDate": "2021-03-01",
+    "engineSize": "1995",
+    "hasOutstandingRecall": "No",
+    "motTests": [
+      {
+        "completedDate": "2026-01-01T11:20:31.000Z",
+        "testResult": "PASSED",
+        "expiryDate": "2027-01-01",
+        "odometerValue": "48211",
+        "odometerUnit": "MI",
+        "odometerResultType": "READ",
+        "motTestNumber": "500000000023",
+        "dataSource": "DVSA",
+        "defects": []
+      }
+    ]
+  }
+}

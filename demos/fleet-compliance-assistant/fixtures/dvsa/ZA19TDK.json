@@ -1,0 +1,28 @@
+{
+  "__http": 200,
+  "body": {
+    "registration": "ZA19TDK",
+    "make": "KIA",
+    "model": "NIRO",
+    "firstUsedDate": "2021-03-01",
+    "fuelType": "Diesel",
+    "primaryColour": "White",
+    "registrationDate": "2021-03-01",
+    "manufactureDate": "2021-03-01",
+    "engineSize": "1995",
+    "hasOutstandingRecall": "No",
+    "motTests": [
+      {
+        "completedDate": "2026-05-21T11:20:31.000Z",
+        "testResult": "PASSED",
+        "expiryDate": "2027-05-21",
+        "odometerValue": "48211",
+        "odometerUnit": "MI",
+        "odometerResultType": "READ",
+        "motTestNumber": "500000000019",
+        "dataSource": "DVSA",
+        "defects": []
+      }
+    ]
+  }
+}

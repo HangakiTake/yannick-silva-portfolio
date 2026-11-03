@@ -1,0 +1,121 @@
+account_id,account_name,country,owner
+ACC-1001,Kraków Logistik Sp. z o.o.,PL,P. Huber
+ACC-1002,Sudety Metal Sp. z o.o.,PL,A. Kowalska
+ACC-1003,Inn Tech Sp. z o.o.,PL,J. Wagner
+ACC-1004,Lech Metal Sp. z o.o.,PL,K. Dvořák
+ACC-1005,Donau Metal Sp. z o.o.,PL,A. Kowalska
+ACC-1006,Müller Montage Sp. z o.o.,PL,A. Kowalska
+ACC-1007,Moldau Tech Sp. z o.o.,PL,K. Dvořák
+ACC-1008,Müller Metal Sp. z o.o.,PL,K. Dvořák
+ACC-1009,Silesia Bau Sp. z o.o.,PL,K. Dvořák
+ACC-1010,Baltic Werkzeug Sp. z o.o.,PL,K. Dvořák
+ACC-1011,Steiner Metal Sp. z o.o.,PL,M. Nowak
+ACC-1012,Baltic Plast Sp. z o.o.,PL,M. Nowak
+ACC-1013,Oder Montage Sp. z o.o.,PL,M. Nowak
+ACC-1014,Lech Hydraulik Sp. z o.o.,PL,K. Dvořák
+ACC-1015,Karpat Logistik Sp. z o.o.,PL,A. Kowalska
+ACC-1016,Lech Werkzeug Sp. z o.o.,PL,M. Nowak
+ACC-1017,Bavaria Tech Sp. z o.o.,PL,K. Dvořák
+ACC-1018,Boden Tech Sp. z o.o.,PL,K. Dvořák
+ACC-1019,Donau Elektro Sp. z o.o.,PL,K. Dvořák
+ACC-1020,Müller Pack Sp. z o.o.,PL,J. Wagner
+ACC-1021,Novak Werkzeug Sp. z o.o.,PL,P. Huber
+ACC-1022,Bavaria Hydraulik Sp. z o.o.,PL,M. Nowak
+ACC-1023,Rhein Automation Sp. z o.o.,PL,M. Nowak
+ACC-1024,Vistula Werkzeug Sp. z o.o.,PL,J. Wagner
+ACC-1025,Elbe Elektro Sp. z o.o.,PL,J. Wagner
+ACC-1026,Jura Elektro Sp. z o.o.,PL,J. Wagner
+ACC-1027,Warta Tech Sp. z o.o.,PL,A. Kowalska
+ACC-1028,Elbe Montage Sp. z o.o.,PL,M. Nowak
+ACC-1029,Zielin Montage Sp. z o.o.,PL,A. Kowalska
+ACC-1030,Karpat Tech Sp. z o.o.,PL,K. Dvořák
+ACC-1031,Lech Pack Sp. z o.o.,PL,J. Wagner
+ACC-1032,Kraków Automation Sp. z o.o.,PL,J. Wagner
+ACC-1033,Warta Elektro Sp. z o.o.,PL,K. Dvořák
+ACC-1034,Novak Tech Sp. z o.o.,PL,A. Kowalska
+ACC-1035,Tatra Elektro Sp. z o.o.,PL,A. Kowalska
+ACC-1036,Baltic Automation Sp. z o.o.,PL,J. Wagner
+ACC-1037,Sudety Werkzeug Sp. z o.o.,PL,P. Huber
+ACC-1038,Oder Automation Sp. z o.o.,PL,P. Huber
+ACC-1039,Karpat Systems Sp. z o.o.,PL,A. Kowalska
+ACC-1040,Novak Systems Sp. z o.o.,PL,M. Nowak
+ACC-1041,Zielin Metal Sp. z o.o.,PL,M. Nowak
+ACC-1042,Oder Logistik Sp. z o.o.,PL,M. Nowak
+ACC-1043,Steiner Montage Sp. z o.o.,PL,P. Huber
+ACC-1044,Vistula Logistik Sp. z o.o.,PL,P. Huber
+ACC-1045,Steiner Plast Sp. z o.o.,PL,J. Wagner
+ACC-1046,Alpen Drive Sp. z o.o.,PL,P. Huber
+ACC-1047,Inn Hydraulik Sp. z o.o.,PL,P. Huber
+ACC-1048,Bavaria Stal Sp. z o.o.,PL,P. Huber
+ACC-1049,Moldau Logistik Sp. z o.o.,PL,A. Kowalska
+ACC-1050,Rhein Logistik Sp. z o.o.,PL,M. Nowak
+ACC-1051,Karpat Bau GmbH,DE,A. Kowalska
+ACC-1052,Zielin Drive GmbH,DE,K. Dvořák
+ACC-1053,Rhein Hydraulik GmbH,DE,J. Wagner
+ACC-1054,Nord Logistik GmbH,DE,P. Huber
+ACC-1055,Inn Systems GmbH,DE,K. Dvořák
+ACC-1056,Lech Systems GmbH,DE,M. Nowak
+ACC-1057,Boden Drive GmbH,DE,K. Dvořák
+ACC-1058,Warta Stal GmbH,DE,A. Kowalska
+ACC-1059,Novak Drive GmbH,DE,K. Dvořák
+ACC-1060,Steiner Montage GmbH,DE,P. Huber
+ACC-1061,Steiner Tech GmbH,DE,P. Huber
+ACC-1062,Sudety Montage GmbH,DE,A. Kowalska
+ACC-1063,Donau Tech GmbH,DE,M. Nowak
+ACC-1064,Novak Logistik GmbH,DE,A. Kowalska
+ACC-1065,Kraków Werkzeug GmbH,DE,A. Kowalska
+ACC-1066,Silesia Metal GmbH,DE,K. Dvořák
+ACC-1067,Alpen Plast GmbH,DE,A. Kowalska
+ACC-1068,Bavaria Werkzeug GmbH,DE,A. Kowalska
+ACC-1069,Vistula Drive GmbH,DE,M. Nowak
+ACC-1070,Warta Montage GmbH,DE,M. Nowak
+ACC-1071,Sudety Hydraulik GmbH,DE,J. Wagner
+ACC-1072,Warta Systems GmbH,DE,P. Huber
+ACC-1073,Silesia Tech GmbH,DE,P. Huber
+ACC-1074,Novak Elektro GmbH,DE,P. Huber
+ACC-1075,Oder Tech GmbH,DE,M. Nowak
+ACC-1076,Silesia Automation GmbH,DE,J. Wagner
+ACC-1077,Jura Hydraulik GmbH,DE,P. Huber
+ACC-1078,Boden Logistik GmbH,DE,K. Dvořák
+ACC-1079,Nord Bau GmbH,DE,K. Dvořák
+ACC-1080,Bavaria Logistik GmbH,DE,K. Dvořák
+ACC-1081,Nord Pack GmbH,DE,K. Dvořák
+ACC-1082,Oder Stal GmbH,DE,A. Kowalska
+ACC-1083,Tatra Plast GmbH,DE,J. Wagner
+ACC-1084,Rhein Systems GmbH,DE,M. Nowak
+ACC-1085,Inn Plast GmbH,DE,K. Dvořák
+ACC-1086,Kraków Stal GmbH,AT,M. Nowak
+ACC-1087,Warta Pack GmbH,AT,M. Nowak
+ACC-1088,Moldau Drive GmbH,AT,P. Huber
+ACC-1089,Jura Pack GmbH,AT,M. Nowak
+ACC-1090,Donau Plast GmbH,AT,P. Huber
+ACC-1091,Bavaria Automation GmbH,AT,A. Kowalska
+ACC-1092,Nord Pack GmbH,AT,J. Wagner
+ACC-1093,Zielin Hydraulik GmbH,AT,M. Nowak
+ACC-1094,Boden Werkzeug GmbH,AT,J. Wagner
+ACC-1095,Novak Pack GmbH,AT,J. Wagner
+ACC-1096,Bavaria Tech GmbH,AT,M. Nowak
+ACC-1097,Silesia Bau GmbH,AT,P. Huber
+ACC-1098,Donau Systems GmbH,AT,M. Nowak
+ACC-1099,Zielin Werkzeug GmbH,AT,K. Dvořák
+ACC-1100,Nord Elektro GmbH,AT,J. Wagner
+ACC-1101,Sudety Tech s.r.o.,CZ,A. Kowalska
+ACC-1102,Steiner Pack s.r.o.,CZ,M. Nowak
+ACC-1103,Zielin Logistik s.r.o.,CZ,P. Huber
+ACC-1104,Sudety Systems s.r.o.,CZ,A. Kowalska
+ACC-1105,Jura Montage s.r.o.,CZ,P. Huber
+ACC-1106,Steiner Automation s.r.o.,CZ,A. Kowalska
+ACC-1107,Jura Logistik s.r.o.,CZ,M. Nowak
+ACC-1108,Alpen Metal s.r.o.,CZ,M. Nowak
+ACC-1109,Lech Elektro s.r.o.,CZ,M. Nowak
+ACC-1110,Warta Drive s.r.o.,CZ,K. Dvořák
+ACC-1111,Zielin Stal s.r.o.,CZ,J. Wagner
+ACC-1112,Alpen Plast s.r.o.,CZ,K. Dvořák
+ACC-1113,Alpen Metal AG,CH,A. Kowalska
+ACC-1114,Jura Stal AG,CH,A. Kowalska
+ACC-1115,Elbe Automation AG,CH,M. Nowak
+ACC-1116,Müller Drive AG,CH,M. Nowak
+ACC-1117,Donau Metal AG,CH,J. Wagner
+ACC-1118,Donau Hydraulik AG,CH,K. Dvořák
+ACC-1119,Moldau Pack AG,CH,K. Dvořák
+ACC-1120,Kraków Hydraulik AG,CH,K. Dvořák

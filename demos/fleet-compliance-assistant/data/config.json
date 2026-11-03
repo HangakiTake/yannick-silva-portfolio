@@ -1,0 +1,4 @@
+{
+  "rules": { "dueSoonDays": 30, "ladder": [30, 14, 7, 1], "insuranceVerifyWindowDays": 30, "escalateAfterDays": 2, "pendingSignatureDays": 0 },
+  "channels": ["email", "whatsapp"]
+}

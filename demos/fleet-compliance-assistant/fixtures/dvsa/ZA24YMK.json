@@ -1,0 +1,44 @@
+{
+  "__http": 200,
+  "body": {
+    "registration": "ZA24YMK",
+    "make": "KIA",
+    "model": "NIRO",
+    "firstUsedDate": "2021-03-01",
+    "fuelType": "Diesel",
+    "primaryColour": "White",
+    "registrationDate": "2021-03-01",
+    "manufactureDate": "2021-03-01",
+    "engineSize": "1995",
+    "hasOutstandingRecall": "No",
+    "motTests": [
+      {
+        "completedDate": "2026-10-30T09:02:10.000Z",
+        "testResult": "FAILED",
+        "odometerValue": "61007",
+        "odometerUnit": "MI",
+        "odometerResultType": "READ",
+        "motTestNumber": "600000000024",
+        "dataSource": "DVSA",
+        "defects": [
+          {
+            "text": "Nearside Front Tyre tread depth below requirements of 1.6mm (5.2.3 (e))",
+            "type": "DANGEROUS",
+            "dangerous": true
+          }
+        ]
+      },
+      {
+        "completedDate": "2025-12-12T11:20:31.000Z",
+        "testResult": "PASSED",
+        "expiryDate": "2026-12-12",
+        "odometerValue": "48211",
+        "odometerUnit": "MI",
+        "odometerResultType": "READ",
+        "motTestNumber": "500000000024",
+        "dataSource": "DVSA",
+        "defects": []
+      }
+    ]
+  }
+}

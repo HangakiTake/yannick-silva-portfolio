@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>RUBS utility billing · Yannick Silva</title><link rel="stylesheet" href="../style.css"></head><body>
+<p><a href="../index.html">← All projects</a></p><h1>RUBS utility billing</h1>
+
+<p>An Excel workbook that splits water, sewer, trash, gas and other utility bills across units in more than one property. Partial months, vacancies, excluded services, discounts and an owner-paid share stay in the formulas. A separate Python reference checks the cents. All properties and figures are synthetic.</p>
+<h2>How it was tested</h2>
+<p>pytest runs the Python reference and, separately, recalculates the workbook in LibreOffice and compares every in-scope line.</p>
+<ul><li><b>38 tests pass</b>, including reconciliation to the cent for every included bill, LibreOffice matching the Python reference, the manual check for every included bill, input edits with no formula changes, and the three seeded exceptions (negative bill, occupancy on a vacant unit, a service-period gap).</li>
+<li><b>0 tests fail</b> in that suite.</li>
+<li><b>Not run in desktop Excel.</b> Recalculation was LibreOffice only.</li></ul>
+<p class="caveat">RUBS rules vary by US state and local law. This is a calculation tool, not legal advice. Credits (negative amounts) are flagged and not allocated. Overlapping occupancy is flagged, not repaired, and can overstate occupied days until the dates are fixed. Common-area subtraction, taxes, late fees and meter reads are not built.</p>
+<h2>Downloads</h2><ul>
+<li><a href="../demos/rubs-utility-billing/RUBS_Billing_Demo.xlsx">Workbook with sample data (.xlsx)</a></li>
+<li><a href="../demos/rubs-utility-billing/README.md">Notes, method and how to rerun the tests</a></li>
+</ul>
+</body></html>

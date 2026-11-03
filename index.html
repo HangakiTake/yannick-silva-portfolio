@@ -1,30 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Yannick Silva — work samples</title>
-  <link rel="stylesheet" href="assets/site.css">
-</head>
-<body>
-  <main class="wrap">
-    <header>
-      <h1>Yannick Silva</h1>
-      <p>Finance and systems analyst. Synthetic work samples, each with a note on what it does and does not cover.</p>
-    </header>
-    <ul class="demos">
-      <li class="demo">
-        <p class="kicker">Excel · Python</p>
-        <h2><a href="demos/rubs-utility-billing/">RUBS utility billing</a></h2>
-        <p>Allocates water, sewer, trash, gas, and other utility bills across units in more than one property. Partial months, vacancies, excluded services, discounts, and an owner-paid share stay visible in the formulas. A separate Python check ties every included bill to the cent.</p>
-        <ul class="links">
-          <li><a href="demos/rubs-utility-billing/">Demo notes</a></li>
-          <li><a href="demos/rubs-utility-billing/RUBS_Billing_Demo.xlsx">Workbook</a></li>
-        </ul>
-      </li>
-    </ul>
-    <p class="note">RUBS rules vary by US state and local law. The billing demo is a calculation tool, not legal advice, and the properties in it are not real.</p>
-    <footer>Demos live under <code>demos/</code>. Each one is a folder with its own notes.</footer>
-  </main>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yannick Silva · Portfolio</title><link rel="stylesheet" href="style.css"></head><body>
+<h1>Yannick Silva</h1><p>Finance automation, Excel and workflow demos. Each project lists how it was tested, with the real pass/fail numbers and what is still unproven.</p>
+<div class="card"><h2><a href="projects/travel-agency-finance-workbook.html">Travel agency finance workbook</a></h2><p>Bookings, invoices, partial payments and multi-currency profit in one Excel workbook. 10 tests pass, 1 fails (scale), 2 need a manual Excel check.</p></div>
+<div class="card"><h2><a href="projects/consolidated-exec-reporting.html">Consolidated executive reporting</a></h2><p>Power Query workbook merging regional sales, CRM and targets into an executive dashboard. 44 tests pass; customer matching 96.9% vs a 98% target.</p></div>
+<div class="card"><h2><a href="projects/fleet-compliance-assistant.html">Fleet compliance assistant</a></h2><p>Daily tax/MOT/insurance checks with reminders and escalation. 10 of 13 requirements pass; 3 need live accounts or a person.</p></div>
+<div class="card"><h2><a href="projects/rubs-utility-billing.html">RUBS utility billing</a></h2><p>Multi-property water, sewer, trash, gas and other utility allocation in Excel, checked against a Python reference. 38 tests pass. Not proven in desktop Excel; credits and overlapping stays are flagged, not repaired.</p></div>
+</body></html>
